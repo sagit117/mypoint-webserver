@@ -5,16 +5,12 @@ import io.ktor.response.*
 import io.ktor.request.*
 import io.ktor.routing.*
 import io.ktor.http.*
-import io.ktor.html.*
-import kotlinx.html.*
 import io.ktor.features.*
 import org.slf4j.event.*
 import io.ktor.auth.*
 import io.ktor.gson.*
-import io.ktor.client.*
-import io.ktor.client.engine.cio.*
-import io.ktor.client.features.json.*
-import kotlinx.coroutines.*
+import io.ktor.http.content.*
+import io.ktor.sessions.*
 
 fun main(args: Array<String>): Unit = io.ktor.server.jetty.EngineMain.main(args)
 
@@ -33,7 +29,14 @@ fun Application.module(testing: Boolean = false) {
 
     install(CallLogging) {
         level = Level.INFO
-        filter { call -> call.request.path().startsWith("/") }
+        format { call ->
+            val status = call.response.status()
+            val httpMethod = call.request.httpMethod.value
+            val userAgent = call.request.headers["User-Agent"]
+            val uri = call.request.uri
+
+            "Status: $status, HTTP method: $httpMethod, User agent: $userAgent, uri: $uri"
+        }
     }
 
     install(CORS) {
@@ -42,7 +45,7 @@ fun Application.module(testing: Boolean = false) {
         method(HttpMethod.Delete)
         method(HttpMethod.Patch)
         header(HttpHeaders.Authorization)
-        header("MyCustomHeader")
+//        header("MyCustomHeader")
         allowCredentials = true
         anyHost() // @TODO: Don't do this in production if possible. Try to limit it.
     }
@@ -55,45 +58,49 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 
-    val client = HttpClient(CIO) {
-        install(JsonFeature) {
-            serializer = GsonSerializer()
-        }
-    }
-    runBlocking {
-        // Sample for making a HTTP Client request
-        /*
-        val message = client.post<JsonSampleClass> {
-            url("http://127.0.0.1:8080/path/to/endpoint")
-            contentType(ContentType.Application.Json)
-            body = JsonSampleClass(hello = "world")
-        }
-        */
+    install(Sessions) {
+//        cookie<UserSession>("user_session") {
+//            cookie.path = "/"
+//            cookie.maxAgeInSeconds = 2_592_000 // 30 days
+//            cookie.httpOnly = true
+//            cookie.extensions["SameSite"] = "lax"
+//        }
+//        cookie<UserID>("user_id") {
+//            cookie.path = "/"
+//            cookie.maxAgeInSeconds = Config.lifeTimeUserID // 1h
+//            cookie.httpOnly = true
+//            cookie.extensions["SameSite"] = "lax"
+//        }
     }
 
     routing {
-        get("/") {
-            call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
+        static("static") {
+            resources("css")
+            resources("image")
+            resources("js/")
         }
+    }
 
-        get("/html-dsl") {
-            call.respondHtml {
-                body {
-                    h1 { +"HTML" }
-                    ul {
-                        for (n in 1..10) {
-                            li { +"$n" }
-                        }
-                    }
-                }
-            }
-        }
+//    val client = HttpClient(CIO) {
+//        install(JsonFeature) {
+//            serializer = GsonSerializer()
+//        }
+//    }
+//    runBlocking {
+//        // Sample for making a HTTP Client request
+//        /*
+//        val message = client.post<JsonSampleClass> {
+//            url("http://127.0.0.1:8080/path/to/endpoint")
+//            contentType(ContentType.Application.Json)
+//            body = JsonSampleClass(hello = "world")
+//        }
+//        */
+//    }
 
-        get("/json/gson") {
-            call.respond(mapOf("hello" to "world"))
+    routing {
+        get("/ping") {
+            call.respond(HttpStatusCode.OK, mapOf("status" to "OK"))
         }
     }
 }
-
-data class JsonSampleClass(val hello: String)
 
