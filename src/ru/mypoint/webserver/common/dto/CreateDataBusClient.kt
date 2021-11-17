@@ -34,6 +34,18 @@ class CreateDataBusClient() {
             when(error) {
                 is ClientRequestException -> {
                     when (error.response.status.value) {
+                        400 -> {
+                            call.respond(
+                                HttpStatusCode.BadRequest,
+                                ResponseStatusDTO(ResponseStatus.BadRequest.value)
+                            )
+                        }
+                        401 -> {
+                            call.respond(
+                                HttpStatusCode.Unauthorized,
+                                ResponseStatusDTO(ResponseStatus.Unauthorized.value)
+                            )
+                        }
                         404 -> {
                             call.respond(HttpStatusCode.NotFound)
                             return null
