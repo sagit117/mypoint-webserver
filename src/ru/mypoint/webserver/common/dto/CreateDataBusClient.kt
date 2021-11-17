@@ -10,13 +10,22 @@ import io.ktor.response.*
 import org.slf4j.Logger
 import java.net.ConnectException
 
+fun createDataBusClient(init: CreateDataBusClient.() -> Unit): CreateDataBusClient {
+    val client = CreateDataBusClient()
+    client.init()
+    return client
+}
+
 /**
- * Создаем HTTP лиента для data bus
+ * Создаем HTTP клиента для data bus
  */
-class CreateDataBusClient(val log: Logger, val client: HttpClient) {
+class CreateDataBusClient() {
+    lateinit var logger: Logger
+    lateinit var httpClient: HttpClient
+
     suspend inline fun <reified T> post(bodyRequest: Any = EmptyContent, call: ApplicationCall): T? {
         try {
-            return client.post<T> {
+            return httpClient.post<T> {
                 url("/webserver/dbservice/request")
                 contentType(ContentType.Application.Json)
                 body = bodyRequest
@@ -44,7 +53,7 @@ class CreateDataBusClient(val log: Logger, val client: HttpClient) {
                             return null
                         }
 
-                        else -> log.error(error.toString())
+                        else -> logger.error(error.toString())
                     }
                 }
                 is ConnectException -> {
@@ -55,7 +64,7 @@ class CreateDataBusClient(val log: Logger, val client: HttpClient) {
                     return null
                 }
 
-                else -> log.error(error.toString())
+                else -> logger.error(error.toString())
             }
 
             call.respond(HttpStatusCode.BadRequest, ResponseStatusDTO(ResponseStatus.NoValidate.value))

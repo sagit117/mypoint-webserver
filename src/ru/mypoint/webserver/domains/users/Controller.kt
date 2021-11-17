@@ -18,9 +18,9 @@ import ru.mypoint.webserver.domains.users.dto.UserRegistryDTO
 @Suppress("unused") // Referenced in application.conf
 fun Application.userModule() {
     /** настройки по умолчанию для запроса как клиент */
-    val client = CreateDataBusClient(
-        log,
-        HttpClient(CIO) {
+    val client = createDataBusClient {
+        logger = log
+        httpClient = HttpClient(CIO) {
             defaultRequest { // this: HttpRequestBuilder ->
                 try {
                     host = environment.config.propertyOrNull("databus.host")?.getString() ?: "127.0.0.1"
@@ -36,7 +36,7 @@ fun Application.userModule() {
                 serializer = GsonSerializer()
             }
         }
-    )
+    }
 
     routing {
         route("/users") {
