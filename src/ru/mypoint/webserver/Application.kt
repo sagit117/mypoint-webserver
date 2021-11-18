@@ -11,6 +11,7 @@ import io.ktor.auth.*
 import io.ktor.gson.*
 import io.ktor.http.content.*
 import io.ktor.sessions.*
+import ru.mypoint.webserver.domains.users.UserSession
 
 fun main(args: Array<String>): Unit = io.ktor.server.jetty.EngineMain.main(args)
 
@@ -59,43 +60,21 @@ fun Application.module(testing: Boolean = false) {
     }
 
     install(Sessions) {
-//        cookie<UserSession>("user_session") {
-//            cookie.path = "/"
-//            cookie.maxAgeInSeconds = 2_592_000 // 30 days
-//            cookie.httpOnly = true
-//            cookie.extensions["SameSite"] = "lax"
-//        }
-//        cookie<UserID>("user_id") {
-//            cookie.path = "/"
-//            cookie.maxAgeInSeconds = Config.lifeTimeUserID // 1h
-//            cookie.httpOnly = true
-//            cookie.extensions["SameSite"] = "lax"
-//        }
+        cookie<UserSession>("user_session") {
+            cookie.path = "/"
+            cookie.maxAgeInSeconds = 2_592_000 // 30 days
+            cookie.httpOnly = true
+            cookie.extensions["SameSite"] = "lax"
+        }
     }
 
     routing {
         static("static") {
             resources("css")
             resources("image")
-            resources("js/")
+            resources("js")
         }
     }
-
-//    val client = HttpClient(CIO) {
-//        install(JsonFeature) {
-//            serializer = GsonSerializer()
-//        }
-//    }
-//    runBlocking {
-//        // Sample for making a HTTP Client request
-//        /*
-//        val message = client.post<JsonSampleClass> {
-//            url("http://127.0.0.1:8080/path/to/endpoint")
-//            contentType(ContentType.Application.Json)
-//            body = JsonSampleClass(hello = "world")
-//        }
-//        */
-//    }
 
     routing {
         get("/ping") {

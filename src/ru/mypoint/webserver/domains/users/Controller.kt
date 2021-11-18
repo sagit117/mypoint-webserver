@@ -11,8 +11,10 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import io.ktor.sessions.*
 import io.ktor.util.*
 import ru.mypoint.webserver.common.dto.*
+import ru.mypoint.webserver.domains.users.dto.UserGetDTO
 import ru.mypoint.webserver.domains.users.dto.UserRegistryDTO
 
 @Suppress("unused") // Referenced in application.conf
@@ -39,7 +41,7 @@ fun Application.userModule() {
     }
 
     routing {
-        route("/users") {
+        route("/v1/users") {
             post("/registry") {
                 val userRegistryDTO = call.receive<UserRegistryDTO>()
 
@@ -48,7 +50,7 @@ fun Application.userModule() {
                         dbUrl = "/v1/users/add",
                         method = MethodsRequest.POST,
                         authToken = null,
-                        body = Gson().toJson(userRegistryDTO)
+                        body = userRegistryDTO
                     ),
                     call
                 )
@@ -56,7 +58,22 @@ fun Application.userModule() {
                 if (result != null) call.respond(HttpStatusCode.OK)
             }
 
+            get("/{email}") {
+                val email = call.parameters["email"].toString()
+                val token = GetAuth(call).token()
 
+                val result = client.post<String>(
+                    RequestToDataBus(
+                        dbUrl = "/v1/users/get",
+                        method = MethodsRequest.POST,
+                        authToken = token,
+                        body = UserGetDTO(email)
+                    ),
+                    call
+                )
+
+                if (result != null) call.respond(HttpStatusCode.OK, result)
+            }
         }
     }
 }
