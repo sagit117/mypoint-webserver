@@ -9,7 +9,7 @@ package ru.mypoint.webserver.common.dto
  */
 data class RequestToDataBus(
     val dbUrl: String,
-    val method: MethodsRequest,
+    val method: MethodsRequest? = MethodsRequest.POST,
     val authToken: String?,
     val body: Any?,
 )

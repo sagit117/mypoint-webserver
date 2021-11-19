@@ -14,8 +14,7 @@ import io.ktor.routing.*
 import io.ktor.sessions.*
 import io.ktor.util.*
 import ru.mypoint.webserver.common.dto.*
-import ru.mypoint.webserver.domains.users.dto.UserGetDTO
-import ru.mypoint.webserver.domains.users.dto.UserRegistryDTO
+import ru.mypoint.webserver.domains.users.dto.*
 
 @Suppress("unused") // Referenced in application.conf
 fun Application.userModule() {
@@ -73,6 +72,38 @@ fun Application.userModule() {
                 )
 
                 if (result != null) call.respond(HttpStatusCode.OK, result)
+            }
+
+            route("/update") {
+                post("/password/{email}") {
+                    val email = call.parameters["email"].toString()
+                    val updateData = call.receive<UserUpdatePasswordDTO>()
+                    val token = GetAuth(call).token()
+
+                    /** логин */
+                    val login = client.post<String>(
+                        RequestToDataBus(
+                            dbUrl = "/login",
+                            method = MethodsRequest.POST,
+                            authToken = null,
+                            body = UserLoginDTO(email, updateData.oldPassword ?: "")
+                        ),
+                        call
+                    )
+
+                    val result = client.post<String>(
+                        RequestToDataBus(
+                            dbUrl = "/v1/users/update/password",
+                            method = MethodsRequest.POST,
+                            authToken = token,
+                            body = UserUpdatePasswordDTO(email, updateData.newPassword)
+                        ),
+                        call
+                    )
+
+                    if (result != null) call.respond(HttpStatusCode.OK, result)
+
+                }
             }
         }
     }
