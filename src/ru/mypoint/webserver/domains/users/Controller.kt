@@ -75,34 +75,34 @@ fun Application.userModule() {
             }
 
             route("/update") {
+                /**
+                 * изменение пароля возможно только с ролью WriteUser, Self
+                 * и правильным вводом старого пароля
+                 */
                 post("/password/{email}") {
                     val email = call.parameters["email"].toString()
                     val updateData = call.receive<UserUpdatePasswordDTO>()
                     val token = GetAuth(call).token()
 
                     /** логин */
-                    val login = client.post<String>(
-                        RequestToDataBus(
-                            dbUrl = "/login",
-                            method = MethodsRequest.POST,
-                            authToken = null,
-                            body = UserLoginDTO(email, updateData.oldPassword ?: "")
-                        ),
+                    val login = client.login<String>(
+                        UserLoginDTO(email, updateData.oldPassword ?: ""),
                         call
                     )
 
-                    val result = client.post<String>(
-                        RequestToDataBus(
-                            dbUrl = "/v1/users/update/password",
-                            method = MethodsRequest.POST,
-                            authToken = token,
-                            body = UserUpdatePasswordDTO(email, updateData.newPassword)
-                        ),
-                        call
-                    )
+                    if (login != null) {
+                        val result = client.post<String>(
+                            RequestToDataBus(
+                                dbUrl = "/v1/users/update/password",
+                                method = MethodsRequest.POST,
+                                authToken = token,
+                                body = UserUpdatePasswordDTO(email, updateData.newPassword)
+                            ),
+                            call
+                        )
 
-                    if (result != null) call.respond(HttpStatusCode.OK, result)
-
+                        if (result != null) call.respond(HttpStatusCode.OK, result)
+                    }
                 }
             }
         }
