@@ -57,6 +57,17 @@ fun Application.userModule() {
                 if (result != null) call.respond(HttpStatusCode.OK)
             }
 
+            post("/login") {
+                val userLoginDTO = call.receive<UserLoginDTO>()
+
+                val result = client.login<String>(
+                    userLoginDTO,
+                    call
+                )
+
+                if (result != null) call.respond(HttpStatusCode.OK, result)
+            }
+
             get("/{email}") {
                 val email = call.parameters["email"].toString()
                 val token = GetAuth(call).token()
