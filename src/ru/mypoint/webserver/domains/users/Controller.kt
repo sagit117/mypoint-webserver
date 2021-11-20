@@ -76,7 +76,7 @@ fun Application.userModule() {
 
             route("/update") {
                 /**
-                 * изменение пароля возможно только с ролью WriteUser, Self
+                 * изменение пароля возможно только с подходящей ролью
                  * и правильным вводом старого пароля
                  */
                 post("/password/{email}") {
@@ -103,6 +103,24 @@ fun Application.userModule() {
 
                         if (result != null) call.respond(HttpStatusCode.OK, result)
                     }
+                }
+
+                post("/data/{email}") {
+                    val userEmail = call.parameters["email"].toString()
+                    val updateData = call.receive<UserUpdateDataDTO>()
+                    val token = GetAuth(call).token()
+
+                    val result = client.post<String>(
+                        RequestToDataBus(
+                            dbUrl = "/v1/users/update/data",
+                            method = MethodsRequest.POST,
+                            authToken = token,
+                            body = updateData.copy(email = userEmail)
+                        ),
+                        call
+                    )
+
+                    if (result != null) call.respond(HttpStatusCode.OK, result)
                 }
             }
         }
