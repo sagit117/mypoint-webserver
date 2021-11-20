@@ -1,6 +1,5 @@
 package ru.mypoint.webserver.domains.users
 
-import com.google.gson.Gson
 import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -11,9 +10,10 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import io.ktor.sessions.*
 import io.ktor.util.*
 import ru.mypoint.webserver.common.dto.*
+import ru.mypoint.webserver.domains.notification.dto.SendNotificationDTO
+import ru.mypoint.webserver.domains.notification.dto.TypeNotification
 import ru.mypoint.webserver.domains.users.dto.*
 
 @Suppress("unused") // Referenced in application.conf
@@ -54,7 +54,20 @@ fun Application.userModule() {
                     call
                 )
 
-                if (result != null) call.respond(HttpStatusCode.OK)
+                if (result != null) {
+                    call.respond(HttpStatusCode.OK)
+
+                    val templateName = environment.config.propertyOrNull("notificationTemplateName.afterRegistry")?.getString() ?: ""
+
+                    client.sendNotification<String>(
+                        SendNotificationDTO(
+                            TypeNotification.EMAIL,
+                            setOf(userRegistryDTO.email),
+                            templateName
+                        ),
+                        call
+                    )
+                }
             }
 
             post("/login") {
@@ -65,7 +78,21 @@ fun Application.userModule() {
                     call
                 )
 
-                if (result != null) call.respond(HttpStatusCode.OK, result)
+                if (result != null) {
+                    call.respond(HttpStatusCode.OK, result)
+
+                    val templateName = environment.config.propertyOrNull("notificationTemplateName.afterLogin")?.getString() ?: ""
+
+                    client.sendNotification<String>(
+                        SendNotificationDTO(
+                            TypeNotification.EMAIL,
+                            setOf(userLoginDTO.email),
+                            templateName
+                        ),
+                        call
+                    )
+
+                }
             }
 
             get("/{email}") {

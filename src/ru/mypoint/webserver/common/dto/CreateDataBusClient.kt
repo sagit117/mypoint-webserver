@@ -8,6 +8,7 @@ import io.ktor.client.utils.*
 import io.ktor.http.*
 import io.ktor.response.*
 import org.slf4j.Logger
+import ru.mypoint.webserver.domains.notification.dto.SendNotificationDTO
 import ru.mypoint.webserver.domains.users.dto.UserLoginDTO
 import java.net.ConnectException
 
@@ -50,6 +51,20 @@ class CreateDataBusClient() {
         }
     }
 
+    suspend inline fun <reified T> sendNotification(sendNotificationDTO: SendNotificationDTO, call: ApplicationCall): T? {
+        return try {
+            httpClient.post<T> {
+                url("/webserver/send/notification")
+                contentType(ContentType.Application.Json)
+                body = sendNotificationDTO
+            }
+        } catch (error: Throwable) {
+            respondError(error, call)
+            null
+        }
+    }
+
+    /** отвечает ошибкой на запрос в зависимости от типа ошибки */
     suspend fun respondError(error: Throwable, call: ApplicationCall) {
         when(error) {
             is ClientRequestException -> {
