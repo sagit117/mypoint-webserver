@@ -112,6 +112,25 @@ fun Application.userModule() {
                 if (result != null) call.respond(HttpStatusCode.OK, result)
             }
 
+            get("/reset/password/{email}") {
+                val email = call.parameters["email"].toString()
+
+                val templateName = environment.config.propertyOrNull("notificationTemplateName.afterResetPassword")?.getString() ?: ""
+                val resetPasswordPayload = environment.config.propertyOrNull("notificationTemplateName.resetPasswordPayload")?.getString() ?: ""
+
+                val result = client.sendNotification<String>(
+                    SendNotificationDTO(
+                        TypeNotification.EMAIL,
+                        setOf(email),
+                        templateName,
+                        payload = resetPasswordPayload
+                    ),
+                    call
+                )
+
+                if (result != null) call.respond(HttpStatusCode.OK, result)
+            }
+
             route("/update") {
                 /**
                  * изменение пароля возможно только с подходящей ролью
