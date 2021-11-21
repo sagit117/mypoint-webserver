@@ -123,7 +123,7 @@ fun Application.userModule() {
                         TypeNotification.EMAIL,
                         setOf(email),
                         templateName,
-                        payload = resetPasswordPayload
+                        payloads = resetPasswordPayload
                     ),
                     call
                 )

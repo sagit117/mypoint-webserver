@@ -4,7 +4,7 @@ data class SendNotificationDTO(
     val type: TypeNotification,
     val recipients: Set<String>,
     val templateName: String,
-    val payload: String? = null,
+    val payloads: String? = null,
 )
 
 enum class TypeNotification {
