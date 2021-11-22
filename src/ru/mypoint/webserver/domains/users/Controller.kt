@@ -13,8 +13,8 @@ import io.ktor.routing.*
 import io.ktor.util.*
 import ru.mypoint.webserver.common.dto.*
 import ru.mypoint.webserver.common.randomCode
-import ru.mypoint.webserver.domains.notification.DataForQueueNotification
-import ru.mypoint.webserver.domains.notification.QueueNotification
+import ru.mypoint.webserver.domains.notification.DataForQueueResetPassword
+import ru.mypoint.webserver.domains.notification.QueueResetPassword
 import ru.mypoint.webserver.domains.notification.dto.SendNotificationDTO
 import ru.mypoint.webserver.domains.notification.dto.TypeNotification
 import ru.mypoint.webserver.domains.users.dto.*
@@ -137,21 +137,24 @@ fun Application.userModule() {
 
                 val templateName = environment.config.propertyOrNull("notificationTemplateName.afterResetPassword")?.getString() ?: ""
                 val resetPasswordPayload = environment.config.propertyOrNull("notificationTemplateName.resetPasswordPayload")?.getString() ?: ""
+                val hash = randomCode(10)
 
+                /** формирование объекта нотификации */
                 val sendNotificationDTO = SendNotificationDTO(
                     TypeNotification.EMAIL,
                     setOf(emailDTO.email),
                     templateName,
-                    payloads = resetPasswordPayload
+                    payloads = resetPasswordPayload + hash
                 )
 
                 /** сохранить в оперативку объект, для которого был запрошен сброс пароля */
-                if (!QueueNotification.addItemQueue(
-                    DataForQueueNotification(
+                if (!QueueResetPassword.addItemQueue(
+                    DataForQueueResetPassword(
                         emailDTO = emailDTO,
                         sendNotificationDTO = sendNotificationDTO,
-                        hash = randomCode(10),
-                        expiredMS = 3_600_000 // todo: вынести наcтройку срока жизни
+                        hash = hash,
+                        expiredMS = 3_600_000L, // todo: вынести наcтройку срока жизни
+                        intervalAddMC = 300_000L // todo: вынести в ностройку интервал блокировки добавления
                     )
                 )) {
                     return@get call.respond(HttpStatusCode.TooManyRequests, ResponseStatusDTO(ResponseStatus.TooManyRequests.value))
@@ -169,42 +172,50 @@ fun Application.userModule() {
             }
 
             route("/update") {
-                /**
-                 * изменение пароля возможно только с подходящей ролью
-                 * и правильным вводом старого пароля
-                 */
-                post("/password/{email}") {
-                    val emailDTO = try {
-                        EmailDTO(call.parameters["email"].toString())
-                    } catch (error: Throwable) {
-                        log.error(error.localizedMessage)
-                        return@post call.respond(
-                            HttpStatusCode.BadRequest,
-                            ResponseStatusDTO(ResponseStatus.BadRequest.value)
-                        )
-                    }
+                route("/password") {
+                    /**
+                     * изменение пароля возможно только с подходящей ролью
+                     * и правильным вводом старого пароля
+                     */
+                    post("/email/{email}") {
+                        val emailDTO = try {
+                            EmailDTO(call.parameters["email"].toString())
+                        } catch (error: Throwable) {
+                            log.error(error.localizedMessage)
+                            return@post call.respond(
+                                HttpStatusCode.BadRequest,
+                                ResponseStatusDTO(ResponseStatus.BadRequest.value)
+                            )
+                        }
 
-                    val updateData = call.receive<UserUpdatePasswordDTO>()
-                    val token = GetAuth(call).token()
+                        val updateData = call.receive<UserUpdatePasswordDTO>()
+                        val token = GetAuth(call).token()
 
-                    /** логин */
-                    val login = client.login<String>(
-                        UserLoginDTO(emailDTO.email, updateData.oldPassword ?: ""),
-                        call
-                    )
-
-                    if (login != null) {
-                        val result = client.post<String>(
-                            RequestToDataBus(
-                                dbUrl = "/v1/users/update/password",
-                                method = MethodsRequest.POST,
-                                authToken = token,
-                                body = UserUpdatePasswordDTO(emailDTO.email, updateData.newPassword)
-                            ),
+                        /** логин */
+                        val login = client.login<String>(
+                            UserLoginDTO(emailDTO.email, updateData.oldPassword ?: ""),
                             call
                         )
 
-                        if (result != null) call.respond(HttpStatusCode.OK, result)
+                        if (login != null) {
+                            val result = client.post<String>(
+                                RequestToDataBus(
+                                    dbUrl = "/v1/users/update/password",
+                                    method = MethodsRequest.POST,
+                                    authToken = token,
+                                    body = UserUpdatePasswordDTO(emailDTO.email, updateData.newPassword)
+                                ),
+                                call
+                            )
+
+                            if (result != null) call.respond(HttpStatusCode.OK, result)
+                        }
+                    }
+
+                    post("/hash/{hash}") {
+                        val hash = call.parameters["hash"].toString()
+
+                        println(QueueResetPassword.getWithHash(hash).toString())
                     }
                 }
 
