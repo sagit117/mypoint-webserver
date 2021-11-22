@@ -96,7 +96,16 @@ fun Application.userModule() {
             }
 
             get("/{email}") {
-                val email = call.parameters["email"].toString()
+                val emailDTO = try {
+                    EmailDTO(call.parameters["email"].toString())
+                } catch (error: Throwable) {
+                    log.error(error.localizedMessage)
+                    return@get call.respond(
+                        HttpStatusCode.BadRequest,
+                        ResponseStatusDTO(ResponseStatus.BadRequest.value)
+                    )
+                }
+
                 val token = GetAuth(call).token()
 
                 val result = client.post<String>(
@@ -104,7 +113,7 @@ fun Application.userModule() {
                         dbUrl = "/v1/users/get",
                         method = MethodsRequest.POST,
                         authToken = token,
-                        body = UserGetDTO(email)
+                        body = UserGetDTO(emailDTO.email)
                     ),
                     call
                 )
@@ -113,15 +122,26 @@ fun Application.userModule() {
             }
 
             get("/reset/password/{email}") {
-                val email = call.parameters["email"].toString()
+                val emailDTO = try {
+                    EmailDTO(call.parameters["email"].toString())
+                } catch (error: Throwable) {
+                    log.error(error.localizedMessage)
+                    return@get call.respond(
+                        HttpStatusCode.BadRequest,
+                        ResponseStatusDTO(ResponseStatus.BadRequest.value)
+                    )
+                }
 
                 val templateName = environment.config.propertyOrNull("notificationTemplateName.afterResetPassword")?.getString() ?: ""
                 val resetPasswordPayload = environment.config.propertyOrNull("notificationTemplateName.resetPasswordPayload")?.getString() ?: ""
 
+                /** сохранить в оперативку объект, для которого был запрошен сброс пароля */
+
+
                 val result = client.sendNotification<String>(
                     SendNotificationDTO(
                         TypeNotification.EMAIL,
-                        setOf(email),
+                        setOf(emailDTO.email),
                         templateName,
                         payloads = resetPasswordPayload
                     ),
@@ -137,13 +157,22 @@ fun Application.userModule() {
                  * и правильным вводом старого пароля
                  */
                 post("/password/{email}") {
-                    val email = call.parameters["email"].toString()
+                    val emailDTO = try {
+                        EmailDTO(call.parameters["email"].toString())
+                    } catch (error: Throwable) {
+                        log.error(error.localizedMessage)
+                        return@post call.respond(
+                            HttpStatusCode.BadRequest,
+                            ResponseStatusDTO(ResponseStatus.BadRequest.value)
+                        )
+                    }
+
                     val updateData = call.receive<UserUpdatePasswordDTO>()
                     val token = GetAuth(call).token()
 
                     /** логин */
                     val login = client.login<String>(
-                        UserLoginDTO(email, updateData.oldPassword ?: ""),
+                        UserLoginDTO(emailDTO.email, updateData.oldPassword ?: ""),
                         call
                     )
 
@@ -153,7 +182,7 @@ fun Application.userModule() {
                                 dbUrl = "/v1/users/update/password",
                                 method = MethodsRequest.POST,
                                 authToken = token,
-                                body = UserUpdatePasswordDTO(email, updateData.newPassword)
+                                body = UserUpdatePasswordDTO(emailDTO.email, updateData.newPassword)
                             ),
                             call
                         )
@@ -163,7 +192,16 @@ fun Application.userModule() {
                 }
 
                 post("/data/{email}") {
-                    val userEmail = call.parameters["email"].toString()
+                    val emailDTO = try {
+                        EmailDTO(call.parameters["email"].toString())
+                    } catch (error: Throwable) {
+                        log.error(error.localizedMessage)
+                        return@post call.respond(
+                            HttpStatusCode.BadRequest,
+                            ResponseStatusDTO(ResponseStatus.BadRequest.value)
+                        )
+                    }
+
                     val updateData = call.receive<UserUpdateDataDTO>()
                     val token = GetAuth(call).token()
 
@@ -172,7 +210,7 @@ fun Application.userModule() {
                             dbUrl = "/v1/users/update/data",
                             method = MethodsRequest.POST,
                             authToken = token,
-                            body = updateData.copy(email = userEmail)
+                            body = updateData.copy(email = emailDTO.email)
                         ),
                         call
                     )
