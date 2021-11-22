@@ -12,6 +12,9 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.*
 import ru.mypoint.webserver.common.dto.*
+import ru.mypoint.webserver.common.randomCode
+import ru.mypoint.webserver.domains.notification.DataForQueueNotification
+import ru.mypoint.webserver.domains.notification.QueueNotification
 import ru.mypoint.webserver.domains.notification.dto.SendNotificationDTO
 import ru.mypoint.webserver.domains.notification.dto.TypeNotification
 import ru.mypoint.webserver.domains.users.dto.*
@@ -135,20 +138,34 @@ fun Application.userModule() {
                 val templateName = environment.config.propertyOrNull("notificationTemplateName.afterResetPassword")?.getString() ?: ""
                 val resetPasswordPayload = environment.config.propertyOrNull("notificationTemplateName.resetPasswordPayload")?.getString() ?: ""
 
-                /** сохранить в оперативку объект, для которого был запрошен сброс пароля */
+                val sendNotificationDTO = SendNotificationDTO(
+                    TypeNotification.EMAIL,
+                    setOf(emailDTO.email),
+                    templateName,
+                    payloads = resetPasswordPayload
+                )
 
+                /** сохранить в оперативку объект, для которого был запрошен сброс пароля */
+                if (!QueueNotification.addItemQueue(
+                    DataForQueueNotification(
+                        emailDTO = emailDTO,
+                        sendNotificationDTO = sendNotificationDTO,
+                        hash = randomCode(10),
+                        expiredMS = 3_600_000 // todo: вынести наcтройку срока жизни
+                    )
+                )) {
+                    return@get call.respond(HttpStatusCode.TooManyRequests, ResponseStatusDTO(ResponseStatus.TooManyRequests.value))
+                }
 
                 val result = client.sendNotification<String>(
-                    SendNotificationDTO(
-                        TypeNotification.EMAIL,
-                        setOf(emailDTO.email),
-                        templateName,
-                        payloads = resetPasswordPayload
-                    ),
+                    sendNotificationDTO,
                     call
                 )
 
-                if (result != null) call.respond(HttpStatusCode.OK, result)
+                if (result != null) {
+                    // ответ
+                    call.respond(HttpStatusCode.OK, result)
+                }
             }
 
             route("/update") {
