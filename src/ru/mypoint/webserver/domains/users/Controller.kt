@@ -214,8 +214,27 @@ fun Application.userModule() {
 
                     post("/hash/{hash}") {
                         val hash = call.parameters["hash"].toString()
+                        val email = QueueResetPassword.getWithHash(hash)?.emailDTO?.email ?: ""
+                        val techLogin = environment.config.propertyOrNull("databus.login")?.getString() ?: ""
+                        val techPassword = environment.config.propertyOrNull("databus.password")?.getString() ?: ""
+                        val newPasswordDTO = call.receive<UserRecoveryPasswordDTO>()
 
-                        println(QueueResetPassword.getWithHash(hash).toString())
+                        val token = client.login<UserReceiveLoginDTO>(
+                            UserLoginDTO(techLogin, techPassword),
+                            call
+                        )?.token
+
+                        val result = client.post<String>(
+                            RequestToDataBus(
+                                dbUrl = "/v1/users/update/password",
+                                method = MethodsRequest.POST,
+                                authToken = token,
+                                body = UserUpdatePasswordDTO(email = email, newPassword = newPasswordDTO.newPassword)
+                            ),
+                            call
+                        )
+
+                        if (result != null) call.respond(HttpStatusCode.OK, result)
                     }
                 }
 

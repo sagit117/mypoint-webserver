@@ -15,7 +15,7 @@ data class DataForQueueResetPassword(
 )
 
 /**
- * Очередь оповещений пользователя
+ * Очередь пользователей для сбросов пароля
  */
 object QueueResetPassword {
     private val queue = HashMap<String, DataForQueueResetPassword>()
@@ -50,7 +50,6 @@ object QueueResetPassword {
     }
 
     private fun put(dataForQueueResetPassword: DataForQueueResetPassword) {
-        println("put ${dataForQueueResetPassword.hash}")
         queue[dataForQueueResetPassword.hash] = dataForQueueResetPassword.copy(removeTimer = removeTimer(dataForQueueResetPassword))
     }
 
@@ -73,7 +72,6 @@ object QueueResetPassword {
     private fun removeQueueWithHash(hash: String) {
         queue[hash]?.removeTimer?.cancel()
         queue.remove(hash)
-        println("remove $hash")
     }
 
     /** поставить удаление через таймер */
