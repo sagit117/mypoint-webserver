@@ -60,9 +60,11 @@ fun Application.module(testing: Boolean = false) {
     }
 
     install(Sessions) {
+        val maxAgeInSeconds = environment.config.propertyOrNull("application.cookie.maxAgeInSeconds")?.getString()
+
         cookie<UserSession>("user_session") {
             cookie.path = "/"
-            cookie.maxAgeInSeconds = 2_592_000 // 30 days
+            cookie.maxAgeInSeconds = maxAgeInSeconds?.toLong() ?: 2_592_000L
             cookie.httpOnly = true
             cookie.extensions["SameSite"] = "lax"
         }
