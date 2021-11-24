@@ -6,7 +6,7 @@ import ru.mypoint.webserver.domains.front.templates.pages.BasePage
 
 /** шаблон по умолчанию, в котором будут отрисовываться страницы админ панели */
 class AdminPanelDefaultLayouts: Template<HTML> {
-    val content = TemplatePlaceholder<BasePage>()
+    private val content = TemplatePlaceholder<BasePage>()
     lateinit var page: BasePage
 
     override fun HTML.apply() {
