@@ -5,8 +5,7 @@ import io.ktor.html.*
 import io.ktor.http.*
 import io.ktor.routing.*
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelDefaultLayouts
-import ru.mypoint.webserver.domains.front.templates.pages.AdminLoginPage
-import ru.mypoint.webserver.domains.front.templates.pages.BasePage
+import ru.mypoint.webserver.domains.front.templates.pages.LoginPage
 
 @Suppress("unused") // Referenced in application.conf
 fun Application.adminModule() {
@@ -14,7 +13,7 @@ fun Application.adminModule() {
         route("/admin") {
             get("/panel") {
                 call.respondHtmlTemplate(AdminPanelDefaultLayouts(), HttpStatusCode.OK) {
-                    page = AdminLoginPage()
+                    page = LoginPage()
                 }
             }
         }
