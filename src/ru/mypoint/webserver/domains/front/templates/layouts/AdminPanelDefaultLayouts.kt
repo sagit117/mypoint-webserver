@@ -3,12 +3,11 @@ package ru.mypoint.webserver.domains.front.templates.layouts
 import io.ktor.html.*
 import kotlinx.html.*
 import ru.mypoint.webserver.ConfigApp
-import ru.mypoint.webserver.domains.front.templates.pages.BasePage
 
 /** шаблон по умолчанию, в котором будут отрисовываться страницы админ панели */
 class AdminPanelDefaultLayouts: Template<HTML> {
-    private val content = TemplatePlaceholder<BasePage>()
-    lateinit var page: BasePage
+    private val content = TemplatePlaceholder<Template<FlowContent>>()
+    lateinit var page: Template<FlowContent>
 
     override fun HTML.apply() {
         head {

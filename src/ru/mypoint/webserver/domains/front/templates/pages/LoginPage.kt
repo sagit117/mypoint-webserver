@@ -1,8 +1,18 @@
 package ru.mypoint.webserver.domains.front.templates.pages
 
+import io.ktor.html.*
 import kotlinx.html.*
 
-class LoginPage: BasePage() {
+fun loginPage(init: LoginPage.() -> Unit): LoginPage {
+    val page = LoginPage()
+    page.init()
+    return page
+}
+
+class LoginPage: Template<FlowContent> {
+    private val content = TemplatePlaceholder<Template<FlowContent>>()
+    lateinit var buttons: Template<FlowContent>
+
     override fun FlowContent.apply() {
         div {
             id = "login_form"
@@ -21,6 +31,8 @@ class LoginPage: BasePage() {
                 id = "email"
                 type = InputType.password
             }
+
+            insert(buttons, content)
         }
     }
 }
