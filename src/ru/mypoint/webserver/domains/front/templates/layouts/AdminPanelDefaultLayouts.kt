@@ -8,6 +8,7 @@ import ru.mypoint.webserver.ConfigApp
 class AdminPanelDefaultLayouts: Template<HTML> {
     private val content = TemplatePlaceholder<Template<FlowContent>>()
     lateinit var page: Template<FlowContent>
+    lateinit var styleUrl: List<String>
 
     override fun HTML.apply() {
         head {
@@ -18,6 +19,11 @@ class AdminPanelDefaultLayouts: Template<HTML> {
                 type = "image/png"
             }
             styleLink(url = "/static/index.css")
+
+            styleUrl.forEach {
+                styleLink(it)
+            }
+
             title(ConfigApp.title)
         }
 

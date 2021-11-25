@@ -18,6 +18,7 @@ fun Application.adminModule() {
                     page = loginPage {
                         buttons = ButtonsLoginAdminPage()
                     }
+                    styleUrl = listOf("/static/form-login.css")
                 }
             }
         }

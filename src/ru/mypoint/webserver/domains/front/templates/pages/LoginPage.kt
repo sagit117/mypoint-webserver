@@ -26,18 +26,22 @@ class LoginPage: Template<FlowContent> {
 
     override fun FlowContent.apply() {
         div {
-            id = "login_form"
-            classes = setOf("login_form")
+            classes = setOf("login_wrapper")
 
-            h3 {
-                +"Вход в систему"
+            div {
+                id = "login_form"
+                classes = setOf("login_form")
+
+                h3 {
+                    +"Вход в систему"
+                }
+
+                insert(loginInput, content)
+
+                insert(passwordInput, content)
+
+                insert(buttons, content)
             }
-
-            insert(loginInput, content)
-
-            insert(passwordInput, content)
-
-            insert(buttons, content)
         }
     }
 }
