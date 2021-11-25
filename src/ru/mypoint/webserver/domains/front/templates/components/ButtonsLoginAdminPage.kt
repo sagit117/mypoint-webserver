@@ -11,12 +11,14 @@ class ButtonsLoginAdminPage: Template<FlowContent> {
         div {
             button {
                 id = "forgot_password"
-                classes = setOf("btn primary")
+                type = ButtonType.button
+                classes = setOf("btn btn-primary")
                 +"Забыли пароль?"
             }
             button {
                 id = "login"
-                classes = setOf("btn success")
+                type = ButtonType.button
+                classes = setOf("btn btn-success")
                 +"Войти"
             }
         }
