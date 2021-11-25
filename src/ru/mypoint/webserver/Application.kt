@@ -83,5 +83,11 @@ fun Application.module(testing: Boolean = false) {
             call.respond(HttpStatusCode.OK, mapOf("status" to "OK"))
         }
     }
+
+    ConfigApp.title = environment.config.propertyOrNull("application.title")?.getString() ?: ""
+}
+
+object ConfigApp {
+    var title: String = ""
 }
 
