@@ -22,3 +22,7 @@ body {
     color: var(--color-text);
     font-size: 1rem;
 }
+
+.mt-4 {
+    margin-top: 2rem;
+}
