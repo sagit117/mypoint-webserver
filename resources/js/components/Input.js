@@ -17,4 +17,27 @@ export default class Input {
     get value() {
         return this.input?.value || "";
     }
+    /** управление классами валидации */
+    set isValid(v) {
+        if (v) {
+            this.input?.classList.add("valid");
+        }
+        else {
+            this.input?.classList.remove("valid");
+        }
+    }
+    get isValid() {
+        return this.input?.classList.contains("valid") || false;
+    }
+    set isInValid(v) {
+        if (v) {
+            this.input?.classList.add("inValid");
+        }
+        else {
+            this.input?.classList.remove("inValid");
+        }
+    }
+    get isInValid() {
+        return this.input?.classList.contains("inValid") || false;
+    }
 }

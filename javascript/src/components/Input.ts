@@ -16,9 +16,31 @@ export default class Input {
             this.input.value = v
         }
     }
-
     get value(): string {
         return this.input?.value || ""
+    }
+
+    /** управление классами валидации */
+    set isValid(v: boolean) {
+        if (v) {
+            this.input?.classList.add("valid")
+        } else {
+            this.input?.classList.remove("valid")
+        }
+    }
+    get isValid(): boolean {
+        return this.input?.classList.contains("valid") || false;
+    }
+
+    set isInValid(v: boolean) {
+        if (v) {
+            this.input?.classList.add("inValid")
+        } else {
+            this.input?.classList.remove("inValid")
+        }
+    }
+    get isInValid(): boolean {
+        return this.input?.classList.contains("inValid") || false;
     }
 }
 

@@ -6,28 +6,38 @@ export default class LoginForm {
     password = null;
     btnOk = null;
     btnForgot = null;
-    constructor(id) {
+    validator = null;
+    constructor(id, validator) {
         this.rootDiv = document.querySelector("#" + id);
+        this.validator = validator;
         if (this.rootDiv) {
-            this.login = new Input(this.rootDiv, "login", this.onInputLoginHandler);
-            this.password = new Input(this.rootDiv, "password", this.onInputPasswordHandler);
-            this.btnOk = new Button(this.rootDiv, "btnOk", this.btnOkClick);
-            this.btnForgot = new Button(this.rootDiv, "btnForgot", this.btnForgotClick);
+            this.login = new Input(this.rootDiv, "login", this.onInputLoginHandler.bind(this));
+            this.password = new Input(this.rootDiv, "password", this.onInputPasswordHandler.bind(this));
+            this.btnOk = new Button(this.rootDiv, "btnOk", this.btnOkClick.bind(this));
+            this.btnForgot = new Button(this.rootDiv, "btnForgot", this.btnForgotClick.bind(this));
         }
         else {
             throw new Error("rootDiv is required!");
         }
     }
     btnOkClick() {
-        console.log('ok');
+        /** Вход */
+        if (this.validator?.isEmail(this.login?.value)) {
+            console.log('ok');
+        }
+        else {
+            if (this.login) {
+                this.login.isInValid = true;
+            }
+        }
     }
     btnForgotClick() {
         console.log('forgot');
     }
-    onInputLoginHandler(event) {
-        console.log(event.currentTarget?.value);
+    onInputLoginHandler(_event) {
+        console.log(this.login?.value);
     }
-    onInputPasswordHandler(event) {
-        console.log(event.currentTarget?.value);
+    onInputPasswordHandler(_event) {
+        console.log(this.password?.value);
     }
 }

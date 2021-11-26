@@ -1,5 +1,6 @@
 import Input, { IInputEventChanged } from "../components/Input.js"
 import Button from "../components/Button.js"
+import Validator from "../common/Validator.js"
 
 export default class LoginForm {
     private rootDiv: HTMLDivElement | null = null;
@@ -7,34 +8,53 @@ export default class LoginForm {
     private password: Input | null = null;
     private btnOk: Button | null = null;
     private btnForgot: Button | null = null;
+    private validator: Validator | null = null;
 
-    constructor(id: string) {
+    constructor(id: string, validator: Validator) {
         this.rootDiv = document.querySelector("#" + id) as HTMLDivElement;
+        this.validator = validator;
 
         if (this.rootDiv) {
-            this.login = new Input(this.rootDiv, "login", this.onInputLoginHandler);
-            this.password = new Input(this.rootDiv, "password", this.onInputPasswordHandler);
+            this.login = new Input(this.rootDiv, "login", this.onInputLoginHandler.bind(this));
+            this.password = new Input(this.rootDiv, "password", this.onInputPasswordHandler.bind(this));
 
-            this.btnOk = new Button(this.rootDiv, "btnOk", this.btnOkClick);
-            this.btnForgot = new Button(this.rootDiv, "btnForgot", this.btnForgotClick);
+            this.btnOk = new Button(this.rootDiv, "btnOk", this.btnOkClick.bind(this));
+            this.btnForgot = new Button(this.rootDiv, "btnForgot", this.btnForgotClick.bind(this));
         } else {
             throw new Error("rootDiv is required!")
+        }
+
+        if (!this.validator) {
+            throw new Error("validator is required!")
         }
     }
 
     public btnOkClick() {
-        console.log('ok')
+        /** Вход */
+        if (this.login && this.validator?.isEmail(this.login.value)) {
+            this.login.isInValid = false
+            this.login.isValid = true;
+        } else {
+            if (this.login) {
+                this.login.isInValid = true;
+                this.login.isValid = false;
+            }
+
+            return;
+        }
+
+        
     }
 
     public btnForgotClick() {
         console.log('forgot')
     }
 
-    public onInputLoginHandler(event: IInputEventChanged) {
-        console.log(event.currentTarget?.value)
+    public onInputLoginHandler(_event: IInputEventChanged) {
+        console.log(this.login?.value)
     }
 
-    public onInputPasswordHandler(event: IInputEventChanged) {
-        console.log(event.currentTarget?.value)
+    public onInputPasswordHandler(_event: IInputEventChanged) {
+        console.log(this.password?.value)
     }
 }
