@@ -1,6 +1,8 @@
 export default class LoginForm {
     private rootDiv;
-    private email;
+    private login;
     private password;
+    private btnOk;
+    private btnForgot;
     constructor(id: string);
 }

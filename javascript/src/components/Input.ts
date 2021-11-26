@@ -3,6 +3,9 @@ export default class Input {
 
     constructor(rootDiv: HTMLDivElement, id: string) {
         this.input = rootDiv.querySelector("#" + id);
-        console.log(this.input);
+        
+        if (!this.input) {
+            throw new Error("Input is required!")
+        }
     }
 }
