@@ -15,10 +15,18 @@ export default class LoginForm {
             this.login = new Input(this.rootDiv, "login");
             this.password = new Input(this.rootDiv, "password");
 
-            this.btnOk = new Button(this.rootDiv, "btnOk");
-            this.btnForgot = new Button(this.rootDiv, "btnForgot");
+            this.btnOk = new Button(this.rootDiv, "btnOk", this.btnOkClick);
+            this.btnForgot = new Button(this.rootDiv, "btnForgot", this.btnForgotClick);
         } else {
             throw new Error("rootDiv is required!")
         }
+    }
+
+    public btnOkClick() {
+        console.log('ok')
+    }
+
+    public btnForgotClick() {
+        console.log('forgot')
     }
 }

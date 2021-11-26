@@ -5,4 +5,6 @@ export default class LoginForm {
     private btnOk;
     private btnForgot;
     constructor(id: string);
+    btnOkClick(): void;
+    btnForgotClick(): void;
 }
