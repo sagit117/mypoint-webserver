@@ -44,6 +44,11 @@ class LoginPage: Template<FlowContent> {
 
                 insert(buttons, content)
             }
+
+            script {
+                src = "/static/loginFormController.js"
+                type = "module"
+            }
         }
     }
 }
