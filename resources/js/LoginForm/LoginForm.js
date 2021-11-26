@@ -9,8 +9,8 @@ export default class LoginForm {
     constructor(id) {
         this.rootDiv = document.querySelector("#" + id);
         if (this.rootDiv) {
-            this.login = new Input(this.rootDiv, "login");
-            this.password = new Input(this.rootDiv, "password");
+            this.login = new Input(this.rootDiv, "login", this.onInputLoginHandler);
+            this.password = new Input(this.rootDiv, "password", this.onInputPasswordHandler);
             this.btnOk = new Button(this.rootDiv, "btnOk", this.btnOkClick);
             this.btnForgot = new Button(this.rootDiv, "btnForgot", this.btnForgotClick);
         }
@@ -23,5 +23,11 @@ export default class LoginForm {
     }
     btnForgotClick() {
         console.log('forgot');
+    }
+    onInputLoginHandler(event) {
+        console.log(event.currentTarget?.value);
+    }
+    onInputPasswordHandler(event) {
+        console.log(event.currentTarget?.value);
     }
 }

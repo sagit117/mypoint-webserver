@@ -1,4 +1,4 @@
-import Input from "../components/Input.js"
+import Input, { IInputEventChanged } from "../components/Input.js"
 import Button from "../components/Button.js"
 
 export default class LoginForm {
@@ -12,8 +12,8 @@ export default class LoginForm {
         this.rootDiv = document.querySelector("#" + id) as HTMLDivElement;
 
         if (this.rootDiv) {
-            this.login = new Input(this.rootDiv, "login");
-            this.password = new Input(this.rootDiv, "password");
+            this.login = new Input(this.rootDiv, "login", this.onInputLoginHandler);
+            this.password = new Input(this.rootDiv, "password", this.onInputPasswordHandler);
 
             this.btnOk = new Button(this.rootDiv, "btnOk", this.btnOkClick);
             this.btnForgot = new Button(this.rootDiv, "btnForgot", this.btnForgotClick);
@@ -28,5 +28,13 @@ export default class LoginForm {
 
     public btnForgotClick() {
         console.log('forgot')
+    }
+
+    public onInputLoginHandler(event: IInputEventChanged) {
+        console.log(event.currentTarget?.value)
+    }
+
+    public onInputPasswordHandler(event: IInputEventChanged) {
+        console.log(event.currentTarget?.value)
     }
 }

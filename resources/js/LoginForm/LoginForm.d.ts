@@ -1,3 +1,4 @@
+import { IInputEventChanged } from "../components/Input.js";
 export default class LoginForm {
     private rootDiv;
     private login;
@@ -7,4 +8,6 @@ export default class LoginForm {
     constructor(id: string);
     btnOkClick(): void;
     btnForgotClick(): void;
+    onInputLoginHandler(event: IInputEventChanged): void;
+    onInputPasswordHandler(event: IInputEventChanged): void;
 }
