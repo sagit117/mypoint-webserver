@@ -27,3 +27,11 @@ label {
     text-transform: uppercase;
     font-size: small;
 }
+
+input.inValid {
+    border-color: var(--color-invalid);
+}
+
+input.valid {
+    border-color: var(--color-valid);
+}
