@@ -3,4 +3,5 @@ export default class Button {
     constructor(rootDiv: HTMLDivElement, id: string, clickHandler: () => void);
     disable(): void;
     enable(): void;
+    private click;
 }

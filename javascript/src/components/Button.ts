@@ -5,7 +5,7 @@ export default class Button {
         this.button = rootDiv.querySelector("#" + id);
         
         if (this.button) {
-            this.button.addEventListener("click", clickHandler)
+            this.button.addEventListener("click", this.click.bind(this, clickHandler))
         } else {
             throw new Error("Button is required!")
         }
@@ -21,5 +21,9 @@ export default class Button {
         if (!this.button) return;
 
         this.button.disabled = false;
+    }
+
+    private click(clickHandler: () => void) {
+        if (!this.button?.disabled) clickHandler()
     }
 }

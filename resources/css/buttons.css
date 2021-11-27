@@ -23,6 +23,12 @@ button:not(:disabled) {
     text-transform: uppercase;
 }
 
+.btn:disabled {
+    pointer-events: none;
+    opacity: .65;
+    cursor: not-allowed;
+}
+
 .btn-primary {
     color: var(--color-white);
     background-color: var(--color-primary);

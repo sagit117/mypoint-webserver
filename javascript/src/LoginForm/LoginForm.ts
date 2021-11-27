@@ -29,8 +29,9 @@ export default class LoginForm {
         }
     }
 
+    /** Вход */
     public btnOkClick() {
-        /** Вход */
+        /** ошибка логина */
         if (this.login && this.validator?.isEmail(this.login.value)) {
             this.login.isInValid = false
             this.login.isValid = true;
@@ -43,7 +44,21 @@ export default class LoginForm {
             return;
         }
 
-        
+        /** ошибка пароля */
+        if (this.password && this.validator?.notEmpty(this.password.value)) {
+            this.password.isInValid = false
+            this.password.isValid = true;
+        } else {
+            if (this.password) {
+                this.password.isInValid = true;
+                this.password.isValid = false;
+            }
+
+            return;
+        }
+
+        this.btnOk?.disable()
+        this.btnForgot?.disable()
     }
 
     public btnForgotClick() {

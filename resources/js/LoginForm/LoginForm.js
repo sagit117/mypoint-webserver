@@ -19,17 +19,38 @@ export default class LoginForm {
         else {
             throw new Error("rootDiv is required!");
         }
+        if (!this.validator) {
+            throw new Error("validator is required!");
+        }
     }
+    /** Вход */
     btnOkClick() {
-        /** Вход */
-        if (this.validator?.isEmail(this.login?.value)) {
-            console.log('ok');
+        /** ошибка логина */
+        if (this.login && this.validator?.isEmail(this.login.value)) {
+            this.login.isInValid = false;
+            this.login.isValid = true;
         }
         else {
             if (this.login) {
                 this.login.isInValid = true;
+                this.login.isValid = false;
             }
+            return;
         }
+        /** ошибка пароля */
+        if (this.password && this.validator?.notEmpty(this.password.value)) {
+            this.password.isInValid = false;
+            this.password.isValid = true;
+        }
+        else {
+            if (this.password) {
+                this.password.isInValid = true;
+                this.password.isValid = false;
+            }
+            return;
+        }
+        this.btnOk?.disable();
+        this.btnForgot?.disable();
     }
     btnForgotClick() {
         console.log('forgot');

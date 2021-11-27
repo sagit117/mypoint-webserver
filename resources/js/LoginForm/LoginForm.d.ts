@@ -8,6 +8,7 @@ export default class LoginForm {
     private btnForgot;
     private validator;
     constructor(id: string, validator: Validator);
+    /** Вход */
     btnOkClick(): void;
     btnForgotClick(): void;
     onInputLoginHandler(_event: IInputEventChanged): void;
