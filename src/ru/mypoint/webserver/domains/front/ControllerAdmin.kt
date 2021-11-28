@@ -7,7 +7,6 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import ru.mypoint.webserver.domains.front.templates.components.ButtonsLoginAdminPage
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelDefaultLayouts
-import ru.mypoint.webserver.domains.front.templates.pages.LoginPage
 import ru.mypoint.webserver.domains.front.templates.pages.loginPage
 
 @Suppress("unused") // Referenced in application.conf

@@ -28,6 +28,9 @@ class InputText: Template<FlowContent> {
                 type = inputType
                 classes = setOf("input_text")
             }
+            small {
+                id = inputId + "_msg"
+            }
         }
     }
 }

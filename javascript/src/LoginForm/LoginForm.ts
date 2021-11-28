@@ -31,27 +31,23 @@ export default class LoginForm {
 
     /** Вход */
     public btnOkClick() {
-        /** ошибка логина */
+        /** проверка логина */
         if (this.login && this.validator?.isEmail(this.login.value)) {
-            this.login.isInValid = false
-            this.login.isValid = true;
+            this.login.setValid("")
         } else {
             if (this.login) {
-                this.login.isInValid = true;
-                this.login.isValid = false;
+                this.login.setInValid("email не соответствует!");
             }
 
             return;
         }
 
-        /** ошибка пароля */
+        /** проверка пароля */
         if (this.password && this.validator?.notEmpty(this.password.value)) {
-            this.password.isInValid = false
-            this.password.isValid = true;
+            this.password.setValid("")
         } else {
             if (this.password) {
-                this.password.isInValid = true;
-                this.password.isValid = false;
+                this.password.setInValid("Пароль не должен быть пустым!")
             }
 
             return;

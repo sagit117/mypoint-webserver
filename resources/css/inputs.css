@@ -30,8 +30,21 @@ label {
 
 input.inValid {
     border-color: var(--color-invalid);
+    background-image: url("./info_red.svg");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    /* background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem); */
 }
-
 input.valid {
     border-color: var(--color-valid);
+    background-image: url("./check_green.svg");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+}
+
+.input_wrapper > small.valid {
+    color: var(--color-valid);
+}
+.input_wrapper > small.inValid {
+    color: var(--color-invalid);
 }

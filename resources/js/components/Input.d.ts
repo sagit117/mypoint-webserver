@@ -1,13 +1,15 @@
 export default class Input {
     private input;
+    private smallMessage;
     constructor(rootDiv: HTMLDivElement, id: string, onInputHandler: (event: Event) => void);
     set value(v: string);
     get value(): string;
     /** управление классами валидации */
-    set isValid(v: boolean);
-    get isValid(): boolean;
-    set isInValid(v: boolean);
-    get isInValid(): boolean;
+    setValid(msg?: string): void;
+    isValid(): boolean;
+    setInValid(msg?: string): void;
+    isInValid(): boolean;
+    unsetValidate(): void;
 }
 export interface IInputEventChanged extends Event {
     currentTarget: IEventTarget | null;
