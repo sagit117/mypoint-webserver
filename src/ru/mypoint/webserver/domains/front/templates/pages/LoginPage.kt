@@ -38,6 +38,15 @@ class LoginPage: Template<FlowContent> {
                     +"Вход в систему"
                 }
 
+                div {
+                    id = "spinner"
+                    classes = setOf("spinner_wrapper")
+
+                    div {
+                        classes = setOf("spinner")
+                    }
+                }
+
                 insert(loginInput, content)
 
                 insert(passwordInput, content)

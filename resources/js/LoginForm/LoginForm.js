@@ -1,5 +1,6 @@
 import Input from "../components/Input.js";
 import Button from "../components/Button.js";
+import Spinner from "../components/spinner.js";
 export default class LoginForm {
     rootDiv = null;
     login = null;
@@ -7,6 +8,7 @@ export default class LoginForm {
     btnOk = null;
     btnForgot = null;
     validator = null;
+    spinner = null;
     constructor(id, validator) {
         this.rootDiv = document.querySelector("#" + id);
         this.validator = validator;
@@ -15,6 +17,7 @@ export default class LoginForm {
             this.password = new Input(this.rootDiv, "password", this.onInputPasswordHandler.bind(this));
             this.btnOk = new Button(this.rootDiv, "btnOk", this.btnOkClick.bind(this));
             this.btnForgot = new Button(this.rootDiv, "btnForgot", this.btnForgotClick.bind(this));
+            this.spinner = new Spinner(this.rootDiv, "spinner");
         }
         else {
             throw new Error("rootDiv is required!");
@@ -47,6 +50,7 @@ export default class LoginForm {
         }
         this.btnOk?.disable();
         this.btnForgot?.disable();
+        this.spinner?.show();
     }
     btnForgotClick() {
         console.log('forgot');

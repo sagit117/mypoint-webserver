@@ -1,5 +1,6 @@
 import Input, { IInputEventChanged } from "../components/Input.js"
 import Button from "../components/Button.js"
+import Spinner from "../components/spinner.js";
 import Validator from "../common/Validator.js"
 
 export default class LoginForm {
@@ -9,6 +10,7 @@ export default class LoginForm {
     private btnOk: Button | null = null;
     private btnForgot: Button | null = null;
     private validator: Validator | null = null;
+    private spinner: Spinner | null = null;
 
     constructor(id: string, validator: Validator) {
         this.rootDiv = document.querySelector("#" + id) as HTMLDivElement;
@@ -20,6 +22,8 @@ export default class LoginForm {
 
             this.btnOk = new Button(this.rootDiv, "btnOk", this.btnOkClick.bind(this));
             this.btnForgot = new Button(this.rootDiv, "btnForgot", this.btnForgotClick.bind(this));
+
+            this.spinner = new Spinner(this.rootDiv, "spinner");
         } else {
             throw new Error("rootDiv is required!")
         }
@@ -55,6 +59,7 @@ export default class LoginForm {
 
         this.btnOk?.disable()
         this.btnForgot?.disable()
+        this.spinner?.show()
     }
 
     public btnForgotClick() {

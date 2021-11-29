@@ -7,6 +7,7 @@ export default class LoginForm {
     private btnOk;
     private btnForgot;
     private validator;
+    private spinner;
     constructor(id: string, validator: Validator);
     /** Вход */
     btnOkClick(): void;
