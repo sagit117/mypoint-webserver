@@ -1,5 +1,6 @@
 import { IInputEventChanged } from "../components/Input.js";
 import Validator from "../common/Validator.js";
+import Api from "../common/Api.js";
 export default class LoginForm {
     private rootDiv;
     private login;
@@ -8,7 +9,8 @@ export default class LoginForm {
     private btnForgot;
     private validator;
     private spinner;
-    constructor(id: string, validator: Validator);
+    private api;
+    constructor(id: string, validator: Validator, api: Api);
     /** Вход */
     btnOkClick(): void;
     btnForgotClick(): void;

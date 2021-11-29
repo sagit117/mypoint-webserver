@@ -9,9 +9,11 @@ export default class LoginForm {
     btnForgot = null;
     validator = null;
     spinner = null;
-    constructor(id, validator) {
+    api = null;
+    constructor(id, validator, api) {
         this.rootDiv = document.querySelector("#" + id);
         this.validator = validator;
+        this.api = api;
         if (this.rootDiv) {
             this.login = new Input(this.rootDiv, "login", this.onInputLoginHandler.bind(this));
             this.password = new Input(this.rootDiv, "password", this.onInputPasswordHandler.bind(this));
@@ -24,6 +26,9 @@ export default class LoginForm {
         }
         if (!this.validator) {
             throw new Error("validator is required!");
+        }
+        if (!this.api) {
+            throw new Error("API is required!");
         }
     }
     /** Вход */
@@ -51,14 +56,17 @@ export default class LoginForm {
         this.btnOk?.disable();
         this.btnForgot?.disable();
         this.spinner?.show();
+        /** запрос к серверу */
     }
     btnForgotClick() {
         console.log('forgot');
     }
     onInputLoginHandler(_event) {
+        this.login?.unsetValidate();
         console.log(this.login?.value);
     }
     onInputPasswordHandler(_event) {
+        this.password?.unsetValidate();
         console.log(this.password?.value);
     }
 }
