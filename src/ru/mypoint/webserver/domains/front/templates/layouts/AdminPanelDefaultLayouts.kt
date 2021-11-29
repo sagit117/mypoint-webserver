@@ -28,7 +28,16 @@ class AdminPanelDefaultLayouts: Template<HTML> {
         }
 
         body {
-            insert(page, content)
+            div {
+                classes = setOf("content_wrapper")
+
+                div {
+                    id = "toasts"
+                    classes = setOf("toasts_wrapper")
+                }
+
+                insert(page, content)
+            }
         }
     }
 }
