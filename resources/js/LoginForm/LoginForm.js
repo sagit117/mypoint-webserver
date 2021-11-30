@@ -57,6 +57,22 @@ export default class LoginForm {
         this.btnForgot?.disable();
         this.spinner?.show();
         /** запрос к серверу */
+        this.api?.login({
+            email: this.login.value,
+            password: this.password.value
+        })
+            .then(res => {
+            console.log(res);
+        })
+            .catch((_err) => {
+            this.btnOk?.enable();
+            this.btnForgot?.enable();
+            this.login?.setInValid("");
+            this.password?.setInValid("");
+        })
+            .finally(() => {
+            this.spinner?.hide();
+        });
     }
     btnForgotClick() {
         console.log('forgot');
