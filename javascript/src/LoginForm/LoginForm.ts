@@ -91,7 +91,8 @@ export default class LoginForm {
 
                         default: this.toasts?.show("Ошибка", err?.status, ToastType.ERROR); break;
                     }
-                    
+                } else {
+                    this.toasts?.show("Ошибка", err?.message, ToastType.ERROR);
                 }
             })
             .finally(() => {

@@ -82,6 +82,9 @@ export default class LoginForm {
                         break;
                 }
             }
+            else {
+                this.toasts?.show("Ошибка", err?.message, ToastType.ERROR);
+            }
         })
             .finally(() => {
             this.spinner?.hide();
