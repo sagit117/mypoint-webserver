@@ -1,6 +1,7 @@
 @import "buttons.css";
 @import "inputs.css";
 @import "spinner.css";
+@import "toasts.css";
 @import "colors.css";
 
 * {

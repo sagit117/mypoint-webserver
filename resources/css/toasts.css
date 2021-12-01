@@ -1,0 +1,5 @@
+.toasts_wrapper {
+    position: fixed;
+    right: 3rem;
+    bottom: 3rem;
+}

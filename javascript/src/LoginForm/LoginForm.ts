@@ -1,7 +1,8 @@
-import Input, { IInputEventChanged } from "../components/Input.js"
-import Button from "../components/Button.js"
+import Input, { IInputEventChanged } from "../components/Input.js";
+import Button from "../components/Button.js";
 import Spinner from "../components/spinner.js";
-import Validator from "../common/Validator.js"
+import Toasts, { ToastType } from "../components/Toasts.js";
+import Validator from "../common/Validator.js";
 import Api from "../common/Api.js";
 
 export default class LoginForm {
@@ -13,11 +14,13 @@ export default class LoginForm {
     private validator: Validator | null = null;
     private spinner: Spinner | null = null;
     private api: Api | null = null;
+    private toasts: Toasts | null = null;
 
-    constructor(id: string, validator: Validator, api: Api) {
-        this.rootDiv = document.querySelector("#" + id) as HTMLDivElement;
+    constructor(id: string, validator: Validator, api: Api, toasts: Toasts) {
+        this.rootDiv = document.getElementById(id) as HTMLDivElement;
         this.validator = validator;
-        this.api = api
+        this.api = api;
+        this.toasts = toasts;
 
         if (this.rootDiv) {
             this.login = new Input(this.rootDiv, "login", this.onInputLoginHandler.bind(this));
@@ -76,11 +79,20 @@ export default class LoginForm {
             .then(res => {
                 console.log(res)
             })
-            .catch((_err: Error) => {
+            .catch((err: Error | { status: string, code: number }) => {
                 this.btnOk?.enable();
                 this.btnForgot?.enable();
                 this.login?.setInValid("");
                 this.password?.setInValid("");
+
+                if ("code" in err) {
+                    switch(err?.code) {
+                        case 503: this.toasts?.show("Ошибка подключения", "Сервис не доступен", ToastType.ERROR); break;
+
+                        default: this.toasts?.show("Ошибка", err?.status, ToastType.ERROR); break;
+                    }
+                    
+                }
             })
             .finally(() => {
                 this.spinner?.hide()

@@ -1,6 +1,7 @@
 import Input from "../components/Input.js";
 import Button from "../components/Button.js";
 import Spinner from "../components/spinner.js";
+import { ToastType } from "../components/Toasts.js";
 export default class LoginForm {
     rootDiv = null;
     login = null;
@@ -10,10 +11,12 @@ export default class LoginForm {
     validator = null;
     spinner = null;
     api = null;
-    constructor(id, validator, api) {
-        this.rootDiv = document.querySelector("#" + id);
+    toasts = null;
+    constructor(id, validator, api, toasts) {
+        this.rootDiv = document.getElementById(id);
         this.validator = validator;
         this.api = api;
+        this.toasts = toasts;
         if (this.rootDiv) {
             this.login = new Input(this.rootDiv, "login", this.onInputLoginHandler.bind(this));
             this.password = new Input(this.rootDiv, "password", this.onInputPasswordHandler.bind(this));
@@ -64,11 +67,21 @@ export default class LoginForm {
             .then(res => {
             console.log(res);
         })
-            .catch((_err) => {
+            .catch((err) => {
             this.btnOk?.enable();
             this.btnForgot?.enable();
             this.login?.setInValid("");
             this.password?.setInValid("");
+            if ("code" in err) {
+                switch (err?.code) {
+                    case 503:
+                        this.toasts?.show("Ошибка подключения", "Сервис не доступен", ToastType.ERROR);
+                        break;
+                    default:
+                        this.toasts?.show("Ошибка", err?.status, ToastType.ERROR);
+                        break;
+                }
+            }
         })
             .finally(() => {
             this.spinner?.hide();

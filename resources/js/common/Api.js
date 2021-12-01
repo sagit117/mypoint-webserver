@@ -13,8 +13,16 @@ export default class Api {
                 },
                 body: JSON.stringify(loginDTO)
             });
-            console.log(response);
-            return await response.json();
+            const isOk = response.ok;
+            const code = response.status;
+            const json = await response.json();
+            if (isOk) {
+                return Promise.resolve(json);
+            }
+            else {
+                console.error(json);
+                return Promise.reject(Object.assign(json, { code }));
+            }
         }
         catch (err) {
             console.error("url error: " + err?.message);
