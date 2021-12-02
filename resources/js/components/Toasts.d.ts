@@ -7,8 +7,8 @@ interface IToasts {
     show: (title: string, message: string, type: ToastType) => void;
 }
 export declare enum ToastType {
-    WARNING = 0,
-    SUCCESS = 1,
-    ERROR = 2
+    WARNING = "warning",
+    SUCCESS = "success",
+    ERROR = "error"
 }
 export {};

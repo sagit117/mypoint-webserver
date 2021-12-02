@@ -4,6 +4,8 @@
     --color-white: #fff;
     --color-primary: #0d6efd;
     --color-success: #198754;
+    --color-error: #dc3545;
+    --color-warning: #ffc107;
 
     --color-invalid: #dc3545;
     --color-valid: #198754;

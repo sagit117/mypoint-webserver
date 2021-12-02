@@ -35,3 +35,10 @@ body {
 .mt-8 {
     margin-top: 4rem;
 }
+
+.mr-1 {
+    margin-right: .5rem;
+}
+.mr-2 {
+    margin-right: 1rem;
+}
