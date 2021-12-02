@@ -40,7 +40,7 @@ class Toast {
         const date = document.createElement("div");
         date.classList.add("toast_header__date");
         date.classList.add("mr-1");
-        date.innerHTML = `<small>${new Date().toLocaleDateString()}</small>`;
+        date.innerHTML = `<small>${new Date().toLocaleTimeString()}</small>`;
         const btnClose = document.createElement("div");
         btnClose.classList.add("toast_header__close");
         btnClose.innerHTML = "&#10006;";

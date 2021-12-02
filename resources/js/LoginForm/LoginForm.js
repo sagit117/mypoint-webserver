@@ -74,6 +74,9 @@ export default class LoginForm {
             this.password?.setInValid("");
             if ("code" in err) {
                 switch (err?.code) {
+                    case 401:
+                        this.toasts?.show("Ошибка авторизации", "Не верный логин или пароль", ToastType.ERROR);
+                        break;
                     case 503:
                         this.toasts?.show("Ошибка подключения", "Сервис не доступен", ToastType.ERROR);
                         break;

@@ -64,6 +64,19 @@ class CreateDataBusClient() {
         }
     }
 
+    suspend inline fun <reified T> checkAccess(bodyRequest: Any = EmptyContent, call: ApplicationCall): T? {
+        return try {
+            httpClient.post<T> {
+                url("/webserver/check/access")
+                contentType(ContentType.Application.Json)
+                body = bodyRequest
+            }
+        } catch (error: Throwable) {
+//            respondError(error, call)
+            null
+        }
+    }
+
     /** отвечает ошибкой на запрос в зависимости от типа ошибки */
     suspend fun respondError(error: Throwable, call: ApplicationCall) {
         when(error) {

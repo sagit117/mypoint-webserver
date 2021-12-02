@@ -10,6 +10,7 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import io.ktor.sessions.*
 import io.ktor.util.*
 import ru.mypoint.webserver.common.dto.*
 import ru.mypoint.webserver.common.randomCode
@@ -76,12 +77,13 @@ fun Application.userModule() {
             post("/login") {
                 val userLoginDTO = call.receive<UserLoginDTO>()
 
-                val result = client.login<String>(
+                val result = client.login<UserReceiveLoginDTO>(
                     userLoginDTO,
                     call
                 )
 
                 if (result != null) {
+                    call.sessions.set(UserSession(result.token))
                     call.respond(HttpStatusCode.OK, result)
 
                     val templateName = environment.config.propertyOrNull("notificationTemplateName.afterLogin")?.getString() ?: ""

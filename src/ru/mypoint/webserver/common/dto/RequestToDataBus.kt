@@ -1,7 +1,7 @@
 package ru.mypoint.webserver.common.dto
 
 /**
- * DTO для запроса от вебсервера
+ * DTO для запроса от веб-сервера
  * @dbUrl - строка запроса к БД сервису
  * @method - метод запроса к БД сервису
  * @authToken - JWT token
