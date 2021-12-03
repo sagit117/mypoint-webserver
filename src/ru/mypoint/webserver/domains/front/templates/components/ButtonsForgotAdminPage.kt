@@ -4,24 +4,24 @@ import io.ktor.html.*
 import kotlinx.html.*
 
 /**
- * Набор кнопок для формы логина(админ)
+ * Набор кнопок для формы забыли пароль(админ)
  */
-class ButtonsLoginAdminPage: Template<FlowContent> {
+class ButtonsForgotAdminPage: Template<FlowContent> {
     override fun FlowContent.apply() {
         div {
             classes = setOf("login_form__actions", "mt-4")
 
             button {
-                id = "btnForgot"
+                id = "btnEnter"
                 type = ButtonType.button
                 classes = setOf("btn", "btn-primary")
-                +"Забыли пароль?"
+                +"Вход"
             }
             button {
                 id = "btnOk"
                 type = ButtonType.button
                 classes = setOf("btn", "btn-success")
-                +"Войти"
+                +"Отправить запрос"
             }
         }
     }

@@ -13,8 +13,10 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.*
 import ru.mypoint.webserver.common.dto.*
+import ru.mypoint.webserver.domains.front.templates.components.ButtonsForgotAdminPage
 import ru.mypoint.webserver.domains.front.templates.components.ButtonsLoginAdminPage
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelDefaultLayouts
+import ru.mypoint.webserver.domains.front.templates.pages.forgotPage
 import ru.mypoint.webserver.domains.front.templates.pages.loginPage
 import ru.mypoint.webserver.domains.notification.dto.TemplateEmailCreateDTO
 
@@ -62,6 +64,15 @@ fun Application.adminModule() {
                 call.respondHtmlTemplate(AdminPanelDefaultLayouts(), HttpStatusCode.OK) {
                     page = loginPage {
                         buttons = ButtonsLoginAdminPage()
+                    }
+                    styleUrl = listOf("/static/form-login.css")
+                }
+            }
+
+            get("/forgot/password") {
+                call.respondHtmlTemplate(AdminPanelDefaultLayouts(), HttpStatusCode.OK) {
+                    page = forgotPage {
+                        buttons = ButtonsForgotAdminPage()
                     }
                     styleUrl = listOf("/static/form-login.css")
                 }

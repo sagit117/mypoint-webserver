@@ -1,8 +1,8 @@
 export default class Api {
-    private url: string = ""
+    private url: string = "";
 
     constructor(url: string) {
-        this.url = url
+        this.url = url;
     }
 
     public async login(loginDTO: ILoginDTO) {
@@ -17,18 +17,18 @@ export default class Api {
                 body: JSON.stringify(loginDTO)
             });
             const isOk = response.ok;
-            const code = response.status
+            const code = response.status;
             const json =  await response.json();
 
             if (isOk) {
-                return Promise.resolve(json)
+                return Promise.resolve(json);
             } else {
                 console.error(json);
-                return Promise.reject(Object.assign(json, { code }))
+                return Promise.reject(Object.assign(json, { code }));
             }
         } catch (err: any) {
             console.error("url error: " + err?.message);
-            return Promise.reject(err)
+            return Promise.reject(err);
         }
     }
 }

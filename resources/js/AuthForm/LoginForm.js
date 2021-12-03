@@ -1,12 +1,15 @@
 import Input from "../components/Input.js";
 import { ToastType } from "../components/Toasts.js";
-import AuthForm from "../common/AuthForm.js";
+import AuthForm from "./AuthForm.js";
+import Button from "../components/Button.js";
 export default class LoginForm extends AuthForm {
     password = null;
+    btnForgot = null;
     constructor(id, validator, api, toasts) {
         super(id, validator, api, toasts);
         if (this.rootDiv) {
             this.password = new Input(this.rootDiv, "password", this.onInputPasswordHandler.bind(this));
+            this.btnForgot = new Button(this.rootDiv, "btnForgot", this.btnForgotClick.bind(this));
         }
     }
     /** Вход */
