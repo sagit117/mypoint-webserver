@@ -141,7 +141,7 @@ fun Application.userModule() {
                 val resetPasswordPayload = environment.config.propertyOrNull("notificationTemplateName.resetPasswordPayload")?.getString() ?: ""
                 val hash = randomCode(10)
 
-                /** формирование объекта нотификации */
+                /** Формирование объекта нотификации */
                 val sendNotificationDTO = SendNotificationDTO(
                     TypeNotification.EMAIL,
                     setOf(emailDTO.email),
@@ -149,14 +149,14 @@ fun Application.userModule() {
                     payloads = resetPasswordPayload + hash
                 )
 
-                /** сохранить в оперативку объект, для которого был запрошен сброс пароля */
+                /** Сохранить в оперативку объект, для которого был запрошен сброс пароля */
                 if (!QueueResetPassword.addItemQueue(
                     DataForQueueResetPassword(
                         emailDTO = emailDTO,
                         sendNotificationDTO = sendNotificationDTO,
                         hash = hash,
                         expiredMS = 3_600_000L, // todo: вынести наcтройку срока жизни
-                        intervalAddMC = 300_000L // todo: вынести в ностройку интервал блокировки добавления
+                        intervalAddMC = 120_000L // todo: вынести в настройку интервал блокировки добавления
                     )
                 )) {
                     return@get call.respond(HttpStatusCode.TooManyRequests, ResponseStatusDTO(ResponseStatus.TooManyRequests.value))

@@ -27,7 +27,28 @@ export default class Api {
                 return Promise.reject(Object.assign(json, { code }));
             }
         } catch (err: any) {
-            console.error("url error: " + err?.message);
+            console.error(`${url} error: ` + err?.message);
+            return Promise.reject(err);
+        }
+    }
+
+    public async resetPassword(email: string) {
+        const url = this.url + `/users/reset/password/${email}`;
+
+        try {
+            const response = await fetch(url, {});
+            const isOk = response.ok;
+            const code = response.status;
+            const json =  await response.json();
+
+            if (isOk) {
+                return Promise.resolve(json);
+            } else {
+                console.error(json);
+                return Promise.reject(Object.assign(json, { code }));
+            }
+        } catch (err: any) {
+            console.error(`${url} error: ` + err?.message);
             return Promise.reject(err);
         }
     }

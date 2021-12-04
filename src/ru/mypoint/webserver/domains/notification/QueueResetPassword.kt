@@ -8,7 +8,7 @@ data class DataForQueueResetPassword(
     val emailDTO: EmailDTO,
     val sendNotificationDTO: SendNotificationDTO,
     val hash: String,
-    val intervalAddMC: Long = 300_000L, // интервал блокировки добавления
+    val intervalAddMC: Long = 120_000L, // интервал блокировки добавления
     val dateTimeAtCreation: Long? = System.currentTimeMillis(),
     val expiredMS: Long? = 3_600_000L, // время жизни в мс
     val removeTimer: Job? = null
@@ -24,7 +24,7 @@ object QueueResetPassword {
         val findQueue = getWithEmail(dataForQueueResetPassword.emailDTO)
 
         /**
-         * если очередь с пользователем и типом оповещения уже создана, возвращаем false
+         * Если очередь с пользователем и типом оповещения уже создана, возвращаем false,
          * но если оповещение пришло позднее расчетного (дата создания + intervalAddMC), тогда создаем и возвращаем true
          */
         return if (
@@ -74,7 +74,7 @@ object QueueResetPassword {
         queue.remove(hash)
     }
 
-    /** поставить удаление через таймер */
+    /** Поставить удаление через таймер */
     @OptIn(DelicateCoroutinesApi::class)
     private fun removeTimer(dataForQueueResetPassword: DataForQueueResetPassword): Job {
         return GlobalScope.launch {
