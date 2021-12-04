@@ -150,13 +150,16 @@ fun Application.userModule() {
                 )
 
                 /** Сохранить в оперативку объект, для которого был запрошен сброс пароля */
+                val expiredMS = environment.config.propertyOrNull("application.queueResetPassword.expiredMS")?.getString()
+                val intervalAddMC = environment.config.propertyOrNull("application.queueResetPassword.intervalAddMC")?.getString()
+
                 if (!QueueResetPassword.addItemQueue(
                     DataForQueueResetPassword(
                         emailDTO = emailDTO,
                         sendNotificationDTO = sendNotificationDTO,
                         hash = hash,
-                        expiredMS = 3_600_000L, // todo: вынести наcтройку срока жизни
-                        intervalAddMC = 120_000L // todo: вынести в настройку интервал блокировки добавления
+                        expiredMS = expiredMS?.toLong() ?: 3_600_000L,
+                        intervalAddMC = intervalAddMC?.toLong() ?: 120_000L
                     )
                 )) {
                     return@get call.respond(HttpStatusCode.TooManyRequests, ResponseStatusDTO(ResponseStatus.TooManyRequests.value))
