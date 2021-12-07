@@ -43,8 +43,9 @@ export default class ForgotForm extends AuthForm {
 
                 if ("code" in err) {
                     switch(err?.code) {
+                        case 400: this.toasts?.show("Ошибка авторизации", "Не верный логин", ToastType.ERROR); break;
                         case 401: this.toasts?.show("Ошибка авторизации", "Не верный логин", ToastType.ERROR); break;
-                        case 429: this.toasts?.show("Ошибка", "Слишком частые запросы, попробуйте позже", ToastType.WARNING); break;
+                        case 429: this.toasts?.show("Предупреждение", "Слишком частые запросы, попробуйте позже", ToastType.WARNING); break;
                         case 503: this.toasts?.show("Ошибка подключения", "Сервис не доступен", ToastType.ERROR); break;
 
                         default: this.toasts?.show("Ошибка", err?.status, ToastType.ERROR); break;

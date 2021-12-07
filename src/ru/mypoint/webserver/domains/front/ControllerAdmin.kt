@@ -13,12 +13,15 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.*
 import ru.mypoint.webserver.common.dto.*
+import ru.mypoint.webserver.common.randomCode
 import ru.mypoint.webserver.domains.front.templates.components.ButtonsForgotAdminPage
 import ru.mypoint.webserver.domains.front.templates.components.ButtonsLoginAdminPage
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelDefaultLayouts
 import ru.mypoint.webserver.domains.front.templates.pages.forgotPage
 import ru.mypoint.webserver.domains.front.templates.pages.loginPage
+import ru.mypoint.webserver.domains.notification.dto.SendNotificationDTO
 import ru.mypoint.webserver.domains.notification.dto.TemplateEmailCreateDTO
+import ru.mypoint.webserver.domains.notification.dto.TypeNotification
 
 @Suppress("unused") // Referenced in application.conf
 fun Application.adminModule() {
@@ -77,6 +80,25 @@ fun Application.adminModule() {
                     styleUrl = listOf("/static/form-login.css")
                 }
             }
+
+//            get("/email/test") {
+//                /** Нагрузочное тестирование */
+//                for (i in 1..10) {
+//                    for(idx in 1..5) {
+//                        client.sendNotification<String>(
+//                            SendNotificationDTO(
+//                                TypeNotification.EMAIL,
+//                                setOf("sagit117+${idx.toString()}@gmail.com"),
+//                                "RESETPASSWORD",
+//                                randomCode(10)
+//                            ),
+//                            call
+//                        )
+//                    }
+//                }
+//
+//                call.respond(HttpStatusCode.OK, mapOf("status" to "OK"))
+//            }
         }
     }
 }
