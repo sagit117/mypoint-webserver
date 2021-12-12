@@ -16,6 +16,11 @@ export default class AuthForm {
         this.toasts = toasts;
         if (this.rootDiv) {
             this.login = new Input(this.rootDiv, "login", this.onInputLoginHandler.bind(this));
+            this.login.getTarget()?.addEventListener("keydown", (e) => {
+                if (e.key == "Enter") {
+                    this.btnOkClick();
+                }
+            });
             this.btnOk = new Button(this.rootDiv, "btnOk", this.btnOkClick.bind(this));
             this.spinner = new Spinner(this.rootDiv, "spinner");
         }

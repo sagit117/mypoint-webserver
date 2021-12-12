@@ -15,6 +15,12 @@ export default class LoginForm extends AuthForm {
         if (this.rootDiv) {
             this.password = new Input(this.rootDiv, "password", this.onInputPasswordHandler.bind(this));
             this.btnForgot = new Button(this.rootDiv, "btnForgot", this.btnForgotClick.bind(this));
+
+            this.password.getTarget()?.addEventListener("keydown", (e: KeyboardEvent) => {
+                if (e.key == "Enter") {
+                    this.btnOkClick()
+                }
+            })
         }
     }
 

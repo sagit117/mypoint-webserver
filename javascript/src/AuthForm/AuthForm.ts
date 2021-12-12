@@ -23,6 +23,11 @@ export default class AuthForm {
 
         if (this.rootDiv) {
             this.login = new Input(this.rootDiv, "login", this.onInputLoginHandler.bind(this));
+            this.login.getTarget()?.addEventListener("keydown", (e: KeyboardEvent) => {
+                if (e.key == "Enter") {
+                    this.btnOkClick()
+                }
+            })
 
             this.btnOk = new Button(this.rootDiv, "btnOk", this.btnOkClick.bind(this));
 

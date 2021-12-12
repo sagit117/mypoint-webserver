@@ -1,7 +1,7 @@
 export default class Toasts implements IToasts {
     private divRoot;
     constructor(id: string);
-    show(title: string, message: string, type: ToastType): void;
+    show(title: string, message: string, type: ToastType, cbOnClose?: () => void): void;
 }
 interface IToasts {
     show: (title: string, message: string, type: ToastType) => void;

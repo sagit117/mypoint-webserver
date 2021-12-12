@@ -81,6 +81,11 @@ fun Application.adminModule() {
                 }
             }
 
+            get("/reset/password/{code}") {
+                val code = call.parameters["code"]
+                call.respond(HttpStatusCode.OK, mapOf("status" to "OK", "code" to code))
+            }
+
 //            get("/email/test") {
 //                /** Нагрузочное тестирование */
 //                for (i in 1..10) {

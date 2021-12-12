@@ -63,6 +63,10 @@ export default class Input {
             this.smallMessage.textContent = ""
         }
     }
+
+    getTarget() {
+        return this.input
+    }
 }
 
 export interface IInputEventChanged extends Event {

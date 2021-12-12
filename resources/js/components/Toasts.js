@@ -6,8 +6,8 @@ export default class Toasts {
             new Error("DivRoot is required!");
         }
     }
-    show(title, message, type) {
-        const toast = new Toast(title, message, type).createHTML();
+    show(title, message, type, cbOnClose) {
+        const toast = new Toast(title, message, type, cbOnClose).createHTML();
         this.divRoot?.insertAdjacentElement("beforeend", toast);
     }
 }
@@ -18,11 +18,14 @@ class Toast {
     timeToLifeMC = 3000;
     toast = null;
     timer = null;
-    constructor(title, message, type, timeToLifeMC = 3000) {
+    cbOnClose;
+    constructor(title, message, type, cbOnClose, timeToLifeMC = 3000) {
         this.title = title;
         this.message = message;
         this.type = type;
         this.timeToLifeMC = timeToLifeMC;
+        if (cbOnClose && typeof cbOnClose == "function")
+            this.cbOnClose = cbOnClose;
     }
     createHTML() {
         const div = document.createElement("div");
@@ -68,6 +71,8 @@ class Toast {
         if (this.timer)
             clearTimeout(this.timer);
         this.toast?.remove();
+        if (this.cbOnClose)
+            this.cbOnClose();
     }
 }
 export var ToastType;

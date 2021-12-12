@@ -24,8 +24,10 @@ export default class ForgotForm extends AuthForm {
         this.btnEnter?.disable();
         this.spinner?.show();
         this.api?.resetPassword(this.login.value)
-            .then(res => {
-            console.log(res);
+            .then((_res) => {
+            this.toasts?.show("Успешно", "Запрос отправлен, Вы будете перенаправлены", ToastType.SUCCESS, () => {
+                location.replace("/admin/panel/login");
+            });
         })
             .catch((err) => {
             this.btnOk?.enable();

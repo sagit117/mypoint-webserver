@@ -9,8 +9,8 @@ export default class Toasts implements IToasts {
         }
     }
 
-    show(title: string, message: string, type: ToastType): void {
-        const toast = new Toast(title, message, type).createHTML();
+    show(title: string, message: string, type: ToastType, cbOnClose?: () => void): void {
+        const toast = new Toast(title, message, type, cbOnClose).createHTML();
         this.divRoot?.insertAdjacentElement("beforeend", toast);
     }
 }
@@ -22,12 +22,15 @@ class Toast {
     private timeToLifeMC: number = 3000;
     private toast: HTMLDivElement | null = null;
     private timer: NodeJS.Timeout | null = null;
+    private cbOnClose?: () => void;
 
-    constructor(title: string, message: string, type: ToastType, timeToLifeMC: number = 3000) {
+    constructor(title: string, message: string, type: ToastType, cbOnClose?: () => void, timeToLifeMC: number = 3000) {
         this.title = title;
         this.message = message;
         this.type = type;
         this.timeToLifeMC = timeToLifeMC;
+
+        if (cbOnClose && typeof cbOnClose == "function") this.cbOnClose = cbOnClose
     }
     
     public createHTML(): HTMLDivElement {
@@ -85,6 +88,8 @@ class Toast {
     private remove() {
         if (this.timer) clearTimeout(this.timer);
         this.toast?.remove();
+        
+        if (this.cbOnClose) this.cbOnClose()
     }
 }
 

@@ -10,6 +10,7 @@ export default class Input {
     setInValid(msg?: string): void;
     isInValid(): boolean;
     unsetValidate(): void;
+    getTarget(): HTMLInputElement | null;
 }
 export interface IInputEventChanged extends Event {
     currentTarget: IEventTarget | null;
