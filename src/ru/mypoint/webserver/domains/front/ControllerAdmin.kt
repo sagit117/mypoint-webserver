@@ -16,9 +16,11 @@ import ru.mypoint.webserver.common.dto.*
 import ru.mypoint.webserver.common.randomCode
 import ru.mypoint.webserver.domains.front.templates.components.ButtonsForgotAdminPage
 import ru.mypoint.webserver.domains.front.templates.components.ButtonsLoginAdminPage
+import ru.mypoint.webserver.domains.front.templates.components.ButtonsResetPasswordAdminPage
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelDefaultLayouts
 import ru.mypoint.webserver.domains.front.templates.pages.forgotPage
 import ru.mypoint.webserver.domains.front.templates.pages.loginPage
+import ru.mypoint.webserver.domains.front.templates.pages.resetPasswordPage
 import ru.mypoint.webserver.domains.notification.dto.SendNotificationDTO
 import ru.mypoint.webserver.domains.notification.dto.TemplateEmailCreateDTO
 import ru.mypoint.webserver.domains.notification.dto.TypeNotification
@@ -83,7 +85,13 @@ fun Application.adminModule() {
 
             get("/reset/password/{code}") {
                 val code = call.parameters["code"]
-                call.respond(HttpStatusCode.OK, mapOf("status" to "OK", "code" to code))
+
+                call.respondHtmlTemplate(AdminPanelDefaultLayouts(), HttpStatusCode.OK) {
+                    page = resetPasswordPage {
+                        buttons = ButtonsResetPasswordAdminPage()
+                    }
+                    styleUrl = listOf("/static/form-login.css")
+                }
             }
 
 //            get("/email/test") {
