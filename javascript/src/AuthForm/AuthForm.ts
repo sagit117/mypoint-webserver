@@ -22,12 +22,14 @@ export default class AuthForm {
         this.toasts = toasts;
 
         if (this.rootDiv) {
-            this.login = new Input(this.rootDiv, "login", this.onInputLoginHandler.bind(this));
-            this.login.getTarget()?.addEventListener("keydown", (e: KeyboardEvent) => {
-                if (e.key == "Enter") {
-                    this.btnOkClick()
-                }
-            })
+            try {
+                this.login = new Input(this.rootDiv, "login", this.onInputLoginHandler.bind(this));
+                this.login.getTarget()?.addEventListener("keydown", (e: KeyboardEvent) => {
+                    if (e.key == "Enter") {
+                        this.btnOkClick()
+                    }
+                })
+            } catch(_error: any) {}
 
             this.btnOk = new Button(this.rootDiv, "btnOk", this.btnOkClick.bind(this));
 
