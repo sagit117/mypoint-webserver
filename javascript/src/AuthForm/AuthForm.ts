@@ -47,11 +47,11 @@ export default class AuthForm {
         }
     }
 
-    public btnOkClick() {
+    protected btnOkClick() {
         
     }
 
-    public onInputLoginHandler(_event: IInputEventChanged) {
+    protected onInputLoginHandler(_event: IInputEventChanged) {
 
     }
 }

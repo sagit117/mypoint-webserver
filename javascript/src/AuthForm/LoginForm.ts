@@ -25,7 +25,7 @@ export default class LoginForm extends AuthForm {
     }
 
     /** Вход */
-    public btnOkClick() {
+    protected btnOkClick() {
         /** проверка логина */
         if (this.login && this.validator?.isEmail(this.login.value)) {
             this.login.setValid("")
@@ -82,16 +82,16 @@ export default class LoginForm extends AuthForm {
             })
     }
 
-    public btnForgotClick() {
+    private btnForgotClick() {
         location.replace("/admin/panel/forgot/password");
     }
 
-    public onInputLoginHandler(_event: IInputEventChanged) {
+    protected onInputLoginHandler(_event: IInputEventChanged) {
         this.login?.unsetValidate();
         // console.log(this.login?.value);
     }
 
-    public onInputPasswordHandler(_event: IInputEventChanged) {
+    private onInputPasswordHandler(_event: IInputEventChanged) {
         this.password?.unsetValidate();
     }
 }

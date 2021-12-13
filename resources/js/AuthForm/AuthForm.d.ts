@@ -13,6 +13,6 @@ export default class AuthForm {
     protected api: Api | null;
     protected toasts: Toasts | null;
     constructor(id: string, validator: Validator, api: Api, toasts: Toasts);
-    btnOkClick(): void;
-    onInputLoginHandler(_event: IInputEventChanged): void;
+    protected btnOkClick(): void;
+    protected onInputLoginHandler(_event: IInputEventChanged): void;
 }

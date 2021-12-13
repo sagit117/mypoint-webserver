@@ -8,8 +8,8 @@ export default class LoginForm extends AuthForm {
     private btnForgot;
     constructor(id: string, validator: Validator, api: Api, toasts: Toasts);
     /** Вход */
-    btnOkClick(): void;
-    btnForgotClick(): void;
-    onInputLoginHandler(_event: IInputEventChanged): void;
-    onInputPasswordHandler(_event: IInputEventChanged): void;
+    protected btnOkClick(): void;
+    private btnForgotClick;
+    protected onInputLoginHandler(_event: IInputEventChanged): void;
+    private onInputPasswordHandler;
 }

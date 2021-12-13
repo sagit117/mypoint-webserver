@@ -61,11 +61,11 @@ export default class ForgotForm extends AuthForm {
             })
     }
 
-    public btnEnterClick() {
+    private btnEnterClick() {
         location.replace("/admin/panel/login");
     }
 
-    public onInputLoginHandler(_event: IInputEventChanged) {
+    protected onInputLoginHandler(_event: IInputEventChanged) {
         this.login?.unsetValidate();
     }
 }

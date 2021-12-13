@@ -7,6 +7,6 @@ export default class ForgotForm extends AuthForm {
     private btnEnter;
     constructor(id: string, validator: Validator, api: Api, toasts: Toasts);
     btnOkClick(): void;
-    btnEnterClick(): void;
-    onInputLoginHandler(_event: IInputEventChanged): void;
+    private btnEnterClick;
+    protected onInputLoginHandler(_event: IInputEventChanged): void;
 }

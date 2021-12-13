@@ -3,10 +3,12 @@ import Validator from "../common/Validator.js";
 import Toasts from "../components/Toasts.js";
 import Input, { IInputEventChanged } from "../components/Input.js";
 import AuthForm from "./AuthForm.js";
+import Button from "../components/Button.js";
 
 export default class ResetPasswordForm extends AuthForm {
     private password: Input | null = null;
     private confirmPassword: Input | null = null;
+    private btnEnter: Button | null = null;
 
     constructor(id: string, validator: Validator, api: Api, toasts: Toasts) {
         super(id, validator, api, toasts);
@@ -25,14 +27,24 @@ export default class ResetPasswordForm extends AuthForm {
                     this.btnOkClick()
                 }
             })
+
+            this.btnEnter = new Button(this.rootDiv, "btnEnter", this.btnEnterClick.bind(this));
         }
     }
 
-    onInputPasswordHandler(_event: IInputEventChanged) {
+    protected btnOkClick() {
+
+    }
+
+    private btnEnterClick() {
+        location.replace("/admin/panel/login");
+    }
+
+    private onInputPasswordHandler(_event: IInputEventChanged) {
         this.password?.unsetValidate();
     }
 
-    onInputConfirmPasswordHandler(_event: IInputEventChanged) {
+    private onInputConfirmPasswordHandler(_event: IInputEventChanged) {
         this.confirmPassword?.unsetValidate();
     }
 }
