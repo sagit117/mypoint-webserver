@@ -229,17 +229,22 @@ fun Application.userModule() {
                             call
                         )?.token
 
-                        val result = client.post<String>(
-                            RequestToDataBus(
-                                dbUrl = "/v1/users/update/password",
-                                method = MethodsRequest.POST,
-                                authToken = token,
-                                body = UserUpdatePasswordDTO(email = email, newPassword = newPasswordDTO.newPassword)
-                            ),
-                            call
-                        )
+                        if (token != null) {
+                            val result = client.post<String>(
+                                RequestToDataBus(
+                                    dbUrl = "/v1/users/update/password",
+                                    method = MethodsRequest.POST,
+                                    authToken = token,
+                                    body = UserUpdatePasswordDTO(
+                                        email = email,
+                                        newPassword = newPasswordDTO.newPassword
+                                    )
+                                ),
+                                call
+                            )
 
-                        if (result != null) call.respond(HttpStatusCode.OK, result)
+                            if (result != null) call.respond(HttpStatusCode.OK, result)
+                        }
                     }
                 }
 

@@ -6,12 +6,19 @@ export default class Validator implements IValidator {
         return reg.test(value || "");
     }
 
-    public notEmpty(value?: string): boolean {
+    public notEmpty(value?: TValue): boolean {
         return !!value
+    }
+
+    public isEqual(valueFirst?: TValue, valueSecond?: TValue): boolean {
+        return valueFirst === valueSecond
     }
 }
 
 interface IValidator {
     isEmail(value?: string): boolean
     notEmpty(value?: string): boolean
+    isEqual(valueFirst: TValue, valueSecond: TValue): boolean
 }
+
+type TValue = string | number | boolean

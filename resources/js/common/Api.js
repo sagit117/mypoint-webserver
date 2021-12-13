@@ -13,40 +13,50 @@ export default class Api {
                 },
                 body: JSON.stringify(loginDTO)
             });
-            const isOk = response.ok;
-            const code = response.status;
-            const json = await response.json();
-            if (isOk) {
-                return Promise.resolve(json);
-            }
-            else {
-                console.error(json);
-                return Promise.reject(Object.assign(json, { code }));
-            }
+            return await prepareResponse(response);
         }
         catch (err) {
-            console.error(`${url} error: ` + err?.message);
             return Promise.reject(err);
         }
     }
+    /** запрос на email о сбросе пароля */
     async resetPassword(email) {
         const url = this.url + `/users/reset/password/${email}`;
         try {
             const response = await fetch(url, {});
-            const isOk = response.ok;
-            const code = response.status;
-            const json = await response.json();
-            if (isOk) {
-                return Promise.resolve(json);
-            }
-            else {
-                console.error(json);
-                return Promise.reject(Object.assign(json, { code }));
-            }
+            return await prepareResponse(response);
         }
         catch (err) {
-            console.error(`${url} error: ` + err?.message);
             return Promise.reject(err);
         }
+    }
+    /** Обновление пароля по хэш коду */
+    async updatePasswordWithHash(updatePasswordDTO) {
+        const url = this.url + `/users/update/password/hash/${updatePasswordDTO.hash}`;
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(updatePasswordDTO)
+            });
+            return await prepareResponse(response);
+        }
+        catch (err) {
+            return Promise.reject(err);
+        }
+    }
+}
+async function prepareResponse(response) {
+    const isOk = response.ok;
+    const code = response.status;
+    const json = await response.json();
+    if (isOk) {
+        return Promise.resolve(json);
+    }
+    else {
+        console.error(json);
+        return Promise.reject(Object.assign(json, { code }));
     }
 }

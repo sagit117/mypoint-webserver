@@ -1,3 +1,4 @@
+import { ToastType } from "../components/Toasts.js";
 import Input from "../components/Input.js";
 import AuthForm from "./AuthForm.js";
 import Button from "../components/Button.js";
@@ -24,6 +25,55 @@ export default class ResetPasswordForm extends AuthForm {
         }
     }
     btnOkClick() {
+        if (!this.validator?.notEmpty(this.password?.value)) {
+            this.password?.setInValid("Пароль не должен быть пустым!");
+            return;
+        }
+        if (!this.validator?.isEqual(this.password?.value, this.confirmPassword?.value)) {
+            this.confirmPassword?.setInValid("Подтверждение пароля должно совпадать с паролем!");
+            return;
+        }
+        this.btnOk?.disable();
+        this.btnEnter?.disable();
+        this.spinner?.show();
+        const hash = location.pathname.split("/").pop();
+        this.api?.updatePasswordWithHash({ hash: hash || "", newPassword: this.password?.value || "newpassword" })
+            .then((_res) => {
+            this.toasts?.show("Успешно", "Пароль изменен, Вы будете перенаправлены", ToastType.SUCCESS, () => {
+                location.replace("/admin/panel/login");
+            });
+        })
+            .catch((err) => {
+            this.btnOk?.enable();
+            this.btnEnter?.enable();
+            this.password?.setInValid("");
+            this.confirmPassword?.setInValid("");
+            if ("code" in err) {
+                switch (err?.code) {
+                    case 400:
+                        this.toasts?.show("Ошибка авторизации", "Не верный логин", ToastType.ERROR);
+                        break;
+                    case 401:
+                        this.toasts?.show("Ошибка авторизации", "Не верный логин", ToastType.ERROR);
+                        break;
+                    case 429:
+                        this.toasts?.show("Предупреждение", "Слишком частые запросы, попробуйте позже", ToastType.WARNING);
+                        break;
+                    case 503:
+                        this.toasts?.show("Ошибка подключения", "Сервис не доступен", ToastType.ERROR);
+                        break;
+                    default:
+                        this.toasts?.show("Ошибка", err?.status, ToastType.ERROR);
+                        break;
+                }
+            }
+            else {
+                this.toasts?.show("Ошибка", err?.message, ToastType.ERROR);
+            }
+        })
+            .finally(() => {
+            this.spinner?.hide();
+        });
     }
     btnEnterClick() {
         location.replace("/admin/panel/login");

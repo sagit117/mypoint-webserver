@@ -84,8 +84,6 @@ fun Application.adminModule() {
             }
 
             get("/reset/password/{code}") {
-                val code = call.parameters["code"]
-
                 call.respondHtmlTemplate(AdminPanelDefaultLayouts(), HttpStatusCode.OK) {
                     page = resetPasswordPage {
                         buttons = ButtonsResetPasswordAdminPage()

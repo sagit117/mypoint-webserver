@@ -7,4 +7,7 @@ export default class Validator {
     notEmpty(value) {
         return !!value;
     }
+    isEqual(valueFirst, valueSecond) {
+        return valueFirst === valueSecond;
+    }
 }
