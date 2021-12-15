@@ -3,12 +3,21 @@ package ru.mypoint.webserver.domains.front.templates.layouts
 import io.ktor.html.*
 import kotlinx.html.*
 import ru.mypoint.webserver.ConfigApp
+import ru.mypoint.webserver.domains.front.templates.components.ButtonsAdminHomeTopPanel
+import ru.mypoint.webserver.domains.front.templates.components.ButtonsAdminLeftSideMenu
+import ru.mypoint.webserver.domains.front.templates.components.leftSideMenu
+import ru.mypoint.webserver.domains.front.templates.components.topPanel
 
-/** шаблон по умолчанию, в котором будут отрисовываться страницы админ панели */
-class AdminPanelDefaultLayouts: Template<HTML> {
+class AdminPanelMainLayout: Template<HTML> {
     private val content = TemplatePlaceholder<Template<FlowContent>>()
     lateinit var page: Template<FlowContent>
     lateinit var styleUrl: List<String>
+    private val topPanel = topPanel {
+        buttons = ButtonsAdminHomeTopPanel()
+    }
+    private val lefSideMenu = leftSideMenu {
+        buttons = ButtonsAdminLeftSideMenu()
+    }
 
     override fun HTML.apply() {
         head {
@@ -35,6 +44,10 @@ class AdminPanelDefaultLayouts: Template<HTML> {
                     id = "toasts"
                     classes = setOf("toasts_wrapper")
                 }
+
+                insert(topPanel, content)
+
+                insert(lefSideMenu, content)
 
                 insert(page, content)
             }

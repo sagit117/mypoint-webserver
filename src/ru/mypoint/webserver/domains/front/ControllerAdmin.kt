@@ -8,22 +8,19 @@ import io.ktor.client.features.json.*
 import io.ktor.client.request.*
 import io.ktor.html.*
 import io.ktor.http.*
-import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.*
 import ru.mypoint.webserver.common.dto.*
-import ru.mypoint.webserver.common.randomCode
 import ru.mypoint.webserver.domains.front.templates.components.ButtonsForgotAdminPage
 import ru.mypoint.webserver.domains.front.templates.components.ButtonsLoginAdminPage
 import ru.mypoint.webserver.domains.front.templates.components.ButtonsResetPasswordAdminPage
-import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelDefaultLayouts
+import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelDefaultLayout
+import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelMainLayout
+import ru.mypoint.webserver.domains.front.templates.pages.adminHomePage
 import ru.mypoint.webserver.domains.front.templates.pages.forgotPage
 import ru.mypoint.webserver.domains.front.templates.pages.loginPage
 import ru.mypoint.webserver.domains.front.templates.pages.resetPasswordPage
-import ru.mypoint.webserver.domains.notification.dto.SendNotificationDTO
-import ru.mypoint.webserver.domains.notification.dto.TemplateEmailCreateDTO
-import ru.mypoint.webserver.domains.notification.dto.TypeNotification
 
 @Suppress("unused") // Referenced in application.conf
 fun Application.adminModule() {
@@ -61,12 +58,22 @@ fun Application.adminModule() {
                     call
                 )
 
-                if (result != null) call.respond(HttpStatusCode.OK, result)
-                else call.respondRedirect("/admin/panel/login", false)
+                /** Главная страница */
+                if (result != null) {
+                    call.respondHtmlTemplate(AdminPanelMainLayout(), HttpStatusCode.OK) {
+                        page = adminHomePage {
+
+                        }
+                        styleUrl = listOf("/static/admin-home.css")
+                    }
+                }
+                else {
+                    call.respondRedirect("/admin/panel/login", false)
+                }
             }
 
             get("/login") {
-                call.respondHtmlTemplate(AdminPanelDefaultLayouts(), HttpStatusCode.OK) {
+                call.respondHtmlTemplate(AdminPanelDefaultLayout(), HttpStatusCode.OK) {
                     page = loginPage {
                         buttons = ButtonsLoginAdminPage()
                     }
@@ -75,7 +82,7 @@ fun Application.adminModule() {
             }
 
             get("/forgot/password") {
-                call.respondHtmlTemplate(AdminPanelDefaultLayouts(), HttpStatusCode.OK) {
+                call.respondHtmlTemplate(AdminPanelDefaultLayout(), HttpStatusCode.OK) {
                     page = forgotPage {
                         buttons = ButtonsForgotAdminPage()
                     }
@@ -84,7 +91,7 @@ fun Application.adminModule() {
             }
 
             get("/reset/password/{code}") {
-                call.respondHtmlTemplate(AdminPanelDefaultLayouts(), HttpStatusCode.OK) {
+                call.respondHtmlTemplate(AdminPanelDefaultLayout(), HttpStatusCode.OK) {
                     page = resetPasswordPage {
                         buttons = ButtonsResetPasswordAdminPage()
                     }

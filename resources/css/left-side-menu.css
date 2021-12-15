@@ -1,0 +1,14 @@
+.left_side_menu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, .85);
+    padding: 2rem 2rem 2rem 1rem;
+    box-shadow: 5px 6px 13px 3px grey;
+}
+
+.left-side-menu__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+}
