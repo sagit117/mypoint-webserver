@@ -83,6 +83,7 @@ fun Application.userModule() {
                 )
 
                 if (result != null) {
+//                    println("session set: ${result.token}")
                     call.sessions.set(UserSession(result.token))
                     call.respond(HttpStatusCode.OK, result)
 
@@ -179,7 +180,7 @@ fun Application.userModule() {
             route("/update") {
                 route("/password") {
                     /**
-                     * изменение пароля возможно только с подходящей ролью
+                     * Изменение пароля возможно только с подходящей ролью
                      * и правильным вводом старого пароля
                      */
                     post("/email/{email}") {
@@ -219,15 +220,21 @@ fun Application.userModule() {
 
                     post("/hash/{hash}") {
                         val hash = call.parameters["hash"].toString()
-                        val email = QueueResetPassword.getWithHash(hash)?.emailDTO?.email ?: ""
+                        val email = QueueResetPassword.getWithHash(hash)?.emailDTO?.email
                         val techLogin = environment.config.propertyOrNull("databus.login")?.getString() ?: ""
                         val techPassword = environment.config.propertyOrNull("databus.password")?.getString() ?: ""
                         val newPasswordDTO = call.receive<UserRecoveryPasswordDTO>()
+
+                        if (email == null) {
+                            return@post call.respond(HttpStatusCode.BadRequest, mapOf("status" to "Bad Request"))
+                        }
 
                         val token = client.login<UserReceiveLoginDTO>(
                             UserLoginDTO(techLogin, techPassword),
                             call
                         )?.token
+
+                        println("tech token: $token")
 
                         if (token != null) {
                             val result = client.post<String>(
@@ -243,7 +250,7 @@ fun Application.userModule() {
                                 call
                             )
 
-                            if (result != null) call.respond(HttpStatusCode.OK, result)
+                            if (result != null) call.respond(HttpStatusCode.OK, mapOf("status" to "OK"))
                         }
                     }
                 }

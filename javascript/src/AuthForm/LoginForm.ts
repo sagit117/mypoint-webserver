@@ -58,7 +58,9 @@ export default class LoginForm extends AuthForm {
             password: this.password.value
         })
             .then((_res: { user: string, token: string }) => {
-                location.replace("/admin/panel");
+                this.toasts?.show("Успешно", "Пароль изменен, Вы будете перенаправлены", ToastType.SUCCESS, () => {
+                    location.replace("/admin/panel");
+                })
             })
             .catch((err: Error | { status: string, code: number }) => {
                 this.btnOk?.enable();

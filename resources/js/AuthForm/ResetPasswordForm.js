@@ -51,10 +51,13 @@ export default class ResetPasswordForm extends AuthForm {
             if ("code" in err) {
                 switch (err?.code) {
                     case 400:
-                        this.toasts?.show("Ошибка авторизации", "Не верный логин", ToastType.ERROR);
+                        this.toasts?.show("Ошибка авторизации", "Запрос или устарел или не был инициирован, запросите восстановление пароля", ToastType.ERROR);
                         break;
                     case 401:
                         this.toasts?.show("Ошибка авторизации", "Не верный логин", ToastType.ERROR);
+                        break;
+                    case 403:
+                        this.toasts?.show("Ошибка подключения", "Запрещено", ToastType.ERROR);
                         break;
                     case 429:
                         this.toasts?.show("Предупреждение", "Слишком частые запросы, попробуйте позже", ToastType.WARNING);

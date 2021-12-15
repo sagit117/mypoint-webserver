@@ -77,7 +77,7 @@ class CreateDataBusClient() {
         }
     }
 
-    /** отвечает ошибкой на запрос в зависимости от типа ошибки */
+    /** Отвечает ошибкой на запрос в зависимости от типа ошибки */
     suspend fun respondError(error: Throwable, call: ApplicationCall) {
         when(error) {
             is ClientRequestException -> {
