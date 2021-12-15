@@ -58,7 +58,7 @@ export default class LoginForm extends AuthForm {
             password: this.password.value
         })
             .then((_res: { user: string, token: string }) => {
-                this.toasts?.show("Успешно", "Пароль изменен, Вы будете перенаправлены", ToastType.SUCCESS, () => {
+                this.toasts?.show("Успешно", "Вход выполнен", ToastType.SUCCESS, () => {
                     location.replace("/admin/panel");
                 })
             })
