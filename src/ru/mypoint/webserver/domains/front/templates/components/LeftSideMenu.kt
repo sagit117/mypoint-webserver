@@ -4,6 +4,7 @@ import io.ktor.html.*
 import kotlinx.html.FlowContent
 import kotlinx.html.classes
 import kotlinx.html.div
+import ru.mypoint.webserver.ConfigApp
 
 fun leftSideMenu(init: LeftSideMenu.() -> Unit): LeftSideMenu {
     val menu = LeftSideMenu()
@@ -18,6 +19,11 @@ class LeftSideMenu: Template<FlowContent> {
     override fun FlowContent.apply() {
         div {
             classes = setOf("left_side_menu")
+
+            div {
+                classes = setOf("left-side-menu__title")
+                +ConfigApp.title
+            }
 
             insert(buttons, content)
         }

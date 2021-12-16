@@ -72,3 +72,25 @@ button:not(:disabled) {
     border-color: #146c43;
     box-shadow: 0 0 0 0.25rem rgb(60 153 110 / 50%);
 }
+
+.btn-danger {
+    color: var(--color-white);
+    background-color: var(--color-error);
+    border-color: var(--color-error);
+}
+.btn-success:hover {
+    color: var(--color-white);
+    background-color: #bb2d3b;
+    border-color: #b02a37;
+}
+.btn-success:active {
+    color: var(--color-white);
+    background-color: #b02a37;
+    border-color: #a52834;
+}
+.btn-success:focus {
+    color: var(--color-white);
+    background-color: #bb2d3b;
+    border-color: #b02a37;
+    box-shadow: 0 0 0 0.25rem rgb(225 83 97 / 50%);
+}

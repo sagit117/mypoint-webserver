@@ -15,18 +15,18 @@
     background-repeat: no-repeat;
     background-position-x: 50%;
     background-position-y: 50%;
-    background-color: var(--color-primary);
+    background-color: var(--color-error);
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
 .main_menu_toggle:hover {
-    background-color: #0b5ed7;
-    border-color: #0a58ca;
+    background-color: #bb2d3b;
+    border-color: #b02a37;
 }
 .main_menu_toggle:focus, .main_menu_toggle:active {
-    background-color: #0a58ca;
-    border-color: #0a53be;
-    box-shadow: inset 0 0 0 0.25rem rgb(49 132 253 / 50%);
+    background-color: #b02a37;
+    border-color: #a52834;
+    box-shadow: inset 0 0 0 0.25rem rgb(225 83 97 / 50%);
 }
 
 .top_panel_title {
