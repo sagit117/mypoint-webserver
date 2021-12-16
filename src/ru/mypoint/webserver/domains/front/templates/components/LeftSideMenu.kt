@@ -24,8 +24,18 @@ class LeftSideMenu: Template<FlowContent> {
                 classes = setOf("left-side-menu__title")
                 +ConfigApp.title
             }
+            div {
+                classes = setOf("left-side-menu__close")
+            }
+            div {
+                classes = setOf("left-side-menu__buttons")
 
-            insert(buttons, content)
+                insert(buttons, content)
+            }
+            div {
+                classes = setOf("left-side-menu__footer")
+                +ConfigApp.leftSideMenuFooterTitle
+            }
         }
     }
 }

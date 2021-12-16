@@ -3,12 +3,46 @@
     display: flex;
     flex-direction: column;
     background-color: rgba(0, 0, 0, .85);
-    padding: 2rem 2rem 2rem 1rem;
     box-shadow: 5px 6px 13px 3px grey;
 }
 
 .left-side-menu__title {
+    display: flex;
+    color: #d73e4d;
+    padding: 2rem;
     font-size: 1.5rem;
     font-weight: 600;
+    height: 2rem;
+    border-bottom: 1px solid grey;
+}
+
+.left-side-menu__buttons {
+    padding: 2rem 2rem 2rem 1rem;
+}
+
+.left-side-menu__close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    width: 1rem;
+    height: 1rem;
+    background-image: url("./close.svg");
+    background-repeat: no-repeat;
+    background-position-x: 50%;
+    background-position-y: 50%;
+    filter: invert(1);
+    cursor: pointer;
+}
+.left-side-menu__close:hover {
+    border-radius: 0.1rem;
+    box-shadow: 0 0 0 0.25rem rgba(49, 51, 50, 0.5);
+}
+
+.left-side-menu__footer {
+    display: flex;
+    justify-content: flex-end;
     color: white;
+    padding: 2rem;
+    font-size: .7rem;
+    border-top: 1px solid grey;
 }

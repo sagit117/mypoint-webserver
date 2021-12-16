@@ -89,9 +89,11 @@ fun Application.module(testing: Boolean = false) {
     }
 
     ConfigApp.title = environment.config.propertyOrNull("application.title")?.getString() ?: ""
+    ConfigApp.leftSideMenuFooterTitle = environment.config.propertyOrNull("application.leftSideMenuFooterTitle")?.getString() ?: ""
 }
 
 object ConfigApp {
     var title: String = ""
+    var leftSideMenuFooterTitle: String = ""
 }
 

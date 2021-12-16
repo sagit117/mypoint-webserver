@@ -9,9 +9,9 @@
 
 .main_menu_toggle {
     cursor: pointer;
-    background-image: url("./main_menu_toggle.svg");
     height: 3rem;
     width: 3rem;
+    background-image: url("./main_menu_toggle.svg");
     background-repeat: no-repeat;
     background-position-x: 50%;
     background-position-y: 50%;
