@@ -41,8 +41,34 @@
 .left-side-menu__footer {
     display: flex;
     justify-content: flex-end;
-    color: white;
+    color: grey;
     padding: 2rem;
     font-size: .7rem;
     border-top: 1px solid grey;
+}
+
+.side_menu__group {
+    color: white;
+}
+
+.side_menu__group__header {
+
+}
+
+.side_menu__group__items {
+    display: flex;
+    flex-direction: column;
+    padding-left: 1rem;
+}
+
+.side_menu__group__item {
+    display: flex;
+    align-items: center;
+}
+.side_menu__group__item > img {
+    filter: invert(1);
+}
+.side_menu__group__item > a {
+    color: white;
+    text-decoration: none;
 }
