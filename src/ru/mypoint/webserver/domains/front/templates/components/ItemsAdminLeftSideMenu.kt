@@ -4,6 +4,7 @@ import io.ktor.html.*
 import kotlinx.html.*
 
 class ItemsAdminLeftSideMenu: Template<FlowContent> {
+    private val content = TemplatePlaceholder<Template<FlowContent>>()
 
     override fun FlowContent.apply() {
         div {
@@ -12,18 +13,16 @@ class ItemsAdminLeftSideMenu: Template<FlowContent> {
             div {
                 classes = setOf("side_menu__group__items")
 
-                div {
-                    classes = setOf("side_menu__group__item")
-
-                    img {
-                        src = "/static/users.svg"
-                        classes = setOf("mr-1")
-                    }
-                    a {
-                        href = "/admin/panel/users"
-                        +"Пользователи"
-                    }
-                }
+                insert(sideMenuItems {
+                    ahref = "/admin/panel"
+                    caption = "Домой"
+                    imgSrc = "/static/home.svg"
+                }, content)
+                insert(sideMenuItems {
+                    ahref = "/admin/panel/users"
+                    caption = "Пользователи"
+                    imgSrc = "/static/users.svg"
+                }, content)
             }
         }
     }

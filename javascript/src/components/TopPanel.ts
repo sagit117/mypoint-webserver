@@ -1,11 +1,11 @@
-import SideMenu from "./SideMenu.js";
+import { ISideMenu } from "./SideMenu.js";
 
 export default class TopPanel {
     private rootDiv: HTMLDivElement | null = null;
-    private leftSideMenu: SideMenu | null = null;
+    private leftSideMenu: ISideMenu | null = null;
     private leftSideMenuToggle: HTMLDivElement | null = null;
 
-    constructor(id: string, leftSideMenu: SideMenu) {
+    constructor(id: string, leftSideMenu: ISideMenu) {
         this.rootDiv = document.getElementById(id) as HTMLDivElement;
         
         if (this.rootDiv) {

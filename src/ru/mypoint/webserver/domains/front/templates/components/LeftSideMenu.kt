@@ -29,7 +29,7 @@ class LeftSideMenu: Template<FlowContent> {
                 tabIndex = "0"
             }
             div {
-                classes = setOf("left-side-menu__buttons")
+                classes = setOf("left-side-menu__body")
 
                 insert(items, content)
             }
