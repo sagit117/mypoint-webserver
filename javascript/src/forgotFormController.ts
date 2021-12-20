@@ -5,4 +5,4 @@ import Toasts from './components/Toasts.js';
 import ForgotForm from './AuthForm/ForgotForm.js';
 
 const forgotForm = new ForgotForm("forgot_form", new Validator(), new Api(API_URL), new Toasts("toasts"));
-console.log(forgotForm);
+// console.log(forgotForm);

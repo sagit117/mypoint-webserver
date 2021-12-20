@@ -1,9 +1,10 @@
 .left_side_menu {
     position: absolute;
-    display: flex;
+    display: none; /* flex */
     flex-direction: column;
     background-color: rgba(0, 0, 0, .85);
     box-shadow: 5px 6px 13px 3px grey;
+    height: -webkit-fill-available;
 }
 
 .left-side-menu__title {

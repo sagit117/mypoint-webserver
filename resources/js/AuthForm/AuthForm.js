@@ -1,5 +1,5 @@
 import Button from "../components/Button.js";
-import Spinner from "../components/spinner.js";
+import Spinner from "../components/Spinner.js";
 import Input from "../components/Input.js";
 export default class AuthForm {
     rootDiv = null;

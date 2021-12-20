@@ -5,4 +5,4 @@ import Toasts from './components/Toasts.js';
 import ResetPasswordForm from './AuthForm/ResetPasswordForm.js';
 
 const resetPassword = new ResetPasswordForm("reset_password_form", new Validator(), new Api(API_URL), new Toasts("toasts"));
-console.log(resetPassword);
+// console.log(resetPassword);

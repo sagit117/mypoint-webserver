@@ -19,7 +19,7 @@ class TopPanel: Template<FlowContent> {
             classes = setOf("top_panel")
 
             div {
-                id = "main_menu"
+                id = "left_side_menu_toggle"
                 classes = setOf("main_menu_toggle")
                 tabIndex = "0"
             }

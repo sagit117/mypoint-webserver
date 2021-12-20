@@ -1,9 +1,7 @@
 package ru.mypoint.webserver.domains.front.templates.components
 
 import io.ktor.html.*
-import kotlinx.html.FlowContent
-import kotlinx.html.classes
-import kotlinx.html.div
+import kotlinx.html.*
 import ru.mypoint.webserver.ConfigApp
 
 fun leftSideMenu(init: LeftSideMenu.() -> Unit): LeftSideMenu {
@@ -18,6 +16,7 @@ class LeftSideMenu: Template<FlowContent> {
 
     override fun FlowContent.apply() {
         div {
+            id = "left_side_menu"
             classes = setOf("left_side_menu")
 
             div {
@@ -25,7 +24,9 @@ class LeftSideMenu: Template<FlowContent> {
                 +ConfigApp.title
             }
             div {
+                id = "close"
                 classes = setOf("left-side-menu__close")
+                tabIndex = "0"
             }
             div {
                 classes = setOf("left-side-menu__buttons")

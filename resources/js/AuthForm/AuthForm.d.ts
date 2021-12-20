@@ -1,5 +1,5 @@
 import Button from "../components/Button.js";
-import Spinner from "../components/spinner.js";
+import Spinner from "../components/Spinner.js";
 import Toasts from "../components/Toasts.js";
 import Input, { IInputEventChanged } from "../components/Input.js";
 import Api from "../common/Api.js";

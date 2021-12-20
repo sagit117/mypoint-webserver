@@ -51,6 +51,11 @@ class AdminPanelMainLayout: Template<HTML> {
 
                 insert(page, content)
             }
+
+            script {
+                src = "/static/leftSideMenuController.js"
+                type = "module"
+            }
         }
     }
 }
