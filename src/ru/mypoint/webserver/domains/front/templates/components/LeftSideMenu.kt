@@ -12,7 +12,7 @@ fun leftSideMenu(init: LeftSideMenu.() -> Unit): LeftSideMenu {
 
 class LeftSideMenu: Template<FlowContent> {
     private val content = TemplatePlaceholder<Template<FlowContent>>()
-    lateinit var buttons: Template<FlowContent>
+    lateinit var items: Template<FlowContent>
 
     override fun FlowContent.apply() {
         div {
@@ -31,7 +31,7 @@ class LeftSideMenu: Template<FlowContent> {
             div {
                 classes = setOf("left-side-menu__buttons")
 
-                insert(buttons, content)
+                insert(items, content)
             }
             div {
                 classes = setOf("left-side-menu__footer")

@@ -16,6 +16,7 @@ class TopPanel: Template<FlowContent> {
 
     override fun FlowContent.apply() {
         div {
+            id = "top_panel"
             classes = setOf("top_panel")
 
             div {

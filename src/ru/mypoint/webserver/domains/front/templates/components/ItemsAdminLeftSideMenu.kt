@@ -3,16 +3,11 @@ package ru.mypoint.webserver.domains.front.templates.components
 import io.ktor.html.*
 import kotlinx.html.*
 
-class ButtonsAdminLeftSideMenu: Template<FlowContent> {
+class ItemsAdminLeftSideMenu: Template<FlowContent> {
 
     override fun FlowContent.apply() {
         div {
             classes = setOf("side_menu__group")
-
-            h3 {
-                classes = setOf("side_menu__group__header")
-                +"Администрирование"
-            }
 
             div {
                 classes = setOf("side_menu__group__items")

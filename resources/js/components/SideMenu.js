@@ -2,14 +2,11 @@ export default class SideMenu {
     rootDiv = null;
     isShow = false;
     btnClose = null;
-    btnToggler = null;
-    constructor(id, idToggler) {
+    constructor(id) {
         this.rootDiv = document.getElementById(id);
         if (this.rootDiv) {
             this.btnClose = this.rootDiv.querySelector("#close");
             this.btnClose?.addEventListener("click", this.toggleShow.bind(this));
-            this.btnToggler = document.getElementById(idToggler);
-            this.btnToggler?.addEventListener("click", this.toggleShow.bind(this));
         }
         else {
             throw new Error("rootDiv is required!");

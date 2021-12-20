@@ -4,7 +4,7 @@ import io.ktor.html.*
 import kotlinx.html.*
 import ru.mypoint.webserver.ConfigApp
 import ru.mypoint.webserver.domains.front.templates.components.ButtonsAdminHomeTopPanel
-import ru.mypoint.webserver.domains.front.templates.components.ButtonsAdminLeftSideMenu
+import ru.mypoint.webserver.domains.front.templates.components.ItemsAdminLeftSideMenu
 import ru.mypoint.webserver.domains.front.templates.components.leftSideMenu
 import ru.mypoint.webserver.domains.front.templates.components.topPanel
 
@@ -16,7 +16,7 @@ class AdminPanelMainLayout: Template<HTML> {
         buttons = ButtonsAdminHomeTopPanel()
     }
     private val lefSideMenu = leftSideMenu {
-        buttons = ButtonsAdminLeftSideMenu()
+        items = ItemsAdminLeftSideMenu()
     }
 
     override fun HTML.apply() {
@@ -53,7 +53,7 @@ class AdminPanelMainLayout: Template<HTML> {
             }
 
             script {
-                src = "/static/leftSideMenuController.js"
+                src = "/static/topPanelController.js"
                 type = "module"
             }
         }
