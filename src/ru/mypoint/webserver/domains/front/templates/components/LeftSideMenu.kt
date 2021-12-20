@@ -20,10 +20,6 @@ class LeftSideMenu: Template<FlowContent> {
             classes = setOf("left_side_menu")
 
             div {
-                classes = setOf("left-side-menu__title")
-                +ConfigApp.title
-            }
-            div {
                 id = "close"
                 classes = setOf("left-side-menu__close")
                 tabIndex = "0"

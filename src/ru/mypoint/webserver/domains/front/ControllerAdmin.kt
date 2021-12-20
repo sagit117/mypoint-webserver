@@ -17,10 +17,7 @@ import ru.mypoint.webserver.domains.front.templates.components.ButtonsLoginAdmin
 import ru.mypoint.webserver.domains.front.templates.components.ButtonsResetPasswordAdminPage
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelDefaultLayout
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelMainLayout
-import ru.mypoint.webserver.domains.front.templates.pages.adminHomePage
-import ru.mypoint.webserver.domains.front.templates.pages.forgotPage
-import ru.mypoint.webserver.domains.front.templates.pages.loginPage
-import ru.mypoint.webserver.domains.front.templates.pages.resetPasswordPage
+import ru.mypoint.webserver.domains.front.templates.pages.*
 
 @Suppress("unused") // Referenced in application.conf
 fun Application.adminModule() {
@@ -96,6 +93,32 @@ fun Application.adminModule() {
                         buttons = ButtonsResetPasswordAdminPage()
                     }
                     styleUrl = listOf("/static/form-login.css")
+                }
+            }
+
+            get("/users") {
+                val token = GetAuth(call).token()
+
+                val result = client.checkAccess<String>(
+                    CheckAccessDTO(
+                        url = "/admin/panel/users",
+                        token = token,
+                        body = null
+                    ),
+                    call
+                )
+
+                /** Страница управления пользователями */
+                if (result != null) {
+                    call.respondHtmlTemplate(AdminPanelMainLayout(), HttpStatusCode.OK) {
+                        page = adminUsersPage {
+
+                        }
+                        styleUrl = listOf("/static/admin-home.css")
+                    }
+                }
+                else {
+                    call.respondRedirect("/admin/panel/login", false)
                 }
             }
 

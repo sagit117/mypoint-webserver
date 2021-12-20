@@ -13,19 +13,43 @@ class SideMenuItems: Template<FlowContent> {
     lateinit var ahref: String
     lateinit var caption: String
     lateinit var imgSrc: String
+    var subItems: Template<FlowContent>? = null
+    private val content = TemplatePlaceholder<Template<FlowContent>>()
 
     override fun FlowContent.apply() {
         div {
-            classes = setOf("side_menu__group__item")
+            classes = setOf("side_menu__item__wrapper")
 
-            img {
-                src = imgSrc
-                classes = setOf("mr-1")
-                alt = caption
-            }
             a {
+                classes = setOf("side_menu__item")
                 href = ahref
-                +caption
+
+                img {
+                    src = imgSrc
+                    classes = setOf("mr-1")
+                    alt = caption
+                }
+                span {
+                    +caption
+                }
+            }
+
+            subItems?.let {
+                div {
+                    classes = setOf("side_menu__items__toggle")
+
+                    img {
+                        src = "/static/chevron-right.svg"
+                    }
+                }
+            }
+        }
+
+        subItems?.let {
+            div {
+                classes = setOf("side_menu__sub_item", "ml-2")
+
+                insert(it, content)
             }
         }
     }

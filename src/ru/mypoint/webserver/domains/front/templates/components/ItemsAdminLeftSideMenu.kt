@@ -8,22 +8,24 @@ class ItemsAdminLeftSideMenu: Template<FlowContent> {
 
     override fun FlowContent.apply() {
         div {
-            classes = setOf("side_menu__group")
+            classes = setOf("side_menu__items")
 
-            div {
-                classes = setOf("side_menu__group__items")
+            insert(sideMenuItems {
+                ahref = "/admin/panel"
+                caption = "Домой"
+                imgSrc = "/static/home.svg"
+            }, content)
+            insert(sideMenuItems {
+                ahref = "/admin/panel/users"
+                caption = "Пользователи"
+                imgSrc = "/static/users.svg"
 
-                insert(sideMenuItems {
-                    ahref = "/admin/panel"
-                    caption = "Домой"
-                    imgSrc = "/static/home.svg"
-                }, content)
-                insert(sideMenuItems {
-                    ahref = "/admin/panel/users"
-                    caption = "Пользователи"
-                    imgSrc = "/static/users.svg"
-                }, content)
-            }
+                subItems = sideMenuItems {
+                    ahref = "/admin/panel/roles"
+                    caption = "Роли"
+                    imgSrc = "/static/roles.svg"
+                }
+            }, content)
         }
     }
 }
