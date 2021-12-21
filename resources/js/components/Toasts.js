@@ -1,14 +1,11 @@
-export default class Toasts {
-    divRoot = null;
+import DefaultHTMLComponent from "../common/DefaultHTMLComponent.js";
+export default class Toasts extends DefaultHTMLComponent {
     constructor(id) {
-        this.divRoot = document.getElementById(id);
-        if (!this.divRoot) {
-            new Error("DivRoot is required!");
-        }
+        super(id);
     }
     show(title, message, type, cbOnClose) {
         const toast = new Toast(title, message, type, cbOnClose).createHTML();
-        this.divRoot?.insertAdjacentElement("beforeend", toast);
+        this.rootDiv?.insertAdjacentElement("beforeend", toast);
     }
 }
 class Toast {

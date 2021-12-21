@@ -1,34 +1,34 @@
-import Api from "../common/Api.js";
-import Validator from "../common/Validator.js";
-import Toasts, { ToastType } from "../components/Toasts.js";
-import Input, { IInputEventChanged } from "../components/Input.js";
+import { IApi } from "../common/Api.js";
+import { IValidator } from "../common/Validator.js";
+import { IToasts, ToastType } from "../components/Toasts.js";
+import Input, { IInput, IInputEventChanged } from "../components/Input.js";
 import AuthForm from "./AuthForm.js";
-import Button from "../components/Button.js";
+import Button, { IButton } from "../components/Button.js";
 
 export default class ResetPasswordForm extends AuthForm {
-    private password: Input | null = null;
-    private confirmPassword: Input | null = null;
-    private btnEnter: Button | null = null;
+    private password: IInput | null = null;
+    private confirmPassword: IInput | null = null;
+    private btnEnter: IButton | null = null;
 
-    constructor(id: string, validator: Validator, api: Api, toasts: Toasts) {
+    constructor(id: string, validator: IValidator, api: IApi, toasts: IToasts) {
         super(id, validator, api, toasts);
 
         if (this.rootDiv) {
-            this.password = new Input(this.rootDiv, "password", this.onInputPasswordHandler.bind(this));
-            this.confirmPassword = new Input(this.rootDiv, "confirm", this.onInputConfirmPasswordHandler.bind(this));
+            this.password = new Input(this.rootDiv.querySelector("#password"), this.onInputPasswordHandler.bind(this));
+            this.confirmPassword = new Input(this.rootDiv.querySelector("#confirm"), this.onInputConfirmPasswordHandler.bind(this));
 
-            this.password.getTarget()?.addEventListener("keydown", (e: KeyboardEvent) => {
+            (this.password.getTarget() as HTMLInputElement)?.addEventListener("keydown", (e: KeyboardEvent) => {
                 if (e.key == "Enter") {
                     this.btnOkClick()
                 }
-            })
-            this.confirmPassword.getTarget()?.addEventListener("keydown", (e: KeyboardEvent) => {
+            });
+            (this.confirmPassword.getTarget() as HTMLInputElement)?.addEventListener("keydown", (e: KeyboardEvent) => {
                 if (e.key == "Enter") {
                     this.btnOkClick()
                 }
-            })
+            });
 
-            this.btnEnter = new Button(this.rootDiv, "btnEnter", this.btnEnterClick.bind(this));
+            this.btnEnter = new Button(this.rootDiv.querySelector("#btnEnter"), this.btnEnterClick.bind(this));
         }
     }
 
@@ -38,7 +38,7 @@ export default class ResetPasswordForm extends AuthForm {
             return;
         }
 
-        if (!this.validator?.isEqual(this.password?.value, this.confirmPassword?.value)) {
+        if (!this.validator?.isEqual(this.password?.value || "", this.confirmPassword?.value || "")) {
             this.confirmPassword?.setInValid("Подтверждение пароля должно совпадать с паролем!");
             return;
         }

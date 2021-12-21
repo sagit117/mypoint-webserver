@@ -78,17 +78,17 @@ button:not(:disabled) {
     background-color: var(--color-error);
     border-color: var(--color-error);
 }
-.btn-success:hover {
+.btn-danger:hover {
     color: var(--color-white);
     background-color: #bb2d3b;
     border-color: #b02a37;
 }
-.btn-success:active {
+.btn-danger:active {
     color: var(--color-white);
     background-color: #b02a37;
     border-color: #a52834;
 }
-.btn-success:focus {
+.btn-danger:focus {
     color: var(--color-white);
     background-color: #bb2d3b;
     border-color: #b02a37;

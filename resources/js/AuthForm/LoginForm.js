@@ -8,8 +8,8 @@ export default class LoginForm extends AuthForm {
     constructor(id, validator, api, toasts) {
         super(id, validator, api, toasts);
         if (this.rootDiv) {
-            this.password = new Input(this.rootDiv, "password", this.onInputPasswordHandler.bind(this));
-            this.btnForgot = new Button(this.rootDiv, "btnForgot", this.btnForgotClick.bind(this));
+            this.password = new Input(this.rootDiv.querySelector("#password"), this.onInputPasswordHandler.bind(this));
+            this.btnForgot = new Button(this.rootDiv.querySelector("#btnForgot"), this.btnForgotClick.bind(this));
             this.password.getTarget()?.addEventListener("keydown", (e) => {
                 if (e.key == "Enter") {
                     this.btnOkClick();

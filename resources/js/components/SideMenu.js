@@ -1,30 +1,16 @@
 import DefaultHTMLElement from "../common/DefaultHTMLComponent.js";
 /** Класс для управления side menu */
 export default class SideMenu extends DefaultHTMLElement {
-    isShow = false;
     btnClose = null;
     items = [];
     constructor(id) {
-        super(id);
+        super(id, false);
         if (this.rootDiv) {
             this.btnClose = this.rootDiv.querySelector("#close");
-            this.btnClose?.addEventListener("click", this.toggleShow.bind(this));
-            if (!this.isShow)
-                this.rootDiv.style.display = "none";
+            this.btnClose?.addEventListener("click", this.toggleShow.bind(this, "flex"));
             this.activeLink()?.classList.add("active-link");
             this.getItems();
         }
-    }
-    toggleShow() {
-        if (!this.rootDiv)
-            return;
-        if (this.isShow) {
-            this.rootDiv.style.display = "none";
-        }
-        else {
-            this.rootDiv.style.display = "flex";
-        }
-        this.isShow = !this.isShow;
     }
     /** Сопоставляем url с href в сылках */
     activeLink() {

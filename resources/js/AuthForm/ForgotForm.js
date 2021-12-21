@@ -6,7 +6,7 @@ export default class ForgotForm extends AuthForm {
     constructor(id, validator, api, toasts) {
         super(id, validator, api, toasts);
         if (this.rootDiv) {
-            this.btnEnter = new Button(this.rootDiv, "btnEnter", this.btnEnterClick.bind(this));
+            this.btnEnter = new Button(this.rootDiv.querySelector("#btnEnter"), this.btnEnterClick.bind(this));
         }
     }
     btnOkClick() {

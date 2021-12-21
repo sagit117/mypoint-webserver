@@ -1,14 +1,13 @@
-export default class Toasts implements IToasts {
-    private divRoot;
+import DefaultHTMLComponent from "../common/DefaultHTMLComponent.js";
+export default class Toasts extends DefaultHTMLComponent implements IToasts {
     constructor(id: string);
     show(title: string, message: string, type: ToastType, cbOnClose?: () => void): void;
 }
-interface IToasts {
-    show: (title: string, message: string, type: ToastType) => void;
+export interface IToasts {
+    show: (title: string, message: string, type: ToastType, cbOnClose?: () => void) => void;
 }
 export declare enum ToastType {
     WARNING = "warning",
     SUCCESS = "success",
     ERROR = "error"
 }
-export {};

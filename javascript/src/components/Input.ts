@@ -1,32 +1,24 @@
-export default class Input {
-    private input: HTMLInputElement | null = null;
+import DefaultHTMLComponent, { TDefaultHTMLElement } from "../common/DefaultHTMLComponent.js";
+
+export default class Input extends DefaultHTMLComponent implements IInput {
     private smallMessage: HTMLSpanElement | null = null;
 
-    constructor(rootDiv: HTMLDivElement, id: string, onInputHandler: (event: Event) => void) {
-        this.input = rootDiv.querySelector("#" + id);
+    constructor(rootDiv: HTMLInputElement | null, onInputHandler: (event: Event) => void) {
+        super(rootDiv);
         
-        if (this.input) {
-            this.input.addEventListener("input", onInputHandler)
+        if (this.rootDiv) {
+            this.rootDiv.addEventListener("input", onInputHandler)
 
-            this.smallMessage = rootDiv.querySelector("#" + id + "_msg");
+            this.smallMessage = rootDiv?.parentElement?.querySelector("#" + this.rootDiv.id + "_msg") || null;
         } else {
             throw new Error("Input is required!")
         }
     }
 
-    set value(v: string) {
-        if (this.input) {
-            this.input.value = v
-        }
-    }
-    get value(): string {
-        return this.input?.value || ""
-    }
-
     /** управление классами валидации */
     setValid(msg?: string) {
-        this.input?.classList.add("valid")
-        this.input?.classList.remove("inValid")
+        this.rootDiv?.classList.add("valid")
+        this.rootDiv?.classList.remove("inValid")
         
         if (msg !== undefined && this.smallMessage) {
             this.smallMessage.textContent = msg
@@ -35,12 +27,12 @@ export default class Input {
         }
     }
     isValid(): boolean {
-        return this.input?.classList.contains("valid") || false;
+        return this.rootDiv?.classList.contains("valid") || false;
     }
 
     setInValid(msg?: string) {
-        this.input?.classList.add("inValid")
-        this.input?.classList.remove("valid")
+        this.rootDiv?.classList.add("inValid")
+        this.rootDiv?.classList.remove("valid")
         
         if (msg !== undefined && this.smallMessage) {
             this.smallMessage.textContent = msg
@@ -49,12 +41,12 @@ export default class Input {
         }
     }
     isInValid(): boolean {
-        return this.input?.classList.contains("inValid") || false;
+        return this.rootDiv?.classList.contains("inValid") || false;
     }
 
     unsetValidate() {
-        this.input?.classList.remove("valid")
-        this.input?.classList.remove("inValid")
+        this.rootDiv?.classList.remove("valid")
+        this.rootDiv?.classList.remove("inValid")
 
         if (this.smallMessage) {
             this.smallMessage.classList.remove("valid")
@@ -62,10 +54,6 @@ export default class Input {
 
             this.smallMessage.textContent = ""
         }
-    }
-
-    getTarget() {
-        return this.input
     }
 }
 
@@ -75,4 +63,15 @@ export interface IInputEventChanged extends Event {
 
 export interface IEventTarget extends EventTarget {
     value?: string
+}
+
+export interface IInput {
+    set value(v: string);
+    get value(): string;
+    setValid(msg?: string): void;
+    isValid(): boolean;
+    setInValid(msg?: string): void;
+    isInValid(): boolean;
+    unsetValidate(): void;
+    getTarget(): TDefaultHTMLElement;
 }

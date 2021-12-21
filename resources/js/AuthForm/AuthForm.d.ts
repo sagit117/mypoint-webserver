@@ -1,18 +1,18 @@
-import Button from "../components/Button.js";
-import Spinner from "../components/Spinner.js";
-import Toasts from "../components/Toasts.js";
-import Input, { IInputEventChanged } from "../components/Input.js";
-import Api from "../common/Api.js";
-import Validator from "../common/Validator.js";
-export default class AuthForm {
-    protected rootDiv: HTMLDivElement | null;
-    protected login: Input | null;
-    protected btnOk: Button | null;
-    protected validator: Validator | null;
-    protected spinner: Spinner | null;
-    protected api: Api | null;
-    protected toasts: Toasts | null;
-    constructor(id: string, validator: Validator, api: Api, toasts: Toasts);
+import { IButton } from "../components/Button.js";
+import { ISpinner } from "../components/Spinner.js";
+import { IToasts } from "../components/Toasts.js";
+import { IInput, IInputEventChanged } from "../components/Input.js";
+import { IApi } from "../common/Api.js";
+import { IValidator } from "../common/Validator.js";
+import DefaultHTMLComponent from "../common/DefaultHTMLComponent.js";
+export default class AuthForm extends DefaultHTMLComponent {
+    protected login: IInput | null;
+    protected btnOk: IButton | null;
+    protected validator: IValidator | null;
+    protected spinner: ISpinner | null;
+    protected api: IApi | null;
+    protected toasts: IToasts | null;
+    constructor(id: string, validator: IValidator, api: IApi, toasts: IToasts);
     protected btnOkClick(): void;
     protected onInputLoginHandler(_event: IInputEventChanged): void;
 }

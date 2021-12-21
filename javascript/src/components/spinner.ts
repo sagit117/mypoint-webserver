@@ -1,23 +1,24 @@
-export default class Spinner {
-    spinner: HTMLDivElement | null = null;
+import DefaultHTMLComponent from "../common/DefaultHTMLComponent.js";
 
-    constructor(rootDiv: HTMLDivElement, id: string) {
-        this.spinner = rootDiv.querySelector("#" + id);
-        
-        if (!this.spinner) {
-            throw new Error("Spinner is required!")
-        }
+export default class Spinner extends DefaultHTMLComponent implements ISpinner {
+    constructor(rootDiv: HTMLDivElement | null) {
+        super(rootDiv)
     }
 
     show() {
-        if (this.spinner) {
-            this.spinner.style.display = "block";
+        if (this.rootDiv) {
+            this.rootDiv.style.display = "block";
         }
     }
 
     hide() {
-        if (this.spinner) {
-            this.spinner.style.display = "none";
+        if (this.rootDiv) {
+            this.rootDiv.style.display = "none";
         }
     }
+}
+
+export interface ISpinner {
+    show(): void;
+    hide(): void;
 }

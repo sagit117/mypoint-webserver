@@ -1,18 +1,18 @@
 import { IInputEventChanged } from "../components/Input.js";
-import Api from "../common/Api.js";
-import Validator from "../common/Validator.js";
-import Toasts, { ToastType } from "../components/Toasts.js";
+import { IApi } from "../common/Api.js";
+import { IValidator } from "../common/Validator.js";
+import { IToasts, ToastType } from "../components/Toasts.js";
 import AuthForm from "./AuthForm.js";
-import Button from "../components/Button.js";
+import Button, { IButton } from "../components/Button.js";
 
 export default class ForgotForm extends AuthForm {
-    private btnEnter: Button | null = null;
+    private btnEnter: IButton | null = null;
 
-    constructor(id: string, validator: Validator, api: Api, toasts: Toasts) {
+    constructor(id: string, validator: IValidator, api: IApi, toasts: IToasts) {
         super(id, validator, api, toasts);
 
         if (this.rootDiv) {
-            this.btnEnter = new Button(this.rootDiv, "btnEnter", this.btnEnterClick.bind(this));
+            this.btnEnter = new Button(this.rootDiv.querySelector("#btnEnter"), this.btnEnterClick.bind(this));
         }
     }
 

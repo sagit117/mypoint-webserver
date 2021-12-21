@@ -1,29 +1,25 @@
-export default class Button {
-    private button: HTMLButtonElement | null = null;
+import DefaultHTMLComponent from "../common/DefaultHTMLComponent.js";
 
-    constructor(rootDiv: HTMLDivElement, id: string, clickHandler: () => void) {
-        this.button = rootDiv.querySelector("#" + id);
+export default class Button extends DefaultHTMLComponent implements IButton {
+    constructor(rootDiv: HTMLButtonElement | null, clickHandler: () => void) {
+        super(rootDiv);
         
-        if (this.button) {
-            this.button.addEventListener("click", this.click.bind(this, clickHandler))
+        if (this.rootDiv) {
+            this.rootDiv.addEventListener("click", this.click.bind(this, clickHandler))
         } else {
-            throw new Error("Button is required!")
+            throw new Error("Button is required!");
         }
     }
 
-    public disable() {
-        if (!this.button) return;
+    public click(clickHandler: () => void) {
+        if (!this.rootDiv || !("disabled" in this.rootDiv)) return;
 
-        this.button.disabled = true;
+        if (!this.rootDiv?.disabled) clickHandler();
     }
+}
 
-    public enable() {
-        if (!this.button) return;
-
-        this.button.disabled = false;
-    }
-
-    private click(clickHandler: () => void) {
-        if (!this.button?.disabled) clickHandler()
-    }
+export interface IButton {
+    disable(): void;
+    enable(): void;
+    click(clickHandler: () => void): void;
 }

@@ -1,11 +1,11 @@
-export default class Api {
+export default class Api implements IApi {
     private url: string = "";
 
     constructor(url: string) {
         this.url = url;
     }
 
-    public async login(loginDTO: ILoginDTO) {
+    public async login(loginDTO: ILoginDTO): Promise<any> {
         const url = this.url + "/users/login";
 
         try {
@@ -23,7 +23,7 @@ export default class Api {
     }
 
     /** запрос на email о сбросе пароля */
-    public async resetPassword(email: string) {
+    public async resetPassword(email: string): Promise<any> {
         const url = this.url + `/users/reset/password/${email}`;
 
         try {
@@ -35,7 +35,7 @@ export default class Api {
     }
 
     /** Обновление пароля по хэш коду */
-    public async updatePasswordWithHash(updatePasswordDTO: IUpdatePasswordWithHash) {
+    public async updatePasswordWithHash(updatePasswordDTO: IUpdatePasswordWithHash): Promise<any> {
         const url = this.url + `/users/update/password/hash/${updatePasswordDTO.hash}`;
 
         try {
@@ -74,4 +74,10 @@ interface ILoginDTO {
 interface IUpdatePasswordWithHash {
     hash: string;
     newPassword: string;
+}
+
+export interface IApi {
+    login(loginDTO: ILoginDTO): Promise<any>;
+    resetPassword(email: string): Promise<any>;
+    updatePasswordWithHash(updatePasswordDTO: IUpdatePasswordWithHash): Promise<any>;
 }

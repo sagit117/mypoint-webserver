@@ -9,8 +9,8 @@ export default class ResetPasswordForm extends AuthForm {
     constructor(id, validator, api, toasts) {
         super(id, validator, api, toasts);
         if (this.rootDiv) {
-            this.password = new Input(this.rootDiv, "password", this.onInputPasswordHandler.bind(this));
-            this.confirmPassword = new Input(this.rootDiv, "confirm", this.onInputConfirmPasswordHandler.bind(this));
+            this.password = new Input(this.rootDiv.querySelector("#password"), this.onInputPasswordHandler.bind(this));
+            this.confirmPassword = new Input(this.rootDiv.querySelector("#confirm"), this.onInputConfirmPasswordHandler.bind(this));
             this.password.getTarget()?.addEventListener("keydown", (e) => {
                 if (e.key == "Enter") {
                     this.btnOkClick();
@@ -21,7 +21,7 @@ export default class ResetPasswordForm extends AuthForm {
                     this.btnOkClick();
                 }
             });
-            this.btnEnter = new Button(this.rootDiv, "btnEnter", this.btnEnterClick.bind(this));
+            this.btnEnter = new Button(this.rootDiv.querySelector("#btnEnter"), this.btnEnterClick.bind(this));
         }
     }
     btnOkClick() {
@@ -29,7 +29,7 @@ export default class ResetPasswordForm extends AuthForm {
             this.password?.setInValid("Пароль не должен быть пустым!");
             return;
         }
-        if (!this.validator?.isEqual(this.password?.value, this.confirmPassword?.value)) {
+        if (!this.validator?.isEqual(this.password?.value || "", this.confirmPassword?.value || "")) {
             this.confirmPassword?.setInValid("Подтверждение пароля должно совпадать с паролем!");
             return;
         }

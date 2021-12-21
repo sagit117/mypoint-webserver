@@ -1,17 +1,13 @@
-export default class Toasts implements IToasts {
-    private divRoot: HTMLDivElement | null = null;
+import DefaultHTMLComponent from "../common/DefaultHTMLComponent.js";
 
+export default class Toasts extends DefaultHTMLComponent implements IToasts {
     constructor(id: string) {
-        this.divRoot = document.getElementById(id) as HTMLDivElement;
-
-        if (!this.divRoot) {
-            new Error("DivRoot is required!")
-        }
+        super(id);
     }
 
     show(title: string, message: string, type: ToastType, cbOnClose?: () => void): void {
         const toast = new Toast(title, message, type, cbOnClose).createHTML();
-        this.divRoot?.insertAdjacentElement("beforeend", toast);
+        this.rootDiv?.insertAdjacentElement("beforeend", toast);
     }
 }
 
@@ -93,8 +89,8 @@ class Toast {
     }
 }
 
-interface IToasts {
-    show: (title: string, message: string, type: ToastType) => void;
+export interface IToasts {
+    show: (title: string, message: string, type: ToastType, cbOnClose?: () => void) => void;
 }
 
 export enum ToastType {

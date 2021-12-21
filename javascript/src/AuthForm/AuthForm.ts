@@ -1,41 +1,41 @@
-import Button from "../components/Button.js";
-import Spinner from "../components/Spinner.js";
-import Toasts from "../components/Toasts.js";
-import Input, { IInputEventChanged } from "../components/Input.js";
-import Api from "../common/Api.js";
-import Validator from "../common/Validator.js";
+import Button, { IButton } from "../components/Button.js";
+import Spinner, { ISpinner } from "../components/Spinner.js";
+import { IToasts } from "../components/Toasts.js";
+import Input, { IInput, IInputEventChanged } from "../components/Input.js";
+import { IApi } from "../common/Api.js";
+import { IValidator } from "../common/Validator.js";
+import DefaultHTMLComponent from "../common/DefaultHTMLComponent.js";
 
-export default class AuthForm {
-    protected rootDiv: HTMLDivElement | null = null;
-    protected login: Input | null = null;
-    protected btnOk: Button | null = null;
+export default class AuthForm extends DefaultHTMLComponent {
+    // protected rootDiv: HTMLDivElement | null = null;
+    protected login: IInput | null = null;
+    protected btnOk: IButton | null = null;
 
-    protected validator: Validator | null = null;
-    protected spinner: Spinner | null = null;
-    protected api: Api | null = null;
-    protected toasts: Toasts | null = null;
+    protected validator: IValidator | null = null;
+    protected spinner: ISpinner | null = null;
+    protected api: IApi | null = null;
+    protected toasts: IToasts | null = null;
 
-    constructor(id: string, validator: Validator, api: Api, toasts: Toasts) {
-        this.rootDiv = document.getElementById(id) as HTMLDivElement;
+    constructor(id: string, validator: IValidator, api: IApi, toasts: IToasts) {
+        super(id)
+        // this.rootDiv = document.getElementById(id) as HTMLDivElement;
         this.validator = validator;
         this.api = api;
         this.toasts = toasts;
 
         if (this.rootDiv) {
             try {
-                this.login = new Input(this.rootDiv, "login", this.onInputLoginHandler.bind(this));
-                this.login.getTarget()?.addEventListener("keydown", (e: KeyboardEvent) => {
+                this.login = new Input(this.rootDiv.querySelector("#login"), this.onInputLoginHandler.bind(this));
+                (this.login.getTarget() as HTMLInputElement)?.addEventListener("keydown", (e: KeyboardEvent) => {
                     if (e.key == "Enter") {
                         this.btnOkClick()
                     }
                 })
             } catch(_error: any) {}
 
-            this.btnOk = new Button(this.rootDiv, "btnOk", this.btnOkClick.bind(this));
+            this.btnOk = new Button(this.rootDiv.querySelector<HTMLButtonElement>("#btnOk"), this.btnOkClick.bind(this));
 
-            this.spinner = new Spinner(this.rootDiv, "spinner");
-        } else {
-            throw new Error("rootDiv is required!");
+            this.spinner = new Spinner(this.rootDiv.querySelector("#spinner"));
         }
 
         if (!this.validator) {

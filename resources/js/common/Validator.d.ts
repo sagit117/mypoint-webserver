@@ -4,7 +4,7 @@ export default class Validator implements IValidator {
     notEmpty(value?: TValue): boolean;
     isEqual(valueFirst?: TValue, valueSecond?: TValue): boolean;
 }
-interface IValidator {
+export interface IValidator {
     isEmail(value?: string): boolean;
     notEmpty(value?: string): boolean;
     isEqual(valueFirst: TValue, valueSecond: TValue): boolean;

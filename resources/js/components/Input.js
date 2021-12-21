@@ -1,28 +1,20 @@
-export default class Input {
-    input = null;
+import DefaultHTMLComponent from "../common/DefaultHTMLComponent.js";
+export default class Input extends DefaultHTMLComponent {
     smallMessage = null;
-    constructor(rootDiv, id, onInputHandler) {
-        this.input = rootDiv.querySelector("#" + id);
-        if (this.input) {
-            this.input.addEventListener("input", onInputHandler);
-            this.smallMessage = rootDiv.querySelector("#" + id + "_msg");
+    constructor(rootDiv, onInputHandler) {
+        super(rootDiv);
+        if (this.rootDiv) {
+            this.rootDiv.addEventListener("input", onInputHandler);
+            this.smallMessage = rootDiv?.parentElement?.querySelector("#" + this.rootDiv.id + "_msg") || null;
         }
         else {
             throw new Error("Input is required!");
         }
     }
-    set value(v) {
-        if (this.input) {
-            this.input.value = v;
-        }
-    }
-    get value() {
-        return this.input?.value || "";
-    }
     /** управление классами валидации */
     setValid(msg) {
-        this.input?.classList.add("valid");
-        this.input?.classList.remove("inValid");
+        this.rootDiv?.classList.add("valid");
+        this.rootDiv?.classList.remove("inValid");
         if (msg !== undefined && this.smallMessage) {
             this.smallMessage.textContent = msg;
             this.smallMessage.classList.add("valid");
@@ -30,11 +22,11 @@ export default class Input {
         }
     }
     isValid() {
-        return this.input?.classList.contains("valid") || false;
+        return this.rootDiv?.classList.contains("valid") || false;
     }
     setInValid(msg) {
-        this.input?.classList.add("inValid");
-        this.input?.classList.remove("valid");
+        this.rootDiv?.classList.add("inValid");
+        this.rootDiv?.classList.remove("valid");
         if (msg !== undefined && this.smallMessage) {
             this.smallMessage.textContent = msg;
             this.smallMessage.classList.add("inValid");
@@ -42,18 +34,15 @@ export default class Input {
         }
     }
     isInValid() {
-        return this.input?.classList.contains("inValid") || false;
+        return this.rootDiv?.classList.contains("inValid") || false;
     }
     unsetValidate() {
-        this.input?.classList.remove("valid");
-        this.input?.classList.remove("inValid");
+        this.rootDiv?.classList.remove("valid");
+        this.rootDiv?.classList.remove("inValid");
         if (this.smallMessage) {
             this.smallMessage.classList.remove("valid");
             this.smallMessage.classList.remove("inValid");
             this.smallMessage.textContent = "";
         }
-    }
-    getTarget() {
-        return this.input;
     }
 }

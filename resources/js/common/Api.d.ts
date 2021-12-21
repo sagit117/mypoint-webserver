@@ -1,4 +1,4 @@
-export default class Api {
+export default class Api implements IApi {
     private url;
     constructor(url: string);
     login(loginDTO: ILoginDTO): Promise<any>;
@@ -14,5 +14,10 @@ interface ILoginDTO {
 interface IUpdatePasswordWithHash {
     hash: string;
     newPassword: string;
+}
+export interface IApi {
+    login(loginDTO: ILoginDTO): Promise<any>;
+    resetPassword(email: string): Promise<any>;
+    updatePasswordWithHash(updatePasswordDTO: IUpdatePasswordWithHash): Promise<any>;
 }
 export {};

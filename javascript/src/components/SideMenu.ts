@@ -2,34 +2,19 @@ import DefaultHTMLElement from "../common/DefaultHTMLComponent.js";
 
 /** Класс для управления side menu */
 export default class SideMenu extends DefaultHTMLElement implements ISideMenu {
-    private isShow = false;
     private btnClose: HTMLDivElement | null = null;
     private items: Array<SideMenuItem> = [];
 
     constructor(id: string) {
-        super(id);
+        super(id, false);
 
         if (this.rootDiv) {
             this.btnClose = this.rootDiv.querySelector("#close");
-            this.btnClose?.addEventListener("click", this.toggleShow.bind(this));
-
-            if (!this.isShow) this.rootDiv.style.display = "none";
+            this.btnClose?.addEventListener("click", this.toggleShow.bind(this, "flex"));
 
             this.activeLink()?.classList.add("active-link");
             this.getItems();
         }
-    }
-
-    public toggleShow() {
-        if (!this.rootDiv) return;
-
-        if (this.isShow) {
-            this.rootDiv.style.display = "none";
-        } else {
-            this.rootDiv.style.display = "flex";
-        }
-
-        this.isShow = !this.isShow;
     }
 
     /** Сопоставляем url с href в сылках */
@@ -60,7 +45,7 @@ export default class SideMenu extends DefaultHTMLElement implements ISideMenu {
 class SideMenuItem extends DefaultHTMLElement {
     private toogle: HTMLDivElement | null = null;
     private divSubItems: HTMLDivElement | null = null;
-    private isShow = false;
+    protected isShow: boolean = false;
 
     constructor(div: HTMLDivElement, toogle: HTMLDivElement) {
         super(div);
@@ -75,7 +60,7 @@ class SideMenuItem extends DefaultHTMLElement {
         }
     }
 
-    private toogleShow() {
+    public toogleShow() {
         if (!this.divSubItems || !this.toogle) return;
 
         if (!this.isShow) {

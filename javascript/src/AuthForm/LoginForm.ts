@@ -1,26 +1,26 @@
-import Input, { IInputEventChanged } from "../components/Input.js";
-import Toasts, { ToastType } from "../components/Toasts.js";
-import Validator from "../common/Validator.js";
-import Api from "../common/Api.js";
+import Input, { IInput, IInputEventChanged } from "../components/Input.js";
+import { IToasts, ToastType } from "../components/Toasts.js";
+import { IValidator } from "../common/Validator.js";
+import { IApi } from "../common/Api.js";
 import AuthForm from "./AuthForm.js";
-import Button from "../components/Button.js";
+import Button, { IButton } from "../components/Button.js";
 
 export default class LoginForm extends AuthForm {
-    private password: Input | null = null;
-    private btnForgot: Button | null = null;
+    private password: IInput | null = null;
+    private btnForgot: IButton | null = null;
 
-    constructor(id: string, validator: Validator, api: Api, toasts: Toasts) {
+    constructor(id: string, validator: IValidator, api: IApi, toasts: IToasts) {
         super(id, validator, api, toasts);
 
         if (this.rootDiv) {
-            this.password = new Input(this.rootDiv, "password", this.onInputPasswordHandler.bind(this));
-            this.btnForgot = new Button(this.rootDiv, "btnForgot", this.btnForgotClick.bind(this));
+            this.password = new Input(this.rootDiv.querySelector("#password"), this.onInputPasswordHandler.bind(this));
+            this.btnForgot = new Button(this.rootDiv.querySelector("#btnForgot"), this.btnForgotClick.bind(this));
 
-            this.password.getTarget()?.addEventListener("keydown", (e: KeyboardEvent) => {
+            (this.password.getTarget() as HTMLInputElement)?.addEventListener("keydown", (e: KeyboardEvent) => {
                 if (e.key == "Enter") {
                     this.btnOkClick()
                 }
-            })
+            });
         }
     }
 
@@ -28,7 +28,7 @@ export default class LoginForm extends AuthForm {
     protected btnOkClick() {
         /** проверка логина */
         if (this.login && this.validator?.isEmail(this.login.value)) {
-            this.login.setValid("")
+            this.login.setValid("");
         } else {
             if (this.login) {
                 this.login.setInValid("email не соответствует!");

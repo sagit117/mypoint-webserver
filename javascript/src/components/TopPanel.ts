@@ -1,18 +1,18 @@
+import DefaultHTMLComponent from "../common/DefaultHTMLComponent.js";
 import { ISideMenu } from "./SideMenu.js";
 
-export default class TopPanel {
-    private rootDiv: HTMLDivElement | null = null;
+export default class TopPanel extends DefaultHTMLComponent {
     private leftSideMenu: ISideMenu | null = null;
     private leftSideMenuToggle: HTMLDivElement | null = null;
 
     constructor(id: string, leftSideMenu: ISideMenu) {
-        this.rootDiv = document.getElementById(id) as HTMLDivElement;
+        super(id);
         
         if (this.rootDiv) {
             this.leftSideMenu = leftSideMenu;
             this.leftSideMenuToggle = this.rootDiv.querySelector("#left_side_menu_toggle");
 
-            this.leftSideMenuToggle?.addEventListener("click", this.leftSideMenu.toggleShow.bind(this.leftSideMenu))
+            this.leftSideMenuToggle?.addEventListener("click", this.leftSideMenu.toggleShow.bind(this.leftSideMenu, "flex"))
         } else {
             throw new Error("rootDiv is required!");
         }
