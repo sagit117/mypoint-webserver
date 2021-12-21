@@ -42,14 +42,12 @@ class SideMenuItems: Template<FlowContent> {
                         src = "/static/chevron-right.svg"
                     }
                 }
-            }
-        }
 
-        subItems?.let {
-            div {
-                classes = setOf("side_menu__sub_item", "ml-2")
+                div {
+                    classes = setOf("side_menu__sub_item", "ml-2")
 
-                insert(it, content)
+                    insert(it, content)
+                }
             }
         }
     }

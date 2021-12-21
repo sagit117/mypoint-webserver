@@ -70,7 +70,12 @@ a.side_menu__item {
 
 .side_menu__sub_item {
     display: none;
+    font-size: .8rem;
 }
+/* .side_menu__sub_item img {
+    height: .9rem;
+    width: .9rem;
+} */
 
 .side_menu__item__wrapper {
     position: relative;
@@ -79,7 +84,7 @@ a.side_menu__item {
 .side_menu__items__toggle {
     position: absolute;
     right: 0;
-    top: 4px;
+    top: .2rem;
     cursor: pointer;
 }
 .side_menu__items__toggle > img {
