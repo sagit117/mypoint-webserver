@@ -1,6 +1,9 @@
 import { ToastType } from "../components/Toasts.js";
 import AuthForm from "./AuthForm.js";
 import Button from "../components/Button.js";
+/**
+ * Класс для управления формой "Забыли пароль"
+ */
 export default class ForgotForm extends AuthForm {
     btnEnter = null;
     constructor(id, validator, api, toasts) {
@@ -9,6 +12,10 @@ export default class ForgotForm extends AuthForm {
             this.btnEnter = new Button(this.rootDiv.querySelector("#btnEnter"), this.btnEnterClick.bind(this));
         }
     }
+    /**
+     * Обработчик кнопки отправить запрос
+     * @returns
+     */
     btnOkClick() {
         /** проверка логина */
         if (this.login && this.validator?.isEmail(this.login.value)) {

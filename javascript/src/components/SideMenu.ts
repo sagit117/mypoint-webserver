@@ -32,6 +32,7 @@ export default class SideMenu extends DefaultHTMLElement implements ISideMenu {
         return activeItem;
     }
 
+    /** Получение массива подменю, для обработки кнопок развернуть/свернуть */
     private getItems() {
         const toggle = this.rootDiv?.querySelectorAll(".side_menu__items__toggle");
 

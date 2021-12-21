@@ -1,4 +1,5 @@
 import DefaultHTMLComponent from "../common/DefaultHTMLComponent.js";
+/** Класс для управления очередями сообщений в toast */
 export default class Toasts extends DefaultHTMLComponent {
     constructor(id) {
         super(id);
@@ -8,6 +9,7 @@ export default class Toasts extends DefaultHTMLComponent {
         this.rootDiv?.insertAdjacentElement("beforeend", toast);
     }
 }
+/** Класс для управления сообщениями в toast */
 class Toast {
     title;
     message;
@@ -16,6 +18,14 @@ class Toast {
     toast = null;
     timer = null;
     cbOnClose;
+    /**
+     * Конструктор
+     * @param title - заголовок
+     * @param message - сщщбщение
+     * @param type - тип сообщения
+     * @param cbOnClose - метод, который будет выполнен после закрытия сообщения
+     * @param timeToLifeMC - время жизни сообщения
+     */
     constructor(title, message, type, cbOnClose, timeToLifeMC = 3000) {
         this.title = title;
         this.message = message;

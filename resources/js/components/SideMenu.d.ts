@@ -6,6 +6,7 @@ export default class SideMenu extends DefaultHTMLElement implements ISideMenu {
     constructor(id: string);
     /** Сопоставляем url с href в сылках */
     private activeLink;
+    /** Получение массива подменю, для обработки кнопок развернуть/свернуть */
     private getItems;
 }
 export interface ISideMenu {

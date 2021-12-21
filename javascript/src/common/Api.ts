@@ -1,10 +1,20 @@
+/** Класс для запросов к серверу */
 export default class Api implements IApi {
     private url: string = "";
 
+    /**
+     * Конструктор
+     * @param url - базовый url API сервера
+     */
     constructor(url: string) {
         this.url = url;
     }
 
+    /**
+     * Отправка данных при логине
+     * @param loginDTO 
+     * @returns 
+     */
     public async login(loginDTO: ILoginDTO): Promise<any> {
         const url = this.url + "/users/login";
 
@@ -53,7 +63,12 @@ export default class Api implements IApi {
     }
 }
 
-async function prepareResponse(response:Response): Promise<any> {
+/**
+ * Общая функция для преобразования ответа сервера в JSON
+ * @param response - ответ сервера
+ * @returns 
+ */
+async function prepareResponse(response: Response): Promise<any> {
     const isOk = response.ok;
     const code = response.status;
     const json = await response.json();
@@ -66,11 +81,13 @@ async function prepareResponse(response:Response): Promise<any> {
     }
 }
 
+/** DTO для логина */
 interface ILoginDTO {
     email: string;
     password: string;
 }
 
+/** DTO для обновления пароля по хэш коду */
 interface IUpdatePasswordWithHash {
     hash: string;
     newPassword: string;

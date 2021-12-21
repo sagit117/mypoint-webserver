@@ -2,17 +2,25 @@ import Button from "../components/Button.js";
 import Spinner from "../components/Spinner.js";
 import Input from "../components/Input.js";
 import DefaultHTMLComponent from "../common/DefaultHTMLComponent.js";
+/**
+ * Базовый класс для построения формы аутентификации
+ */
 export default class AuthForm extends DefaultHTMLComponent {
-    // protected rootDiv: HTMLDivElement | null = null;
     login = null;
     btnOk = null;
     validator = null;
     spinner = null;
     api = null;
     toasts = null;
+    /**
+     * Конструктор
+     * @param id - ID корневого элемента
+     * @param validator - класс валидатор
+     * @param api - класс api
+     * @param toasts - класс toast
+     */
     constructor(id, validator, api, toasts) {
         super(id);
-        // this.rootDiv = document.getElementById(id) as HTMLDivElement;
         this.validator = validator;
         this.api = api;
         this.toasts = toasts;

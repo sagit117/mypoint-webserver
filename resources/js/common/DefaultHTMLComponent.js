@@ -1,6 +1,14 @@
+/**
+ * Базовый класс для создания компонентов
+ */
 export default class DefaultHTMLComponent {
     rootDiv = null;
     isShow = false;
+    /**
+     * Конструктор
+     * @param idOrDiv - строка с ID или сам корневой элемент
+     * @param isShow - отображать или скрывать корневой елемент
+     */
     constructor(idOrDiv, isShow = true) {
         if (typeof idOrDiv === "string") {
             this.rootDiv = document.getElementById(idOrDiv);
@@ -17,6 +25,11 @@ export default class DefaultHTMLComponent {
                 this.rootDiv.style.display = "none";
         }
     }
+    /**
+     * Переключатель отображения корневого элемента (показать/скрыть)
+     * @param display - какой параметр display будет применен при отображение корневого элемента
+     * @returns
+     */
     toggleShow(display = "block") {
         if (!this.rootDiv)
             return;
@@ -28,27 +41,45 @@ export default class DefaultHTMLComponent {
         }
         this.isShow = !this.isShow;
     }
+    /**
+     * Заблокировать корневой элемент, например кнопку(Button)
+     * @returns
+     */
     disable() {
         if (!this.rootDiv || !("disabled" in this.rootDiv))
             return;
         this.rootDiv.disabled = true;
     }
+    /**
+     * Разблокировать корневой элемент, например кнопку(Button)
+     * @returns
+     */
     enable() {
         if (!this.rootDiv || !("disabled" in this.rootDiv))
             return;
         this.rootDiv.disabled = false;
     }
+    /**
+     * Установить значение поля ввода
+     */
     set value(v) {
         if (this.rootDiv && ("value" in this.rootDiv)) {
             this.rootDiv.value = v;
         }
     }
+    /**
+     * Получить значение поля ввода
+     */
     get value() {
         if (this.rootDiv && ("value" in this.rootDiv))
             return this.rootDiv.value;
         else
             return "";
     }
+    /**
+     * Получить корневой элемент
+     * @returns TDefaultHTMLElement
+     */
     getTarget() {
         return this.rootDiv;
     }

@@ -5,6 +5,9 @@ import Input, { IInput, IInputEventChanged } from "../components/Input.js";
 import AuthForm from "./AuthForm.js";
 import Button, { IButton } from "../components/Button.js";
 
+/**
+ * Класс для управления формой ввода нового пароля, применяется к восстановлению пароля из почты
+ */
 export default class ResetPasswordForm extends AuthForm {
     private password: IInput | null = null;
     private confirmPassword: IInput | null = null;
@@ -32,6 +35,7 @@ export default class ResetPasswordForm extends AuthForm {
         }
     }
 
+    /** Обработчки кнопки смены пароля */
     protected btnOkClick() {
         if (!this.validator?.notEmpty(this.password?.value)) {
             this.password?.setInValid("Пароль не должен быть пустым!");

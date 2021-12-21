@@ -2,6 +2,9 @@ import { ToastType } from "../components/Toasts.js";
 import Input from "../components/Input.js";
 import AuthForm from "./AuthForm.js";
 import Button from "../components/Button.js";
+/**
+ * Класс для управления формой ввода нового пароля, применяется к восстановлению пароля из почты
+ */
 export default class ResetPasswordForm extends AuthForm {
     password = null;
     confirmPassword = null;
@@ -24,6 +27,7 @@ export default class ResetPasswordForm extends AuthForm {
             this.btnEnter = new Button(this.rootDiv.querySelector("#btnEnter"), this.btnEnterClick.bind(this));
         }
     }
+    /** Обработчки кнопки смены пароля */
     btnOkClick() {
         if (!this.validator?.notEmpty(this.password?.value)) {
             this.password?.setInValid("Пароль не должен быть пустым!");

@@ -1,8 +1,18 @@
+/** Класс для запросов к серверу */
 export default class Api {
     url = "";
+    /**
+     * Конструктор
+     * @param url - базовый url API сервера
+     */
     constructor(url) {
         this.url = url;
     }
+    /**
+     * Отправка данных при логине
+     * @param loginDTO
+     * @returns
+     */
     async login(loginDTO) {
         const url = this.url + "/users/login";
         try {
@@ -48,6 +58,11 @@ export default class Api {
         }
     }
 }
+/**
+ * Общая функция для преобразования ответа сервера в JSON
+ * @param response - ответ сервера
+ * @returns
+ */
 async function prepareResponse(response) {
     const isOk = response.ok;
     const code = response.status;

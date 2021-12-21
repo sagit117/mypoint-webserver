@@ -1,4 +1,5 @@
 import DefaultHTMLComponent from "../common/DefaultHTMLComponent.js";
+/** Класс для управления компонентом прелоадера */
 export default class Spinner extends DefaultHTMLComponent {
     constructor(rootDiv) {
         super(rootDiv);

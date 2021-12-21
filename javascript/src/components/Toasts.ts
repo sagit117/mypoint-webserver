@@ -1,5 +1,6 @@
 import DefaultHTMLComponent from "../common/DefaultHTMLComponent.js";
 
+/** Класс для управления очередями сообщений в toast */
 export default class Toasts extends DefaultHTMLComponent implements IToasts {
     constructor(id: string) {
         super(id);
@@ -11,6 +12,7 @@ export default class Toasts extends DefaultHTMLComponent implements IToasts {
     }
 }
 
+/** Класс для управления сообщениями в toast */
 class Toast {
     private title: string;
     private message: string;
@@ -20,6 +22,14 @@ class Toast {
     private timer: NodeJS.Timeout | null = null;
     private cbOnClose?: () => void;
 
+    /**
+     * Конструктор
+     * @param title - заголовок
+     * @param message - сщщбщение
+     * @param type - тип сообщения
+     * @param cbOnClose - метод, который будет выполнен после закрытия сообщения
+     * @param timeToLifeMC - время жизни сообщения
+     */
     constructor(title: string, message: string, type: ToastType, cbOnClose?: () => void, timeToLifeMC: number = 3000) {
         this.title = title;
         this.message = message;

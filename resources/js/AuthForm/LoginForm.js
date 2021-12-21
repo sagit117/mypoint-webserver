@@ -2,6 +2,9 @@ import Input from "../components/Input.js";
 import { ToastType } from "../components/Toasts.js";
 import AuthForm from "./AuthForm.js";
 import Button from "../components/Button.js";
+/**
+ * Класс управления формой авторизации
+ */
 export default class LoginForm extends AuthForm {
     password = null;
     btnForgot = null;
@@ -17,7 +20,7 @@ export default class LoginForm extends AuthForm {
             });
         }
     }
-    /** Вход */
+    /** Обработчик кнопки вход */
     btnOkClick() {
         /** проверка логина */
         if (this.login && this.validator?.isEmail(this.login.value)) {

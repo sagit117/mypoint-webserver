@@ -5,6 +5,9 @@ import { IApi } from "../common/Api.js";
 import AuthForm from "./AuthForm.js";
 import Button, { IButton } from "../components/Button.js";
 
+/**
+ * Класс управления формой авторизации
+ */
 export default class LoginForm extends AuthForm {
     private password: IInput | null = null;
     private btnForgot: IButton | null = null;
@@ -24,7 +27,7 @@ export default class LoginForm extends AuthForm {
         }
     }
 
-    /** Вход */
+    /** Обработчик кнопки вход */
     protected btnOkClick() {
         /** проверка логина */
         if (this.login && this.validator?.isEmail(this.login.value)) {

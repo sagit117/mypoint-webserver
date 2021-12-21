@@ -6,8 +6,10 @@ import { IApi } from "../common/Api.js";
 import { IValidator } from "../common/Validator.js";
 import DefaultHTMLComponent from "../common/DefaultHTMLComponent.js";
 
+/**
+ * Базовый класс для построения формы аутентификации
+ */
 export default class AuthForm extends DefaultHTMLComponent {
-    // protected rootDiv: HTMLDivElement | null = null;
     protected login: IInput | null = null;
     protected btnOk: IButton | null = null;
 
@@ -16,9 +18,16 @@ export default class AuthForm extends DefaultHTMLComponent {
     protected api: IApi | null = null;
     protected toasts: IToasts | null = null;
 
+    /**
+     * Конструктор
+     * @param id - ID корневого элемента
+     * @param validator - класс валидатор
+     * @param api - класс api
+     * @param toasts - класс toast
+     */
     constructor(id: string, validator: IValidator, api: IApi, toasts: IToasts) {
         super(id)
-        // this.rootDiv = document.getElementById(id) as HTMLDivElement;
+
         this.validator = validator;
         this.api = api;
         this.toasts = toasts;

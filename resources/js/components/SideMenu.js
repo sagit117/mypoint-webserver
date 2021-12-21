@@ -24,6 +24,7 @@ export default class SideMenu extends DefaultHTMLElement {
         });
         return activeItem;
     }
+    /** Получение массива подменю, для обработки кнопок развернуть/свернуть */
     getItems() {
         const toggle = this.rootDiv?.querySelectorAll(".side_menu__items__toggle");
         toggle?.forEach(item => {

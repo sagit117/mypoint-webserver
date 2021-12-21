@@ -1,3 +1,4 @@
+// todo
 export default class User {
     private data: IUserData;
     private token: string = "";

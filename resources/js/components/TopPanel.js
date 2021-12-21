@@ -1,4 +1,5 @@
 import DefaultHTMLComponent from "../common/DefaultHTMLComponent.js";
+/** Класс для управлепния верхней панелью */
 export default class TopPanel extends DefaultHTMLComponent {
     leftSideMenu = null;
     leftSideMenuToggle = null;

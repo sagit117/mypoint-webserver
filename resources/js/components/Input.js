@@ -1,6 +1,12 @@
 import DefaultHTMLComponent from "../common/DefaultHTMLComponent.js";
+/** Класс для управления элементами ввода (Input) */
 export default class Input extends DefaultHTMLComponent {
     smallMessage = null;
+    /**
+     * Конструктор
+     * @param rootDiv - корневой элемент
+     * @param onInputHandler - обработчик ввода
+     */
     constructor(rootDiv, onInputHandler) {
         super(rootDiv);
         if (this.rootDiv) {
@@ -36,6 +42,7 @@ export default class Input extends DefaultHTMLComponent {
     isInValid() {
         return this.rootDiv?.classList.contains("inValid") || false;
     }
+    /** Снять всю валидацию */
     unsetValidate() {
         this.rootDiv?.classList.remove("valid");
         this.rootDiv?.classList.remove("inValid");
