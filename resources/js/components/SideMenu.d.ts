@@ -1,6 +1,6 @@
+import DefaultHTMLElement from "../common/DefaultHTMLComponent.js";
 /** Класс для управления side menu */
-export default class SideMenu implements ISideMenu {
-    private rootDiv;
+export default class SideMenu extends DefaultHTMLElement implements ISideMenu {
     private isShow;
     private btnClose;
     private items;

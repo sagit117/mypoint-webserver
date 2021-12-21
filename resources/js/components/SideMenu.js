@@ -1,11 +1,11 @@
+import DefaultHTMLElement from "../common/DefaultHTMLComponent.js";
 /** Класс для управления side menu */
-export default class SideMenu {
-    rootDiv = null;
+export default class SideMenu extends DefaultHTMLElement {
     isShow = false;
     btnClose = null;
     items = [];
     constructor(id) {
-        this.rootDiv = document.getElementById(id);
+        super(id);
         if (this.rootDiv) {
             this.btnClose = this.rootDiv.querySelector("#close");
             this.btnClose?.addEventListener("click", this.toggleShow.bind(this));
@@ -13,9 +13,6 @@ export default class SideMenu {
                 this.rootDiv.style.display = "none";
             this.activeLink()?.classList.add("active-link");
             this.getItems();
-        }
-        else {
-            throw new Error("rootDiv is required!");
         }
     }
     toggleShow() {
@@ -49,22 +46,18 @@ export default class SideMenu {
     }
 }
 /** Класс отвечает за пункты меню и отображение групп меню */
-class SideMenuItem {
-    rootDiv = null;
+class SideMenuItem extends DefaultHTMLElement {
     toogle = null;
     divSubItems = null;
     isShow = false;
     constructor(div, toogle) {
-        this.rootDiv = div;
+        super(div);
         this.toogle = toogle;
         if (this.rootDiv) {
             this.divSubItems = this.rootDiv.querySelector(".side_menu__sub_item");
             this.toogle.addEventListener("click", this.toogleShow.bind(this));
             if (!this.isShow && this.divSubItems)
                 this.divSubItems.style.display = "none";
-        }
-        else {
-            throw new Error("rootDiv is required!");
         }
     }
     toogleShow() {
