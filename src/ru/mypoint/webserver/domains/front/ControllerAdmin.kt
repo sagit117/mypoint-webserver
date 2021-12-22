@@ -12,9 +12,9 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.*
 import ru.mypoint.webserver.common.dto.*
-import ru.mypoint.webserver.domains.front.templates.components.ButtonsForgotAdminPage
-import ru.mypoint.webserver.domains.front.templates.components.ButtonsLoginAdminPage
-import ru.mypoint.webserver.domains.front.templates.components.ButtonsResetPasswordAdminPage
+import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsForgotAdminPage
+import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsLoginAdminPage
+import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsResetPasswordAdminPage
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelDefaultLayout
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelMainLayout
 import ru.mypoint.webserver.domains.front.templates.pages.*
@@ -114,7 +114,7 @@ fun Application.adminModule() {
                         page = adminUsersPage {
 
                         }
-                        styleUrl = listOf("/static/admin-home.css")
+                        styleUrl = listOf("/static/admin-users.css")
                     }
                 }
                 else {

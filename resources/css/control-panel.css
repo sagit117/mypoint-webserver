@@ -1,0 +1,6 @@
+.control_panel__wrapper {
+    display: flex;
+    background-color: rgba(0, 0, 0, .85);
+    border-radius: .5rem;
+    box-shadow: 3px 3px 11px 2px grey;
+}

@@ -5,6 +5,7 @@
 @import "colors.css";
 @import "top-panel.css";
 @import "left-side-menu.css";
+@import "control-panel.css";
 
 * {
     font-family: "Montserrat", sans-serif;
@@ -47,4 +48,8 @@ body {
 
 .ml-2 {
     margin-left: 1rem;
+}
+
+.p-2 {
+    padding: 1rem;
 }

@@ -3,8 +3,8 @@ package ru.mypoint.webserver.domains.front.templates.layouts
 import io.ktor.html.*
 import kotlinx.html.*
 import ru.mypoint.webserver.ConfigApp
-import ru.mypoint.webserver.domains.front.templates.components.ButtonsAdminHomeTopPanel
-import ru.mypoint.webserver.domains.front.templates.components.ItemsAdminLeftSideMenu
+import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsAdminHomeTopPanel
+import ru.mypoint.webserver.domains.front.templates.components.collections.menus.ItemsAdminLeftSideMenu
 import ru.mypoint.webserver.domains.front.templates.components.leftSideMenu
 import ru.mypoint.webserver.domains.front.templates.components.topPanel
 

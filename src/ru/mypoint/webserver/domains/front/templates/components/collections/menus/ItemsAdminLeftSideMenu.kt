@@ -1,7 +1,8 @@
-package ru.mypoint.webserver.domains.front.templates.components
+package ru.mypoint.webserver.domains.front.templates.components.collections.menus
 
 import io.ktor.html.*
 import kotlinx.html.*
+import ru.mypoint.webserver.domains.front.templates.components.sideMenuItems
 
 class ItemsAdminLeftSideMenu: Template<FlowContent> {
     private val content = TemplatePlaceholder<Template<FlowContent>>()

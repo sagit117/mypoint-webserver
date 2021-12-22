@@ -1,27 +1,27 @@
-package ru.mypoint.webserver.domains.front.templates.components
+package ru.mypoint.webserver.domains.front.templates.components.collections.buttons
 
 import io.ktor.html.*
 import kotlinx.html.*
 
 /**
- * Набор кнопок для формы восстановить пароль(админ)
+ * Набор кнопок для формы логина(админ)
  */
-class ButtonsResetPasswordAdminPage: Template<FlowContent> {
+class ButtonsLoginAdminPage: Template<FlowContent> {
     override fun FlowContent.apply() {
         div {
             classes = setOf("login_form__actions", "mt-4")
 
             button {
-                id = "btnEnter"
+                id = "btnForgot"
                 type = ButtonType.button
                 classes = setOf("btn", "btn-primary")
-                +"Вход"
+                +"Забыли пароль?"
             }
             button {
                 id = "btnOk"
                 type = ButtonType.button
                 classes = setOf("btn", "btn-success")
-                +"Изменить пароль"
+                +"Войти"
             }
         }
     }

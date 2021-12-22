@@ -1,4 +1,4 @@
-package ru.mypoint.webserver.domains.front.templates.components
+package ru.mypoint.webserver.domains.front.templates.components.collections.buttons
 
 import io.ktor.html.*
 import kotlinx.html.*
