@@ -4,7 +4,7 @@ package ru.mypoint.webserver.common
 enum class DbUrls(val value: String) {
     UsersGetAll("/v1/users/get/all"),
     UsersAdd("/v1/users/add"),
-    UsersGet("/v1/users/get"),
+    UsersGet("/v1/users/get/one"),
     UsersUpdatePassword("/v1/users/update/password"),
     UserUpdateData("/v1/users/update/data"),
     TemplatesEmailAdd("/v1/templates/email/add")
