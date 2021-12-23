@@ -12,6 +12,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
 import io.ktor.util.*
+import ru.mypoint.webserver.common.DbUrls
 import ru.mypoint.webserver.common.dto.*
 import ru.mypoint.webserver.common.randomCode
 import ru.mypoint.webserver.domains.notification.DataForQueueResetPassword
@@ -22,7 +23,7 @@ import ru.mypoint.webserver.domains.users.dto.*
 
 @Suppress("unused") // Referenced in application.conf
 fun Application.userModule() {
-    /** настройки по умолчанию для запроса как клиент */
+    /** Настройки по умолчанию для запроса как клиент */
     val client = createDataBusClient {
         logger = log
         httpClient = HttpClient(CIO) {
@@ -50,7 +51,7 @@ fun Application.userModule() {
 
                 val result = client.post<Any>(
                     RequestToDataBus(
-                        dbUrl = "/v1/users/add",
+                        dbUrl = DbUrls.UsersAdd.value,
                         method = MethodsRequest.POST,
                         authToken = null,
                         body = userRegistryDTO
@@ -116,7 +117,7 @@ fun Application.userModule() {
 
                 val result = client.post<String>(
                     RequestToDataBus(
-                        dbUrl = "/v1/users/get",
+                        dbUrl = DbUrls.UsersGet.value,
                         method = MethodsRequest.POST,
                         authToken = token,
                         body = UserGetDTO(emailDTO.email)
@@ -206,7 +207,7 @@ fun Application.userModule() {
                         if (login != null) {
                             val result = client.post<String>(
                                 RequestToDataBus(
-                                    dbUrl = "/v1/users/update/password",
+                                    dbUrl = DbUrls.UsersUpdatePassword.value,
                                     method = MethodsRequest.POST,
                                     authToken = token,
                                     body = UserUpdatePasswordDTO(emailDTO.email, updateData.newPassword)
@@ -239,7 +240,7 @@ fun Application.userModule() {
                         if (token != null) {
                             val result = client.post<String>(
                                 RequestToDataBus(
-                                    dbUrl = "/v1/users/update/password",
+                                    dbUrl = DbUrls.UsersUpdatePassword.value,
                                     method = MethodsRequest.POST,
                                     authToken = token,
                                     body = UserUpdatePasswordDTO(
@@ -271,7 +272,7 @@ fun Application.userModule() {
 
                     val result = client.post<String>(
                         RequestToDataBus(
-                            dbUrl = "/v1/users/update/data",
+                            dbUrl = DbUrls.UserUpdateData.value,
                             method = MethodsRequest.POST,
                             authToken = token,
                             body = updateData.copy(email = emailDTO.email)

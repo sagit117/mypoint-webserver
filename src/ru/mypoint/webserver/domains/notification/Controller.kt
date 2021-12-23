@@ -11,6 +11,7 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.*
+import ru.mypoint.webserver.common.DbUrls
 import ru.mypoint.webserver.common.dto.GetAuth
 import ru.mypoint.webserver.common.dto.MethodsRequest
 import ru.mypoint.webserver.common.dto.RequestToDataBus
@@ -49,7 +50,7 @@ fun Application.notificationModule() {
 
                     val result = client.post<String>(
                         RequestToDataBus(
-                            dbUrl = "/v1/templates/email/add",
+                            dbUrl = DbUrls.TemplatesEmailAdd.value,
                             method = MethodsRequest.POST,
                             authToken = token,
                             body = call.receive<TemplateEmailCreateDTO>()

@@ -11,6 +11,7 @@ import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.*
+import ru.mypoint.webserver.common.DbUrls
 import ru.mypoint.webserver.common.dto.*
 import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsAdminUsersControlPanel
 import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsForgotAdminPage
@@ -21,7 +22,6 @@ import ru.mypoint.webserver.domains.front.templates.components.dataTable
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelDefaultLayout
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelMainLayout
 import ru.mypoint.webserver.domains.front.templates.pages.*
-import ru.mypoint.webserver.domains.users.dto.UserUpdatePasswordDTO
 
 @Suppress("unused") // Referenced in application.conf
 fun Application.adminModule() {
@@ -126,7 +126,7 @@ fun Application.adminModule() {
 
                 val result = client.checkAccess<String>(
                     CheckAccessDTO(
-                        url = "/admin/panel/users",
+                        url = "/admin/users",
                         token = token,
                         body = null
                     ),
@@ -138,7 +138,7 @@ fun Application.adminModule() {
                     /** Получить список пользователей */
                     val users = client.post<String>(
                         RequestToDataBus(
-                            dbUrl = "/v1/users/get/all",
+                            dbUrl = DbUrls.UsersGetAll.value,
                             method = MethodsRequest.POST,
                             authToken = token,
                             body = GetListWithLimit(50, 0)

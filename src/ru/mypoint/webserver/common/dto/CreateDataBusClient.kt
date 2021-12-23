@@ -25,7 +25,7 @@ class CreateDataBusClient() {
     lateinit var logger: Logger
     lateinit var httpClient: HttpClient
 
-    suspend inline fun <reified T> post(bodyRequest: Any = EmptyContent, call: ApplicationCall): T? {
+    suspend inline fun <reified T> post(bodyRequest: RequestToDataBus /*= EmptyContent*/, call: ApplicationCall): T? {
         return try {
             httpClient.post<T> {
                 url("/webserver/dbservice/request")
