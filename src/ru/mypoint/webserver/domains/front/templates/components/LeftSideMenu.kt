@@ -10,6 +10,7 @@ fun leftSideMenu(init: LeftSideMenu.() -> Unit): LeftSideMenu {
     return menu
 }
 
+/** Левое боковое меню */
 class LeftSideMenu: Template<FlowContent> {
     private val content = TemplatePlaceholder<Template<FlowContent>>()
     lateinit var items: Template<FlowContent>

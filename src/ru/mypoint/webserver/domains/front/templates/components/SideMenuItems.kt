@@ -9,6 +9,7 @@ fun sideMenuItems(init: SideMenuItems.() -> Unit): SideMenuItems {
     return menuItem
 }
 
+/** Пункты бокового меню */
 class SideMenuItems: Template<FlowContent> {
     lateinit var ahref: String
     lateinit var caption: String

@@ -5,8 +5,6 @@ import kotlinx.html.FlowContent
 import kotlinx.html.classes
 import kotlinx.html.div
 import kotlinx.html.h3
-import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsAdminUsersControlPanel
-import ru.mypoint.webserver.domains.front.templates.components.controlPanel
 
 fun adminUsersPage(init: AdminUsersPage.() -> Unit): AdminUsersPage {
     val page = AdminUsersPage()
@@ -16,6 +14,8 @@ fun adminUsersPage(init: AdminUsersPage.() -> Unit): AdminUsersPage {
 
 class AdminUsersPage: Template<FlowContent> {
     private val content = TemplatePlaceholder<Template<FlowContent>>()
+    lateinit var usersControlPanel: Template<FlowContent>
+    lateinit var usersTable: Template<FlowContent>
 
     override fun FlowContent.apply() {
         div {
@@ -26,9 +26,9 @@ class AdminUsersPage: Template<FlowContent> {
                 +"Пользователи"
             }
 
-            insert(controlPanel {
-                buttons = ButtonsAdminUsersControlPanel()
-            }, content)
+            insert(usersControlPanel, content)
+
+            insert(usersTable, content)
         }
     }
 }

@@ -17,12 +17,12 @@ class ItemsAdminLeftSideMenu: Template<FlowContent> {
                 imgSrc = "/static/home.svg"
             }, content)
             insert(sideMenuItems {
-                ahref = "/admin/panel/users"
+                ahref = "/admin/users"
                 caption = "Пользователи"
                 imgSrc = "/static/users.svg"
 
                 subItems = sideMenuItems {
-                    ahref = "/admin/panel/roles"
+                    ahref = "/admin/roles"
                     caption = "Роли"
                     imgSrc = "/static/roles.svg"
                 }

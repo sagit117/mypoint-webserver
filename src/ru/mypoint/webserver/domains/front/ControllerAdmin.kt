@@ -12,12 +12,16 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.*
 import ru.mypoint.webserver.common.dto.*
+import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsAdminUsersControlPanel
 import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsForgotAdminPage
 import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsLoginAdminPage
 import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsResetPasswordAdminPage
+import ru.mypoint.webserver.domains.front.templates.components.controlPanel
+import ru.mypoint.webserver.domains.front.templates.components.dataTable
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelDefaultLayout
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelMainLayout
 import ru.mypoint.webserver.domains.front.templates.pages.*
+import ru.mypoint.webserver.domains.users.dto.UserUpdatePasswordDTO
 
 @Suppress("unused") // Referenced in application.conf
 fun Application.adminModule() {
@@ -96,32 +100,6 @@ fun Application.adminModule() {
                 }
             }
 
-            get("/users") {
-                val token = GetAuth(call).token()
-
-                val result = client.checkAccess<String>(
-                    CheckAccessDTO(
-                        url = "/admin/panel/users",
-                        token = token,
-                        body = null
-                    ),
-                    call
-                )
-
-                /** Страница управления пользователями */
-                if (result != null) {
-                    call.respondHtmlTemplate(AdminPanelMainLayout(), HttpStatusCode.OK) {
-                        page = adminUsersPage {
-
-                        }
-                        styleUrl = listOf("/static/admin-users.css")
-                    }
-                }
-                else {
-                    call.respondRedirect("/admin/panel/login", false)
-                }
-            }
-
 //            get("/email/test") {
 //                /** Нагрузочное тестирование */
 //                for (i in 1..10) {
@@ -140,6 +118,52 @@ fun Application.adminModule() {
 //
 //                call.respond(HttpStatusCode.OK, mapOf("status" to "OK"))
 //            }
+        }
+
+        route("/admin") {
+            get("/users") {
+                val token = GetAuth(call).token()
+
+                val result = client.checkAccess<String>(
+                    CheckAccessDTO(
+                        url = "/admin/panel/users",
+                        token = token,
+                        body = null
+                    ),
+                    call
+                )
+
+                /** Страница управления пользователями */
+                if (result != null) {
+                    /** Получить список пользователей */
+                    val users = client.post<String>(
+                        RequestToDataBus(
+                            dbUrl = "/v1/users/get/all",
+                            method = MethodsRequest.POST,
+                            authToken = token,
+                            body = GetListWithLimit(50, 0)
+                        ),
+                        call
+                    )
+
+                    println(users.toString())
+
+                    call.respondHtmlTemplate(AdminPanelMainLayout(), HttpStatusCode.OK) {
+                        page = adminUsersPage {
+                            usersControlPanel = controlPanel {
+                                buttons = ButtonsAdminUsersControlPanel()
+                                usersTable = dataTable {
+
+                                }
+                            }
+                        }
+                        styleUrl = listOf("/static/admin-users.css")
+                    }
+                }
+                else {
+                    call.respondRedirect("/admin/panel/login", false)
+                }
+            }
         }
     }
 }

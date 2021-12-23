@@ -10,6 +10,7 @@ fun topPanel(init: TopPanel.() -> Unit): TopPanel {
     return panel
 }
 
+/** Верхняя навигационная панель */
 class TopPanel: Template<FlowContent> {
     private val content = TemplatePlaceholder<Template<FlowContent>>()
     lateinit var buttons: Template<FlowContent>
