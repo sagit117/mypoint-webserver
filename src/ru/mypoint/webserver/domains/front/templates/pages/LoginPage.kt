@@ -12,47 +12,13 @@ fun loginPage(init: LoginPage.() -> Unit): LoginPage {
 
 class LoginPage: Template<FlowContent> {
     private val content = TemplatePlaceholder<Template<FlowContent>>()
-    lateinit var buttons: Template<FlowContent>
-
-    private val loginInput = inputTextBlock() {
-        caption = "Логин: "
-        inputId = "login"
-        inputType = InputType.email
-    }
-    private val passwordInput = inputTextBlock() {
-        caption = "Пароль: "
-        inputId = "password"
-        inputType = InputType.password
-        extClass = "mt-2"
-    }
+    lateinit var formLogin: Template<FlowContent>
 
     override fun FlowContent.apply() {
         div {
             classes = setOf("login_wrapper")
 
-            div {
-                id = "login_form"
-                classes = setOf("login_form", "mt-8")
-
-                h3 {
-                    +"Вход в систему"
-                }
-
-                div {
-                    id = "spinner"
-                    classes = setOf("spinner_wrapper")
-
-                    div {
-                        classes = setOf("spinner")
-                    }
-                }
-
-                insert(loginInput, content)
-
-                insert(passwordInput, content)
-
-                insert(buttons, content)
-            }
+            insert(formLogin, content)
 
             script {
                 src = "/static/loginFormController.js"

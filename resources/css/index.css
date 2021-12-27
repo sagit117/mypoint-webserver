@@ -6,6 +6,7 @@
 @import "top-panel.css";
 @import "left-side-menu.css";
 @import "control-panel.css";
+@import "table.css";
 
 * {
     font-family: "Montserrat", sans-serif;
@@ -29,6 +30,9 @@ body {
     font-size: 1rem;
 }
 
+.mt-1 {
+    margin-top: 1rem;
+}
 .mt-2 {
     margin-top: 1rem;
 }
@@ -50,6 +54,9 @@ body {
     margin-left: 1rem;
 }
 
+.p-1 {
+    padding: .5rem;
+}
 .p-2 {
     padding: 1rem;
 }

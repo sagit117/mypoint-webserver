@@ -14,13 +14,18 @@ fun dataTable(init: Table.() -> Unit): Table {
 /** Таблица данных */
 class Table: Template<FlowContent> {
     private val content = TemplatePlaceholder<Template<FlowContent>>()
-    private var mapData: Map<String, String> = emptyMap()
+    var tableHeaders: Map<String, String> = emptyMap() // Заголовки таблицы
 
     override fun FlowContent.apply() {
         div {
-            classes = setOf("table-wrapper")
+            classes = setOf("table-wrapper", "mt-1")
 
-
+            tableHeaders.forEach {
+                div {
+                    classes = setOf("table-header", "p-1")
+                    +it.value
+                }
+            }
         }
     }
 }

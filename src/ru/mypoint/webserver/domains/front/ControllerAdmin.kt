@@ -13,6 +13,7 @@ import io.ktor.routing.*
 import io.ktor.util.*
 import ru.mypoint.webserver.common.DbUrls
 import ru.mypoint.webserver.common.dto.*
+import ru.mypoint.webserver.domains.front.templates.components.auth.formLogin
 import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsAdminUsersControlPanel
 import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsForgotAdminPage
 import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsLoginAdminPage
@@ -76,7 +77,9 @@ fun Application.adminModule() {
             get("/login") {
                 call.respondHtmlTemplate(AdminPanelDefaultLayout(), HttpStatusCode.OK) {
                     page = loginPage {
-                        buttons = ButtonsLoginAdminPage()
+                        formLogin = formLogin {
+                            buttons = ButtonsLoginAdminPage()
+                        }
                     }
                     styleUrl = listOf("/static/form-login.css")
                 }
@@ -136,12 +139,15 @@ fun Application.adminModule() {
                 /** Страница управления пользователями */
                 if (result != null) {
                     /** Получить список пользователей */
+                    val limit = call.request.queryParameters["limit"]?.toInt() ?: 50
+                    val pageNum = call.request.queryParameters["pageNum"]?.toInt() ?: 1
+
                     val users = client.post<String>(
                         RequestToDataBus(
                             dbUrl = DbUrls.UsersGetAll.value,
                             method = MethodsRequest.POST,
                             authToken = token,
-                            body = GetListWithLimit(50, 0)
+                            body = GetListWithLimit(limit, (pageNum - 1) * limit)
                         ),
                         call
                     )
@@ -150,13 +156,24 @@ fun Application.adminModule() {
 
                     call.respondHtmlTemplate(AdminPanelMainLayout(), HttpStatusCode.OK) {
                         page = adminUsersPage {
+                            /** Построитель панели управления пользователями */
                             usersControlPanel = controlPanel {
                                 buttons = ButtonsAdminUsersControlPanel()
-                                usersTable = dataTable {
+                            }
 
-                                }
+                            /** Построитель таблицы пользователей */
+                            usersTable = dataTable {
+                                tableHeaders = mapOf(
+                                    "dateTimeAtCreation" to "Дата регистрации",
+                                    "email" to "email",
+                                    "fullName" to "ФИО",
+                                    "zipCode" to "Индекс",
+                                    "address" to "Адрес",
+                                    "isBlocked" to "Заблокированный"
+                                )
                             }
                         }
+
                         styleUrl = listOf("/static/admin-users.css")
                     }
                 }

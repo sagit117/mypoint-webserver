@@ -1,0 +1,22 @@
+.table-wrapper {
+    display: grid;
+    grid-auto-flow: column;
+}
+
+.table-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: .9rem;
+    box-shadow: -1px 4px 10px grey;
+}
+.table-header:first-child {
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+}
+.table-header:last-child {
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+}
