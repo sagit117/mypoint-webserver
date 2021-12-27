@@ -12,46 +12,13 @@ fun resetPasswordPage(init: ResetPasswordPage.() -> Unit): ResetPasswordPage {
 
 class ResetPasswordPage: Template<FlowContent> {
     private val content = TemplatePlaceholder<Template<FlowContent>>()
-    lateinit var buttons: Template<FlowContent>
-
-    private val passwordInput = inputTextBlock() {
-        caption = "Пароль: "
-        inputId = "password"
-        inputType = InputType.password
-    }
-    private val confirmPasswordInput = inputTextBlock() {
-        caption = "Пароль еще раз: "
-        inputId = "confirm"
-        inputType = InputType.password
-        extClass = "mt-2"
-    }
+    lateinit var formReset: Template<FlowContent>
 
     override fun FlowContent.apply() {
         div {
             classes = setOf("login_wrapper")
 
-            div {
-                id = "reset_password_form"
-                classes = setOf("login_form", "mt-8")
-
-                h3 {
-                    +"Новый пароль"
-                }
-
-                div {
-                    id = "spinner"
-                    classes = setOf("spinner_wrapper")
-
-                    div {
-                        classes = setOf("spinner")
-                    }
-                }
-
-                insert(passwordInput, content)
-                insert(confirmPasswordInput, content)
-
-                insert(buttons, content)
-            }
+            insert(formReset, content)
 
             script {
                 src = "/static/resetPasswordFormController.js"

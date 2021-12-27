@@ -13,7 +13,9 @@ import io.ktor.routing.*
 import io.ktor.util.*
 import ru.mypoint.webserver.common.DbUrls
 import ru.mypoint.webserver.common.dto.*
+import ru.mypoint.webserver.domains.front.templates.components.auth.formForgot
 import ru.mypoint.webserver.domains.front.templates.components.auth.formLogin
+import ru.mypoint.webserver.domains.front.templates.components.auth.formResetPassword
 import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsAdminUsersControlPanel
 import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsForgotAdminPage
 import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsLoginAdminPage
@@ -88,7 +90,9 @@ fun Application.adminModule() {
             get("/forgot/password") {
                 call.respondHtmlTemplate(AdminPanelDefaultLayout(), HttpStatusCode.OK) {
                     page = forgotPage {
-                        buttons = ButtonsForgotAdminPage()
+                        formForgot = formForgot {
+                            buttons = ButtonsForgotAdminPage()
+                        }
                     }
                     styleUrl = listOf("/static/form-login.css")
                 }
@@ -97,7 +101,9 @@ fun Application.adminModule() {
             get("/reset/password/{code}") {
                 call.respondHtmlTemplate(AdminPanelDefaultLayout(), HttpStatusCode.OK) {
                     page = resetPasswordPage {
-                        buttons = ButtonsResetPasswordAdminPage()
+                        formReset = formResetPassword {
+                            buttons = ButtonsResetPasswordAdminPage()
+                        }
                     }
                     styleUrl = listOf("/static/form-login.css")
                 }
