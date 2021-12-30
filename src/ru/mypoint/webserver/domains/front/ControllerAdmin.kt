@@ -1,5 +1,7 @@
 package ru.mypoint.webserver.domains.front
 
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -12,6 +14,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.*
 import ru.mypoint.webserver.common.DbUrls
+import ru.mypoint.webserver.common.convertLongToTime
 import ru.mypoint.webserver.common.dto.*
 import ru.mypoint.webserver.domains.front.templates.components.auth.formForgot
 import ru.mypoint.webserver.domains.front.templates.components.auth.formLogin
@@ -25,6 +28,7 @@ import ru.mypoint.webserver.domains.front.templates.components.dataTable
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelDefaultLayout
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelMainLayout
 import ru.mypoint.webserver.domains.front.templates.pages.*
+import ru.mypoint.webserver.domains.users.UserRepositoryForUsersTable
 
 @Suppress("unused") // Referenced in application.conf
 fun Application.adminModule() {
@@ -158,7 +162,12 @@ fun Application.adminModule() {
                         call
                     )
 
-                    println(users.toString())
+                    /** Преобразование JSON в список объектов */
+                    val gson = Gson()
+                    val itemType = object : TypeToken<List<UserRepositoryForUsersTable>>() {}.type
+                    val usersList = gson.fromJson<List<UserRepositoryForUsersTable>>(users, itemType).map {
+                        it.copy(dateTimeAtCreation = convertLongToTime(it.dateTimeAtCreation.toLong(), "MM.dd.yyyy HH:mm"))
+                    }
 
                     call.respondHtmlTemplate(AdminPanelMainLayout(), HttpStatusCode.OK) {
                         page = adminUsersPage {
@@ -177,6 +186,7 @@ fun Application.adminModule() {
                                     "address" to "Адрес",
                                     "isBlocked" to "Заблокированный"
                                 )
+                                dataBody = usersList
                             }
                         }
 

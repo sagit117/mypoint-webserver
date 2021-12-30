@@ -1,6 +1,5 @@
 .table-wrapper {
     display: grid;
-    grid-auto-flow: column;
 }
 
 .table-header {
