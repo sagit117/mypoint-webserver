@@ -51,7 +51,7 @@ fun Application.module(_testing: Boolean = false) {
         header(HttpHeaders.ContentType)
         header(HttpHeaders.AccessControlAllowOrigin)
 //        header("MyCustomHeader")
-        allowCredentials = true
+//        allowCredentials = true
         anyHost() // @TODO: Don't do this in production if possible. Try to limit it.
     }
 
