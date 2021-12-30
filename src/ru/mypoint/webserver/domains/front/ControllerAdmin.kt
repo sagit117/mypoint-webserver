@@ -47,7 +47,9 @@ fun Application.adminModule() {
             }
 
             install(JsonFeature) {
-                serializer = GsonSerializer()
+                serializer = GsonSerializer {
+
+                }
             }
         }
     }
@@ -162,11 +164,16 @@ fun Application.adminModule() {
                         call
                     )
 
+                    println(users)
+
                     /** Преобразование JSON в список объектов */
                     val gson = Gson()
                     val itemType = object : TypeToken<List<UserRepositoryForUsersTable>>() {}.type
                     val usersList = gson.fromJson<List<UserRepositoryForUsersTable>>(users, itemType).map {
-                        it.copy(dateTimeAtCreation = convertLongToTime(it.dateTimeAtCreation.toLong(), "MM.dd.yyyy HH:mm"))
+                        it.copy(
+                            dateTimeAtCreation = convertLongToTime(it.dateTimeAtCreation.toLong(), "MM.dd.yyyy HH:mm"),
+                            isBlocked = if (it.isBlocked.toBoolean()) "Да" else "Нет"
+                        )
                     }
 
                     call.respondHtmlTemplate(AdminPanelMainLayout(), HttpStatusCode.OK) {

@@ -33,8 +33,9 @@ class Table: Template<FlowContent> {
                 tableHeaders.forEach {
                     div {
                         classes = setOf("table-cell")
+
                         try {
-                            +readInstanceProperty<String>(dataRow!!, it.key)
+                            +readInstanceProperty<String>(dataRow, it.key)
                         } catch (error: Throwable) {}
                     }
                 }

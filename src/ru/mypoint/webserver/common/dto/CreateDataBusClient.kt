@@ -64,7 +64,7 @@ class CreateDataBusClient() {
         }
     }
 
-    suspend inline fun <reified T> checkAccess(bodyRequest: Any = EmptyContent, call: ApplicationCall): T? {
+    suspend inline fun <reified T> checkAccess(bodyRequest: Any = EmptyContent, _call: ApplicationCall): T? {
         return try {
             httpClient.post<T> {
                 url("/webserver/check/access")

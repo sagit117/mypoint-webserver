@@ -23,6 +23,6 @@ fun <R> readInstanceProperty(instance: Any, propertyName: String): R {
 
 fun convertLongToTime(time: Long, format: String): String {
     val date = Date(time)
-    val format = SimpleDateFormat("yyyy.MM.dd HH:mm")
-    return format.format(date)
+    val dateFormat = SimpleDateFormat(format)
+    return dateFormat.format(date)
 }
