@@ -4,6 +4,7 @@ import io.ktor.html.*
 import kotlinx.html.FlowContent
 import kotlinx.html.classes
 import kotlinx.html.div
+import kotlinx.html.title
 import ru.mypoint.webserver.common.readInstanceProperty
 
 fun dataTable(init: Table.() -> Unit): Table {
@@ -35,7 +36,10 @@ class Table: Template<FlowContent> {
                         classes = setOf("table-cell")
 
                         try {
-                            +readInstanceProperty<String>(dataRow, it.key)
+                            val titleCell = readInstanceProperty<String>(dataRow, it.key)
+
+                            title = titleCell
+                            +titleCell
                         } catch (error: Throwable) {}
                     }
                 }
@@ -43,4 +47,10 @@ class Table: Template<FlowContent> {
         }
     }
 }
+
+//data class TableHeader(
+//    val headName: String,
+//    val headTitle: String,
+//    val headExtClass: String,
+//)
 

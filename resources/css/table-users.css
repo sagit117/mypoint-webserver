@@ -1,3 +1,7 @@
 .table-wrapper {
-    grid-template-columns: 10rem 1fr 1fr 1fr 1fr 12rem;
+    grid-template-columns: 10rem 10rem 1fr 1fr 1fr 1fr 12rem;
 }
+/* .table-header:nth-child(7n) {
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+} */

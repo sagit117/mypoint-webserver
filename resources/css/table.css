@@ -10,22 +10,25 @@
     font-weight: 600;
     font-size: .9rem;
     min-height: 3rem;
-    box-shadow: 3px 5px 18px grey;
+    /* box-shadow: 3px 5px 18px grey; */
+    border-bottom: 2px solid grey;
 }
-.table-header:first-child {
+/* .table-header:first-child {
     border-bottom-left-radius: 5px;
     border-top-left-radius: 5px;
 }
 .table-header:last-child {
     border-bottom-right-radius: 5px;
     border-top-right-radius: 5px;
-    color: green;
-}
+} */
 
 .table-cell {
-    display: flex;
-    justify-content: center;
+    display: block;
     padding: .2rem;
     margin-top: .2rem;
     border-bottom: solid 1px orange;
+    flex-wrap: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: .8rem;
 }

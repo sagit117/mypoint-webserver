@@ -186,6 +186,7 @@ fun Application.adminModule() {
                             /** Построитель таблицы пользователей */
                             usersTable = dataTable {
                                 tableHeaders = mapOf(
+                                    "_id" to "ID",
                                     "dateTimeAtCreation" to "Дата регистрации",
                                     "email" to "email",
                                     "fullName" to "ФИО",
