@@ -18,6 +18,7 @@ class Table: Template<FlowContent> {
     private val content = TemplatePlaceholder<Template<FlowContent>>()
     var tableHeaders: Map<String, String> = emptyMap() // Заголовки таблицы
     var dataBody: List<Any> = emptyList()
+    lateinit var numPage: Template<FlowContent>
 
     override fun FlowContent.apply() {
         div {
@@ -40,10 +41,16 @@ class Table: Template<FlowContent> {
 
                             title = titleCell
                             +titleCell
-                        } catch (error: Throwable) {}
+                        } catch (_: Throwable) {}
                     }
                 }
             }
+        }
+
+        div {
+            classes = setOf("table-footer", "mt-2")
+
+            insert(numPage, content)
         }
     }
 }

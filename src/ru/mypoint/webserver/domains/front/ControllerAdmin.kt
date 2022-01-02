@@ -19,10 +19,7 @@ import ru.mypoint.webserver.common.dto.*
 import ru.mypoint.webserver.domains.front.templates.components.auth.formForgot
 import ru.mypoint.webserver.domains.front.templates.components.auth.formLogin
 import ru.mypoint.webserver.domains.front.templates.components.auth.formResetPassword
-import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsAdminUsersControlPanel
-import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsForgotAdminPage
-import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsLoginAdminPage
-import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.ButtonsResetPasswordAdminPage
+import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.*
 import ru.mypoint.webserver.domains.front.templates.components.controlPanel
 import ru.mypoint.webserver.domains.front.templates.components.dataTable
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelDefaultLayout
@@ -185,6 +182,7 @@ fun Application.adminModule() {
 
                             /** Построитель таблицы пользователей */
                             usersTable = dataTable {
+                                /** Построитель заголовков таблицы */
                                 tableHeaders = mapOf(
                                     "_id" to "ID",
                                     "dateTimeAtCreation" to "Дата регистрации",
@@ -194,7 +192,12 @@ fun Application.adminModule() {
                                     "address" to "Адрес",
                                     "isBlocked" to "Заблокированный"
                                 )
+                                /** Построитель тела таблицы */
                                 dataBody = usersList
+                                /** Построитель элементов управления пагинацией */
+                                numPage = buttonsAdminUsersNumPages {
+                                    currentPage = pageNum
+                                }
                             }
                         }
 

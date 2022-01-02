@@ -21,6 +21,7 @@ fun <R> readInstanceProperty(instance: Any, propertyName: String): R {
     return property.get(instance) as R
 }
 
+/** Перевод МС в дату и время */
 fun convertLongToTime(time: Long, format: String): String {
     val date = Date(time)
     val dateFormat = SimpleDateFormat(format)

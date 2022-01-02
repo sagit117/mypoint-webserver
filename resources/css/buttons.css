@@ -94,3 +94,25 @@ button:not(:disabled) {
     border-color: #b02a37;
     box-shadow: 0 0 0 0.25rem rgb(225 83 97 / 50%);
 }
+
+.btn-warning {
+    color: var(--color-white);
+    background-color: orange;
+    border-color: orange;
+}
+.btn-warning:hover {
+    color: var(--color-white);
+    background-color: #e59400;
+    border-color: #c57f00;
+}
+.btn-warning:active {
+    color: var(--color-white);
+    background-color: #e59400;
+    border-color: #c57f00;
+}
+.btn-warning:focus {
+    color: var(--color-white);
+    background-color: #e59400;
+    border-color: #c57f00;
+    box-shadow: 0 0 0 0.25rem rgb(255 129 0 / 50%);
+}
