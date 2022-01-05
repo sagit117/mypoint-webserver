@@ -1,5 +1,6 @@
 .table-wrapper {
     display: grid;
+    overflow: auto;
 }
 
 .table-header {
