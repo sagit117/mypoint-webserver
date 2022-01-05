@@ -27,7 +27,7 @@ class FormLogin: Template<FlowContent> {
     lateinit var buttons: Template<FlowContent>
 
     override fun FlowContent.apply() {
-        div {
+        form {
             id = "login_form"
             classes = setOf("login_form", "mt-8")
 

@@ -220,8 +220,7 @@ fun Application.adminModule() {
 
                         styleUrl = listOf("/static/admin-users.css")
                     }
-                }
-                else {
+                } else {
                     call.respondRedirect("/admin/panel/login", false)
                 }
             }

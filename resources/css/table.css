@@ -12,7 +12,7 @@
     font-size: .9rem;
     min-height: 3rem;
     /* box-shadow: 3px 5px 18px grey; */
-    border-bottom: 2px solid grey;
+    border-bottom: 2px solid orange;
 }
 /* .table-header:first-child {
     border-bottom-left-radius: 5px;
@@ -32,6 +32,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     font-size: .8rem;
+    height: 2rem;
 }
 
 .table-footer {

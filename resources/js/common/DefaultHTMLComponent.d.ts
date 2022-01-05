@@ -40,4 +40,4 @@ export default class DefaultHTMLComponent {
      */
     getTarget(): TDefaultHTMLElement;
 }
-export declare type TDefaultHTMLElement = HTMLDivElement | HTMLButtonElement | HTMLInputElement | null;
+export declare type TDefaultHTMLElement = HTMLDivElement | HTMLButtonElement | HTMLInputElement | HTMLFormElement | null;

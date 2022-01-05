@@ -86,4 +86,4 @@ export default class DefaultHTMLComponent {
     }
 }
 
-export type TDefaultHTMLElement = HTMLDivElement | HTMLButtonElement | HTMLInputElement | null
+export type TDefaultHTMLElement = HTMLDivElement | HTMLButtonElement | HTMLInputElement | HTMLFormElement | null
