@@ -147,10 +147,19 @@ fun Application.adminModule() {
 
                 /** Страница управления пользователями */
                 if (result != null) {
-                    /** Получить список пользователей */
-                    val limit = call.request.queryParameters["limit"]?.toInt() ?: 50
-                    val pageNum = call.request.queryParameters["pageNum"]?.toInt() ?: 1
+                    /** Получить настройки списка */
+                    val limit = try {
+                        call.request.queryParameters["limit"]?.toInt() ?: 50
+                    } catch (_: Throwable) {
+                        50
+                    }
+                    val pageNum = try {
+                        call.request.queryParameters["pageNum"]?.toInt() ?: 1
+                    } catch (_: Throwable) {
+                        1
+                    }
 
+                    /** Получить список пользователей */
                     val users = client.post<String>(
                         RequestToDataBus(
                             dbUrl = DbUrls.UsersGetList.value,
