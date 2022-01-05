@@ -11,15 +11,15 @@ class ButtonsForgotAdminPage: Template<FlowContent> {
         div {
             classes = setOf("login_form__actions", "mt-4")
 
-            button {
+            a {
                 id = "btnEnter"
-                type = ButtonType.button
+                href = "/admin/panel/login"
                 classes = setOf("btn", "btn-primary")
                 +"Вход"
             }
             button {
                 id = "btnOk"
-                type = ButtonType.button
+                type = ButtonType.submit
                 classes = setOf("btn", "btn-success")
                 +"Отправить запрос"
             }

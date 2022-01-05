@@ -76,10 +76,11 @@ fun Application.userModule() {
             }
 
             post("/login") {
-                var isApiMode = true
+                var isApiMode = true // Индикатор того был ли запрос сделан через API или через форму
 
                 val userLoginDTO =
                     if (call.request.headers["Content-Type"] == "application/x-www-form-urlencoded") {
+                        /** Если данные приходят из формы */
                         val parameters = call.receiveParameters()
                         isApiMode = false
                         UserLoginDTO(email = parameters["email"].toString(), password = parameters["password"].toString())
@@ -95,6 +96,7 @@ fun Application.userModule() {
                 if (result != null) {
 //                    println("session set: ${result.token}")
                     call.sessions.set(UserSession(result.token))
+                    /** Ответ */
                     if (isApiMode) {
                         call.respond(HttpStatusCode.OK, result)
                     } else {
@@ -141,9 +143,11 @@ fun Application.userModule() {
                 if (result != null) call.respond(HttpStatusCode.OK, result)
             }
 
-            get("/reset/password/{email}") {
+            get("/reset/password/{email?}") {
+                val isApiMode = call.request.queryParameters["email"] == null
+
                 val emailDTO = try {
-                    EmailDTO(call.parameters["email"].toString())
+                    EmailDTO(email = call.parameters["email"].toString())
                 } catch (error: Throwable) {
                     log.error(error.localizedMessage)
                     return@get call.respond(
@@ -187,7 +191,11 @@ fun Application.userModule() {
 
                 if (result != null) {
                     // ответ
-                    call.respond(HttpStatusCode.OK, result)
+                    if (isApiMode) {
+                        call.respond(HttpStatusCode.OK, result)
+                    } else {
+                        call.respondRedirect("/admin/panel/login", false)
+                    }
                 }
             }
 

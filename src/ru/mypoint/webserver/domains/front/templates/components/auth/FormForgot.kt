@@ -18,12 +18,15 @@ class FormForgot: Template<FlowContent> {
         caption = "Логин: "
         inputId = "login"
         inputType = InputType.email
+        inputName = "email"
     }
 
     override fun FlowContent.apply() {
-        div {
+        form {
             id = "forgot_form"
             classes = setOf("login_form", "mt-8")
+            method = FormMethod.get
+            action = "/v1/users/reset/password"
 
             h3 {
                 +"Восстановление пароля"
