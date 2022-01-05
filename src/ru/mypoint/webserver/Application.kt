@@ -74,7 +74,7 @@ fun Application.module(_testing: Boolean = false) {
         }
     }
 
-    install(DoubleReceive)
+//    install(DoubleReceive)
 
     routing {
         static("static") {

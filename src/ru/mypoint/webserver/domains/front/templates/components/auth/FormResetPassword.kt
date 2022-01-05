@@ -14,10 +14,12 @@ fun formResetPassword(init: FormResetPassword.() -> Unit): FormResetPassword {
 class FormResetPassword: Template<FlowContent> {
     private val content = TemplatePlaceholder<Template<FlowContent>>()
     lateinit var buttons: Template<FlowContent>
+    var code: String = ""
     private val passwordInput = inputTextBlock() {
         caption = "Пароль: "
         inputId = "password"
         inputType = InputType.password
+        inputName = "newPassword"
     }
     private val confirmPasswordInput = inputTextBlock() {
         caption = "Пароль еще раз: "
@@ -27,9 +29,11 @@ class FormResetPassword: Template<FlowContent> {
     }
 
     override fun FlowContent.apply() {
-        div {
+        form {
             id = "reset_password_form"
             classes = setOf("login_form", "mt-8")
+            method = FormMethod.post
+            action = "/v1/users/update/password/hash/"
 
             h3 {
                 +"Новый пароль"
@@ -46,6 +50,13 @@ class FormResetPassword: Template<FlowContent> {
 
             insert(passwordInput, content)
             insert(confirmPasswordInput, content)
+            insert(
+                inputTextBlock() {
+                    inputType = InputType.hidden
+                    inputValue = code
+                    inputName = "hash"
+                }, content
+            )
 
             insert(buttons, content)
         }

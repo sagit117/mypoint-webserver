@@ -10,11 +10,12 @@ fun inputTextBlock(init: InputText.() -> Unit): InputText {
 }
 
 class InputText: Template<FlowContent> {
-    lateinit var inputId: String
+    var inputId: String = ""
     lateinit var inputType: InputType
-    lateinit var caption: String
+    var caption: String = ""
     var inputName: String = ""
     var extClass: String? = ""
+    var inputValue: String = ""
 
     override fun FlowContent.apply() {
         div {
@@ -29,6 +30,7 @@ class InputText: Template<FlowContent> {
                 type = inputType
                 classes = setOf("input_text")
                 name = inputName
+                value = inputValue
             }
             small {
                 id = inputId + "_msg"

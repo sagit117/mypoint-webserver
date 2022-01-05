@@ -106,6 +106,7 @@ fun Application.adminModule() {
                     page = resetPasswordPage {
                         formReset = formResetPassword {
                             buttons = ButtonsResetPasswordAdminPage()
+                            code = call.parameters["code"].toString()
                         }
                     }
                     styleUrl = listOf("/static/form-login.css")

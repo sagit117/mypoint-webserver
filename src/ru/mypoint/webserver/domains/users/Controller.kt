@@ -94,15 +94,6 @@ fun Application.userModule() {
                 )
 
                 if (result != null) {
-//                    println("session set: ${result.token}")
-                    call.sessions.set(UserSession(result.token))
-                    /** Ответ */
-                    if (isApiMode) {
-                        call.respond(HttpStatusCode.OK, result)
-                    } else {
-                        call.respondRedirect("/admin/panel", false)
-                    }
-
                     val templateName = environment.config.propertyOrNull("notificationTemplateName.afterLogin")?.getString() ?: ""
 
                     client.sendNotification<String>(
@@ -114,6 +105,14 @@ fun Application.userModule() {
                         call
                     )
 
+                    /** Ответ */
+                    call.sessions.set(UserSession(result.token))
+
+                    if (isApiMode) {
+                        return@post call.respond(HttpStatusCode.OK, result)
+                    } else {
+                        return@post call.respondRedirect("/admin/panel", false)
+                    }
                 }
             }
 
@@ -240,16 +239,26 @@ fun Application.userModule() {
                         }
                     }
 
-                    post("/hash/{hash}") {
-                        val hash = call.parameters["hash"].toString()
-                        val email = QueueResetPassword.getWithHash(hash)?.emailDTO?.email
+                    post("/hash/{hash?}") {
+                        var isApiMode = true // Индикатор того был ли запрос сделан через API или через форму
+
+                        var hash = call.parameters["hash"].toString()
                         val techLogin = environment.config.propertyOrNull("databus.login")?.getString() ?: ""
                         val techPassword = environment.config.propertyOrNull("databus.password")?.getString() ?: ""
-                        val newPasswordDTO = call.receive<UserRecoveryPasswordDTO>()
 
-                        if (email == null) {
-                            return@post call.respond(HttpStatusCode.BadRequest, mapOf("status" to "Bad Request"))
-                        }
+                        val newPasswordDTO =
+                            if (call.request.headers["Content-Type"] == "application/x-www-form-urlencoded") {
+                                /** Если данные приходят из формы */
+                                val parameters = call.receiveParameters()
+                                isApiMode = false
+                                hash = parameters["hash"].toString()
+                                UserRecoveryPasswordDTO(newPassword = parameters["newPassword"].toString())
+                            } else {
+                                call.receive<UserRecoveryPasswordDTO>()
+                            }
+
+                        val email = QueueResetPassword.getWithHash(hash)?.emailDTO?.email
+                            ?: return@post call.respond(HttpStatusCode.BadRequest, mapOf("status" to "Bad Request"))
 
                         val token = client.login<UserReceiveLoginDTO>(
                             UserLoginDTO(techLogin, techPassword),
@@ -272,7 +281,13 @@ fun Application.userModule() {
                                 call
                             )
 
-                            if (result != null) call.respond(HttpStatusCode.OK, mapOf("status" to "OK"))
+                            if (result != null) {
+                                if (isApiMode) {
+                                    call.respond(HttpStatusCode.OK, mapOf("status" to "OK"))
+                                } else {
+                                    call.respondRedirect("/admin/panel/login", false)
+                                }
+                            }
                         }
                     }
                 }

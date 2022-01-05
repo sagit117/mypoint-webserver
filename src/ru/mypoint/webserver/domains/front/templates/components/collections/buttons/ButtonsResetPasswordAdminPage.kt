@@ -11,15 +11,15 @@ class ButtonsResetPasswordAdminPage: Template<FlowContent> {
         div {
             classes = setOf("login_form__actions", "mt-4")
 
-            button {
+            a {
                 id = "btnEnter"
-                type = ButtonType.button
                 classes = setOf("btn", "btn-primary")
+                href = "/admin/panel/login"
                 +"Вход"
             }
             button {
                 id = "btnOk"
-                type = ButtonType.button
+                type = ButtonType.submit
                 classes = setOf("btn", "btn-success")
                 +"Изменить пароль"
             }
