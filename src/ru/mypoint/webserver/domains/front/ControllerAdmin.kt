@@ -204,6 +204,7 @@ fun Application.adminModule() {
                                     currentPage = pageNum
                                     countPage = ceil(usersListJSON.count.toDouble() / limit).toInt()
                                     limitItems = limit
+                                    limitShowPages = 3
                                 }
                             }
                         }
