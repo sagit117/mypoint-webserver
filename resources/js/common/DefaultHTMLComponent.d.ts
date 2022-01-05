@@ -39,5 +39,6 @@ export default class DefaultHTMLComponent {
      * @returns TDefaultHTMLElement
      */
     getTarget(): TDefaultHTMLElement;
+    setTabIndex(index: string): void;
 }
 export declare type TDefaultHTMLElement = HTMLDivElement | HTMLButtonElement | HTMLInputElement | HTMLFormElement | null;

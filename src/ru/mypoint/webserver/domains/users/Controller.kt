@@ -76,7 +76,16 @@ fun Application.userModule() {
             }
 
             post("/login") {
-                val userLoginDTO = call.receive<UserLoginDTO>()
+                var isApiMode = true
+
+                val userLoginDTO =
+                    if (call.request.headers["Content-Type"] == "application/x-www-form-urlencoded") {
+                        val parameters = call.receiveParameters()
+                        isApiMode = false
+                        UserLoginDTO(email = parameters["email"].toString(), password = parameters["password"].toString())
+                    } else {
+                        call.receive<UserLoginDTO>()
+                    }
 
                 val result = client.login<UserReceiveLoginDTO>(
                     userLoginDTO,
@@ -86,7 +95,11 @@ fun Application.userModule() {
                 if (result != null) {
 //                    println("session set: ${result.token}")
                     call.sessions.set(UserSession(result.token))
-                    call.respond(HttpStatusCode.OK, result)
+                    if (isApiMode) {
+                        call.respond(HttpStatusCode.OK, result)
+                    } else {
+                        call.respondRedirect("/admin/panel", false)
+                    }
 
                     val templateName = environment.config.propertyOrNull("notificationTemplateName.afterLogin")?.getString() ?: ""
 

@@ -13,4 +13,5 @@ export interface IButton {
     disable(): void;
     enable(): void;
     click(clickHandler: () => void): void;
+    setTabIndex(index: string): void;
 }

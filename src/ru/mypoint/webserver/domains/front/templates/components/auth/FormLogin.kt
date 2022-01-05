@@ -17,12 +17,14 @@ class FormLogin: Template<FlowContent> {
         caption = "Логин: "
         inputId = "login"
         inputType = InputType.email
+        inputName = "email"
     }
     private val passwordInput = inputTextBlock() {
         caption = "Пароль: "
         inputId = "password"
         inputType = InputType.password
         extClass = "mt-2"
+        inputName = "password"
     }
     lateinit var buttons: Template<FlowContent>
 
@@ -30,6 +32,8 @@ class FormLogin: Template<FlowContent> {
         form {
             id = "login_form"
             classes = setOf("login_form", "mt-8")
+            method = FormMethod.post
+            action = "/v1/users/login"
 
             h3 {
                 +"Вход в систему"

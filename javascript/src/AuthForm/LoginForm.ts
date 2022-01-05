@@ -52,7 +52,7 @@ export default class LoginForm extends AuthForm {
         }
 
         this.btnOk?.disable();
-        this.btnForgot?.disable();
+        // this.btnForgot?.disable();
         this.spinner?.show();
 
         /** запрос к серверу */

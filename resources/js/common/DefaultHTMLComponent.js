@@ -83,4 +83,9 @@ export default class DefaultHTMLComponent {
     getTarget() {
         return this.rootDiv;
     }
+    setTabIndex(index) {
+        if (this.rootDiv) {
+            this.rootDiv.setAttribute("tabIndex", index);
+        }
+    }
 }

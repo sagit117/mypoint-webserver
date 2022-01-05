@@ -26,10 +26,10 @@ export default class AuthForm extends DefaultHTMLComponent {
      * @param toasts - класс toast
      */
     constructor(id: string, validator: IValidator, api: IApi, toasts: IToasts) {
-        super(id)
+        super(id);
 
         if (this.rootDiv && "submit" in this.rootDiv) {
-            this.rootDiv.addEventListener("submit", (e: SubmitEvent) => e.preventDefault())
+            this.rootDiv.addEventListener("submit", (e: SubmitEvent) => e.preventDefault());
         }
 
         this.validator = validator;

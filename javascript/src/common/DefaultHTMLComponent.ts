@@ -84,6 +84,12 @@ export default class DefaultHTMLComponent {
     public getTarget(): TDefaultHTMLElement {
         return this.rootDiv
     }
+
+    public setTabIndex(index: string) {
+        if (this.rootDiv) {
+            this.rootDiv.setAttribute("tabIndex", index);
+        }
+    }
 }
 
 export type TDefaultHTMLElement = HTMLDivElement | HTMLButtonElement | HTMLInputElement | HTMLFormElement | null

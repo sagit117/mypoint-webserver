@@ -43,7 +43,7 @@ export default class LoginForm extends AuthForm {
             return;
         }
         this.btnOk?.disable();
-        this.btnForgot?.disable();
+        // this.btnForgot?.disable();
         this.spinner?.show();
         /** запрос к серверу */
         this.api?.login({

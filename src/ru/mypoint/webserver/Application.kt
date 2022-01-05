@@ -74,6 +74,8 @@ fun Application.module(_testing: Boolean = false) {
         }
     }
 
+    install(DoubleReceive)
+
     routing {
         static("static") {
             resources("css")

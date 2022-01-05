@@ -13,6 +13,7 @@ class InputText: Template<FlowContent> {
     lateinit var inputId: String
     lateinit var inputType: InputType
     lateinit var caption: String
+    var inputName: String = ""
     var extClass: String? = ""
 
     override fun FlowContent.apply() {
@@ -27,6 +28,7 @@ class InputText: Template<FlowContent> {
                 id = inputId
                 type = inputType
                 classes = setOf("input_text")
+                name = inputName
             }
             small {
                 id = inputId + "_msg"
