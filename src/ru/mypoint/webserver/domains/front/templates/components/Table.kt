@@ -18,7 +18,7 @@ class Table: Template<FlowContent> {
     private val content = TemplatePlaceholder<Template<FlowContent>>()
     var tableHeaders: Map<String, String> = emptyMap() // Заголовки таблицы
     var dataBody: List<Any> = emptyList()
-    lateinit var numPage: Template<FlowContent>
+    lateinit var pagination: Template<FlowContent>
 
     override fun FlowContent.apply() {
         div {
@@ -50,7 +50,7 @@ class Table: Template<FlowContent> {
         div {
             classes = setOf("table-footer", "mt-2")
 
-            insert(numPage, content)
+            insert(pagination, content)
         }
     }
 }

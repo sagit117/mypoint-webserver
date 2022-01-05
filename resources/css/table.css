@@ -32,7 +32,47 @@
     overflow: hidden;
     font-size: .8rem;
 }
+
 .table-footer {
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+.table-footer > a > .pagination-left-all {
+    background-image: url("./double-chevron-left.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+.table-footer > a > .pagination-right {
+    background-image: url("./chevron-right.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+.table-footer > a > .pagination-left {
+    background-image: url("./chevron-right.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+.table-footer > a > .pagination-right-all {
+    background-image: url("./double-chevron-left.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
 }

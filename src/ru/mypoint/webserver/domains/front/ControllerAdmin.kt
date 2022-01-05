@@ -1,7 +1,6 @@
 package ru.mypoint.webserver.domains.front
 
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -25,7 +24,8 @@ import ru.mypoint.webserver.domains.front.templates.components.dataTable
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelDefaultLayout
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelMainLayout
 import ru.mypoint.webserver.domains.front.templates.pages.*
-import ru.mypoint.webserver.domains.users.UserRepositoryForUsersTable
+import ru.mypoint.webserver.domains.users.dto.UsersGetListForAdminTableUsersDTO
+import kotlin.math.ceil
 
 @Suppress("unused") // Referenced in application.conf
 fun Application.adminModule() {
@@ -153,7 +153,7 @@ fun Application.adminModule() {
 
                     val users = client.post<String>(
                         RequestToDataBus(
-                            dbUrl = DbUrls.UsersGetAll.value,
+                            dbUrl = DbUrls.UsersGetList.value,
                             method = MethodsRequest.POST,
                             authToken = token,
                             body = GetListWithLimit(limit, (pageNum - 1) * limit)
@@ -161,17 +161,22 @@ fun Application.adminModule() {
                         call
                     )
 
-                    println(users)
-
                     /** Преобразование JSON в список объектов */
                     val gson = Gson()
-                    val itemType = object : TypeToken<List<UserRepositoryForUsersTable>>() {}.type
-                    val usersList = gson.fromJson<List<UserRepositoryForUsersTable>>(users, itemType).map {
+                    val usersListJSON = gson.fromJson(users, UsersGetListForAdminTableUsersDTO::class.java)
+                    val usersList = usersListJSON.users.map {
                         it.copy(
                             dateTimeAtCreation = convertLongToTime(it.dateTimeAtCreation.toLong(), "MM.dd.yyyy HH:mm"),
                             isBlocked = if (it.isBlocked.toBoolean()) "Да" else "Нет"
                         )
                     }
+//                    val itemType = object : TypeToken<List<UserRepositoryForUsersTable>>() {}.type
+//                    val usersList = gson.fromJson<List<UserRepositoryForUsersTable>>(usersListJSON.users, itemType).map {
+//                        it.copy(
+//                            dateTimeAtCreation = convertLongToTime(it.dateTimeAtCreation.toLong(), "MM.dd.yyyy HH:mm"),
+//                            isBlocked = if (it.isBlocked.toBoolean()) "Да" else "Нет"
+//                        )
+//                    }
 
                     call.respondHtmlTemplate(AdminPanelMainLayout(), HttpStatusCode.OK) {
                         page = adminUsersPage {
@@ -195,8 +200,10 @@ fun Application.adminModule() {
                                 /** Построитель тела таблицы */
                                 dataBody = usersList
                                 /** Построитель элементов управления пагинацией */
-                                numPage = buttonsAdminUsersNumPages {
+                                pagination = adminUsersTablePagination {
                                     currentPage = pageNum
+                                    countPage = ceil(usersListJSON.count.toDouble() / limit).toInt()
+                                    limitItems = limit
                                 }
                             }
                         }
