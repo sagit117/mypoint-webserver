@@ -1,5 +1,6 @@
-const cacheVersion = "static-080120221400";
+const cacheVersion = "static-v080120221425";
 const cacheUrls = [
+    "/offline",
     "/admin/panel",
     "/static/index.css",
     "/static/admin-home.css",
@@ -40,9 +41,28 @@ self.addEventListener("install", (event) => {
     )
 })
 
+self.addEventListener('activate', (event) => {
+    console.log("activate")
+    event.waitUntil(
+        caches.keys()
+            .then((keyList) => {
+                return Promise.all(
+                    keyList.map((key) => {
+                        if (cacheVersion.indexOf(key) === -1) {
+                            return caches.delete(key);
+                        }
+                    })
+                )
+            })
+    )
+})
+
 self.addEventListener("fetch", (event) => {
-    event.respondWith(
-        caches.match(event.request)
+    event.respondWith(cacheFirstStrategy(event))
+})
+
+function cacheFirstStrategy(event) {
+    return caches.match(event.request)
             .then((resp) => {
                 return resp || fetch(event.request)
                     .then((response) => {
@@ -53,5 +73,7 @@ self.addEventListener("fetch", (event) => {
                             })
                     })
             })
-    )
-})
+            .catch(() => {
+                return caches.match("/offline");
+            })
+}

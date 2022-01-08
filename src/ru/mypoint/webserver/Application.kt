@@ -93,6 +93,10 @@ fun Application.module(_testing: Boolean = false) {
         get("/ping") {
             call.respond(HttpStatusCode.OK, mapOf("status" to "OK"))
         }
+
+        get("/offline") {
+            call.respond(HttpStatusCode.OK, mapOf("status" to "offline"))
+        }
     }
 
     ConfigApp.title = environment.config.propertyOrNull("application.title")?.getString() ?: ""
