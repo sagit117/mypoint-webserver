@@ -74,14 +74,18 @@ fun Application.module(_testing: Boolean = false) {
         }
     }
 
+    install(DefaultHeaders) {
+        header("Service-Worker-Allowed", "/")
+    }
+
 //    install(DoubleReceive)
 
     routing {
-        static("static") {
-            resources("css")
-            resources("image")
-            resources("js")
-            resources("static")
+        static("/static") {
+            resources("/css")
+            resources("/image")
+            resources("/js")
+            resources("/pwa")
         }
     }
 

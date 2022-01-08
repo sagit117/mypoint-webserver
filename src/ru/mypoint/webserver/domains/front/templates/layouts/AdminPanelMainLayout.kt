@@ -21,10 +21,11 @@ class AdminPanelMainLayout: Template<HTML> {
 
     override fun HTML.apply() {
         head {
+            lang = "ru-RU"
             meta(name = "viewport", content = "width=device-width, initial-scale=1")
             link {
                 rel = "shortcut icon"
-                href = "/image/favicon.png"
+                href = "/static/favicon.png"
                 type = "image/png"
             }
             link {
@@ -35,6 +36,10 @@ class AdminPanelMainLayout: Template<HTML> {
 
             styleUrl.forEach {
                 styleLink(it)
+            }
+
+            script {
+                src = "/static/registerSW.js"
             }
 
             title(ConfigApp.title)

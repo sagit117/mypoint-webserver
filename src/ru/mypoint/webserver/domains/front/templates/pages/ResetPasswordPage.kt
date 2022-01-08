@@ -2,7 +2,6 @@ package ru.mypoint.webserver.domains.front.templates.pages
 
 import io.ktor.html.*
 import kotlinx.html.*
-import ru.mypoint.webserver.domains.front.templates.components.inputTextBlock
 
 fun resetPasswordPage(init: ResetPasswordPage.() -> Unit): ResetPasswordPage {
     val page = ResetPasswordPage()

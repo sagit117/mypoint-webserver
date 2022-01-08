@@ -2,7 +2,7 @@
   "theme_color" : "#262626",
   "background_color" : "#fff",
   "display" : "standalone",
-  "start_url" : "../",
+  "start_url" : "./",
   "name" : "MyPointOfEntry",
   "short_name" : "MyPoint",
   "icons": [
