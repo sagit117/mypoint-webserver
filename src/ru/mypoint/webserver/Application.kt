@@ -81,6 +81,7 @@ fun Application.module(_testing: Boolean = false) {
             resources("css")
             resources("image")
             resources("js")
+            resources("static")
         }
     }
 

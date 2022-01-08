@@ -18,6 +18,10 @@ class AdminPanelDefaultLayout: Template<HTML> {
                 href = "/image/favicon.png"
                 type = "image/png"
             }
+            link {
+                rel = "manifest"
+                href = "/static/manifest.json"
+            }
             styleLink(url = "/static/index.css")
 
             styleUrl.forEach {
