@@ -2,8 +2,34 @@
   "theme_color" : "#262626",
   "background_color" : "#fff",
   "display" : "standalone",
-  "scope" : "",
-  "start_url" : "/",
+  "start_url" : "../",
   "name" : "MyPointOfEntry",
-  "short_name" : "MyPoint"
+  "short_name" : "MyPoint",
+  "icons": [
+    {
+      "src": "appicons/48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "appicons/72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "appicons/144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "appicons/256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "appicons/512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
