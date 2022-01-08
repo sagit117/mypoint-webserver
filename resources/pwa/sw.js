@@ -1,6 +1,8 @@
-const cacheVersion = "static-v080120221425";
+const cacheVersion = "static-v080120221555";
 const cacheUrls = [
+    "/",
     "/offline",
+    "/static/manifest.json",
     "/admin/panel",
     "/static/index.css",
     "/static/admin-home.css",
@@ -16,7 +18,6 @@ const cacheUrls = [
     "/static/inputs.css",
     "/static/left-side-menu.css",
     "/static/main_menu_toggle.svg",
-    "/static/manifest.json",
     "/static/registerSW.js",
     "/static/roles.svg",
     "/static/spinner.css",
@@ -26,6 +27,7 @@ const cacheUrls = [
     "/static/topPanelController.js",
     "/static/users.svg",
     "/static/close.svg",
+    "/static/favicon.png"
 ];
 
 
@@ -35,7 +37,10 @@ self.addEventListener("install", (event) => {
     event.waitUntil(
         caches.open(cacheVersion)
             .then((cache => {
-                cache.addAll(cacheUrls);
+                cache.addAll(cacheUrls)
+                    .catch((error) => {
+                        console.error(error);
+                    })
             })
         )
     )
@@ -70,6 +75,9 @@ function cacheFirstStrategy(event) {
                             .then((cache) => {
                                 cache.put(event.request, response.clone());
                                 return response;
+                            })
+                            .catch(() => {
+                                return caches.match("/offline");
                             })
                     })
             })

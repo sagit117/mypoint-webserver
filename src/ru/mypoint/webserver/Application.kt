@@ -89,16 +89,6 @@ fun Application.module(_testing: Boolean = false) {
         }
     }
 
-    routing {
-        get("/ping") {
-            call.respond(HttpStatusCode.OK, mapOf("status" to "OK"))
-        }
-
-        get("/offline") {
-            call.respond(HttpStatusCode.OK, mapOf("status" to "offline"))
-        }
-    }
-
     ConfigApp.title = environment.config.propertyOrNull("application.title")?.getString() ?: ""
     ConfigApp.leftSideMenuFooterTitle = environment.config.propertyOrNull("application.leftSideMenuFooterTitle")?.getString() ?: ""
 }

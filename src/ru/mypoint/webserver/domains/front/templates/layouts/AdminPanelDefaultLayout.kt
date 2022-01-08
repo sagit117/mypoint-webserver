@@ -29,9 +29,9 @@ class AdminPanelDefaultLayout: Template<HTML> {
                 styleLink(it)
             }
 
-            script {
-                src = "/static/registerSW.js"
-            }
+//            script {
+//                src = "/static/registerSW.js"
+//            }
 
             title(ConfigApp.title)
         }
