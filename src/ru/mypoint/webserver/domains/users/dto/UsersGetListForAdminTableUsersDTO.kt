@@ -1,5 +1,5 @@
 package ru.mypoint.webserver.domains.users.dto
 
-import ru.mypoint.webserver.domains.users.UserRepositoryForUsersTable
+import ru.mypoint.webserver.domains.users.UserRepository
 
-data class UsersGetListForAdminTableUsersDTO(val users: List<UserRepositoryForUsersTable>, val count: Int)
+data class UsersGetListForAdminTableUsersDTO(val users: List<UserRepository>, val count: Int)

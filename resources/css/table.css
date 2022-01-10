@@ -33,6 +33,12 @@
     overflow: hidden;
     font-size: .8rem;
     height: 2rem;
+    cursor: pointer;
+}
+.table-cell:hover {
+    border-radius: 5px;
+    color: orange;
+    font-weight: 600;
 }
 
 .table-footer {

@@ -1,9 +1,6 @@
-package ru.mypoint.webserver.domains.users
+package ru.mypoint.webserver.domains.front.templates.components.collections.template.table
 
-/**
- * Класс для хранилища пользователей
- */
-data class UserRepositoryForUsersTable(
+data class AdminUserTableTemplate(
     val _id: String,
     val email: String,
     val fullName: String,
@@ -13,6 +10,6 @@ data class UserRepositoryForUsersTable(
     val isNeedsPassword: String,
     val isConfirmEmail: String,
     val dateTimeAtCreation: String,
-    val roles: MutableList<String> = mutableListOf(),
+    val roles: String,
     val hashCode: String,
 )

@@ -3,6 +3,7 @@ package ru.mypoint.webserver.domains.front.templates.components
 import io.ktor.html.*
 import kotlinx.html.*
 import ru.mypoint.webserver.common.readInstanceProperty
+import ru.mypoint.webserver.domains.front.templates.components.collections.template.table.AdminUserTableTemplate
 
 fun dataTable(init: Table.() -> Unit): Table {
     val dataTable = Table()
@@ -39,8 +40,10 @@ class Table: Template<FlowContent> {
                             val titleCell = readInstanceProperty<String>(dataRow, it.key)
 
                             title = titleCell
-                            +titleCell
-                        } catch (_: Throwable) {}
+                            unsafe {
+                                +titleCell
+                            }
+                        } catch (_: Throwable) { }
                     }
                 }
             }

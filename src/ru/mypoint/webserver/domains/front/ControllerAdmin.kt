@@ -19,6 +19,7 @@ import ru.mypoint.webserver.domains.front.templates.components.auth.formForgot
 import ru.mypoint.webserver.domains.front.templates.components.auth.formLogin
 import ru.mypoint.webserver.domains.front.templates.components.auth.formResetPassword
 import ru.mypoint.webserver.domains.front.templates.components.collections.buttons.*
+import ru.mypoint.webserver.domains.front.templates.components.collections.template.table.AdminUserTableTemplate
 import ru.mypoint.webserver.domains.front.templates.components.controlPanel
 import ru.mypoint.webserver.domains.front.templates.components.dataTable
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelDefaultLayout
@@ -175,11 +176,21 @@ fun Application.adminModule() {
                     val gson = Gson()
                     val usersListJSON = gson.fromJson(users, UsersGetListForAdminTableUsersDTO::class.java)
                     val usersList = usersListJSON.users.map {
-                        it.copy(
+                        AdminUserTableTemplate(
+                            _id = "<a href=\"/admin/panel/user/${it._id}\">${it._id}</a>",
+                            email = it.email,
+                            fullName = it.fullName,
+                            zipCode = it.zipCode,
+                            address = it.address,
+                            isBlocked = if (it.isBlocked) "Да" else "Нет",
+                            isNeedsPassword = it.isNeedsPassword.toString(),
+                            isConfirmEmail = it.isConfirmEmail.toString(),
                             dateTimeAtCreation = convertLongToTime(it.dateTimeAtCreation.toLong(), "MM.dd.yyyy HH:mm"),
-                            isBlocked = if (it.isBlocked.toBoolean()) "Да" else "Нет"
+                            roles = it.roles.toString(),
+                            hashCode = it.hashCode,
                         )
                     }
+
 //                    val itemType = object : TypeToken<List<UserRepositoryForUsersTable>>() {}.type
 //                    val usersList = gson.fromJson<List<UserRepositoryForUsersTable>>(usersListJSON.users, itemType).map {
 //                        it.copy(

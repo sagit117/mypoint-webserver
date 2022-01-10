@@ -1,4 +1,4 @@
-const cacheVersion = "static-v100120221026";
+const cacheVersion = "static-v100120221524";
 const cacheUrls = [
     "/",
     "/offline",
