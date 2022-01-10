@@ -198,6 +198,7 @@ fun Application.adminModule() {
                             /** Построитель таблицы пользователей */
                             usersTable = dataTable {
                                 /** Построитель заголовков таблицы */
+                                wrapperID = "user_table"
                                 tableHeaders = mapOf(
                                     "_id" to "ID",
                                     "dateTimeAtCreation" to "Дата регистрации",

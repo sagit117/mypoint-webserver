@@ -1,4 +1,4 @@
-const cacheVersion = "static-v080120221555";
+const cacheVersion = "static-v100120221026";
 const cacheUrls = [
     "/",
     "/offline",
@@ -38,9 +38,6 @@ self.addEventListener("install", (event) => {
         caches.open(cacheVersion)
             .then((cache => {
                 cache.addAll(cacheUrls)
-                    .catch((error) => {
-                        console.error(error);
-                    })
             })
         )
     )
@@ -58,6 +55,9 @@ self.addEventListener('activate', (event) => {
                         }
                     })
                 )
+            })
+            .catch((error) => {
+                console.error(error);
             })
     )
 })
@@ -79,6 +79,9 @@ function cacheFirstStrategy(event) {
                             .catch(() => {
                                 return caches.match("/offline");
                             })
+                    })
+                    .catch((error) => {
+                        console.error(error);
                     })
             })
             .catch(() => {

@@ -1,10 +1,7 @@
 package ru.mypoint.webserver.domains.front.templates.components
 
 import io.ktor.html.*
-import kotlinx.html.FlowContent
-import kotlinx.html.classes
-import kotlinx.html.div
-import kotlinx.html.title
+import kotlinx.html.*
 import ru.mypoint.webserver.common.readInstanceProperty
 
 fun dataTable(init: Table.() -> Unit): Table {
@@ -19,9 +16,11 @@ class Table: Template<FlowContent> {
     var tableHeaders: Map<String, String> = emptyMap() // Заголовки таблицы
     var dataBody: List<Any> = emptyList()
     lateinit var pagination: Template<FlowContent>
+    var wrapperID: String = ""
 
     override fun FlowContent.apply() {
         div {
+            id = wrapperID
             classes = setOf("table-wrapper", "mt-1")
 
             tableHeaders.forEach {
@@ -54,10 +53,4 @@ class Table: Template<FlowContent> {
         }
     }
 }
-
-//data class TableHeader(
-//    val headName: String,
-//    val headTitle: String,
-//    val headExtClass: String,
-//)
 

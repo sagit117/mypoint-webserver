@@ -1,10 +1,7 @@
 package ru.mypoint.webserver.domains.front.templates.pages
 
 import io.ktor.html.*
-import kotlinx.html.FlowContent
-import kotlinx.html.classes
-import kotlinx.html.div
-import kotlinx.html.h3
+import kotlinx.html.*
 
 fun adminUsersPage(init: AdminUsersPage.() -> Unit): AdminUsersPage {
     val page = AdminUsersPage()
@@ -29,6 +26,11 @@ class AdminUsersPage: Template<FlowContent> {
             insert(usersControlPanel, content)
 
             insert(usersTable, content)
+
+            script {
+                src = "/static/adminUserTableController.js"
+                type = "module"
+            }
         }
     }
 }
