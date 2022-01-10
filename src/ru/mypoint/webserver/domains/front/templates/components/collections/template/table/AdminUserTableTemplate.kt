@@ -1,5 +1,8 @@
 package ru.mypoint.webserver.domains.front.templates.components.collections.template.table
 
+/**
+ * Класс для хранения шаблона вывода ячеек в таблице пользователей
+ */
 data class AdminUserTableTemplate(
     val _id: String,
     val email: String,
