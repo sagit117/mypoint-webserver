@@ -29,6 +29,8 @@ class AdminUsersTablePagination: Template<FlowContent> {
                 type = ButtonType.button
                 classes = setOf("btn", "btn-warning", "pagination-left-all", "mr-1")
                 disabled = (currentPage - 1) <= 0
+                name = "moveToStart"
+                attributes["aria-label"] = "Move to start"
             }
         }
         a {
@@ -40,6 +42,8 @@ class AdminUsersTablePagination: Template<FlowContent> {
                 type = ButtonType.button
                 classes = setOf("btn", "btn-warning", "pagination-left", "mr-1")
                 disabled = (currentPage - 1) <= 0
+                name = "moveToLeft"
+                attributes["aria-label"] = "Move to left"
             }
         }
 
@@ -74,6 +78,8 @@ class AdminUsersTablePagination: Template<FlowContent> {
                 type = ButtonType.button
                 classes = setOf("btn", "btn-warning", "pagination-right")
                 disabled = (currentPage + 1) > countPage
+                name = "moveToRight"
+                attributes["aria-label"] = "Move to right"
             }
         }
 
@@ -86,6 +92,8 @@ class AdminUsersTablePagination: Template<FlowContent> {
                 type = ButtonType.button
                 classes = setOf("btn", "btn-warning", "pagination-right-all", "ml-1")
                 disabled = (currentPage + 1) > countPage
+                name = "moveToEnd"
+                attributes["aria-label"] = "Move to end"
             }
         }
 

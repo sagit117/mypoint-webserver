@@ -76,6 +76,7 @@ fun Application.module(_testing: Boolean = false) {
 
     install(DefaultHeaders) {
         header("Service-Worker-Allowed", "/")
+        header("Cache-Control", "max-age=31536000")
     }
 
 //    install(DoubleReceive)
