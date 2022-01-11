@@ -1,4 +1,4 @@
-const cacheVersion = "static-v100120221536";
+const cacheVersion = "static-v110120220932";
 const cacheUrls = [
     "/",
     "/offline",
@@ -73,7 +73,10 @@ function cacheFirstStrategy(event) {
                     .then((response) => {
                         return caches.open(cacheVersion)
                             .then((cache) => {
-                                cache.put(event.request, response.clone());
+                                if (response.status === 200 && event.request.method === "GET") {
+                                    cache.put(event.request, response.clone());
+                                }
+
                                 return response;
                             })
                             .catch(() => {
