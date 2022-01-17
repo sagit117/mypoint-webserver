@@ -63,3 +63,9 @@ body {
 .p-2 {
     padding: 1rem;
 }
+
+/* href */
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}

@@ -22,7 +22,7 @@ class AdminPanelDefaultLayout: Template<HTML> {
                 rel = "manifest"
                 href = "/static/manifest.json"
             }
-            styleLink(url = "/static/index.css")
+            styleLink(url = "/static/index.css?v=170120220853")
 
             styleUrl.forEach {
                 styleLink(it)
