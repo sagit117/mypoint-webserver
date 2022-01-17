@@ -30,10 +30,12 @@ class Table: Template<FlowContent> {
                 }
             }
 
+            var rowIndex = 0
+
             dataBody.forEach { dataRow ->
                 tableHeaders.forEach {
                     div {
-                        classes = setOf("table-cell")
+                        classes = setOf("table-cell", if (rowIndex % 2 == 0) "pouring" else "")
 
                         try {
                             val titleCell = readInstanceProperty<String>(dataRow, it.key)
@@ -45,6 +47,8 @@ class Table: Template<FlowContent> {
                         } catch (_: Throwable) { }
                     }
                 }
+
+                rowIndex++
             }
         }
 
