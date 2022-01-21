@@ -1,4 +1,4 @@
-import DataTable from "./components/DataTable.js";
+import AdminUserDataTable from "./components/AdminUserDataTable.js";
 
-const adminUserTableController = new DataTable("user_table");
+const adminUserTableController = new AdminUserDataTable("user_table");
 console.log(adminUserTableController);

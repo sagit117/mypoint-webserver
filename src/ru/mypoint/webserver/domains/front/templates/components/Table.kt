@@ -40,7 +40,9 @@ class Table: Template<FlowContent> {
                         try {
                             val titleCell = readInstanceProperty<String>(dataRow, it.key)
 
-                            title = titleCell
+                            title = if (titleCell.startsWith("<")) "" else titleCell
+                            attributes["data-header-name"] = it.key
+
                             unsafe {
                                 +titleCell
                             }
