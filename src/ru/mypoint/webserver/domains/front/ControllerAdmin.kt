@@ -177,7 +177,7 @@ fun Application.adminModule() {
                     val usersListJSON = gson.fromJson(users, UsersGetListForAdminTableUsersDTO::class.java)
                     val usersList = usersListJSON.users.map {
                         AdminUserTableTemplate(
-                            _id = "<a href=\"/admin/panel/user/${it._id}\" title=\"${it._id}\">${it._id}</a>",
+                            _id = "<a href=\"/admin/user/${it._id}\" title=\"${it._id}\">${it._id}</a>",
                             email = it.email,
                             fullName = it.fullName,
                             zipCode = it.zipCode,
@@ -236,6 +236,12 @@ fun Application.adminModule() {
                 } else {
                     call.respondRedirect("/admin/panel/login", false)
                 }
+            }
+
+            get("/user/{id}") {
+                val userId = call.parameters["id"].toString()
+
+                call.respond(HttpStatusCode.OK, userId)
             }
         }
     }

@@ -8,14 +8,13 @@ export default class AdminUserDataTable extends DataTable {
             if (cell.dataset["headerName"] === "_id") {
                 cell.addEventListener("click", (e) => {
                     const id = cell.innerHTML;
-                    console.log("click");
                     /** Получить email пользователя по id */
                     const user = this.rows.find(row => row["_id"] === id);
                     if (user && "email" in user) {
                         const email = user["email"];
                         console.log(email);
                     }
-                    e.preventDefault();
+                    // e.preventDefault();
                 });
             }
         });

@@ -14,8 +14,6 @@ export default class AdminUserDataTable extends DataTable {
                 cell.addEventListener("click", (e) => {
                     const id = cell.innerHTML;
 
-                    console.log("click")
-
                     /** Получить email пользователя по id */
                     const user = this.rows.find(row => row["_id"] === id);
 
@@ -24,7 +22,7 @@ export default class AdminUserDataTable extends DataTable {
                         console.log(email)
                     }
 
-                    e.preventDefault();
+                    // e.preventDefault();
                 })
             }
         })
