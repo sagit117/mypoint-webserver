@@ -239,9 +239,30 @@ fun Application.adminModule() {
             }
 
             get("/user/{id}") {
-                val userId = call.parameters["id"].toString()
+                val token = GetAuth(call).token()
 
-                call.respond(HttpStatusCode.OK, userId)
+                val result = client.checkAccess<String>(
+                    CheckAccessDTO(
+                        url = "/admin/user",
+                        token = token,
+                        body = null
+                    ),
+                    call
+                )
+
+                if (result != null) {
+                    val userId = call.parameters["id"].toString()
+
+                    call.respondHtmlTemplate(AdminPanelMainLayout(), HttpStatusCode.OK) {
+                        page = adminUserPage {
+
+                        }
+
+                        styleUrl = listOf("/static/admin-users.css")
+                    }
+                } else {
+                    call.respondRedirect("/admin/panel/login", false)
+                }
             }
         }
     }
