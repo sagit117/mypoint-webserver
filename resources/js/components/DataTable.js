@@ -14,24 +14,32 @@ export default class DataTable extends DefaultHTMLComponent {
                     return true;
                 };
             };
+            /** Формирование массива данных */
             let idx = 0;
             this.cells.forEach(cell => {
+                const key = cell.dataset["headerName"];
+                if (!key)
+                    return;
+                /** Если массив пустой, добавляем объект */
                 if (!this.rows.length) {
                     this.rows.push(new Proxy({}, {
                         set: setWithProxy(idx)
                     }));
                 }
-                if (this.rows[idx]?.hasOwnProperty(cell.dataset["headerName"] || "")) {
+                /** Если в объекте уже есть свойство, тогда добавляем новый объект */
+                if (this.rows[idx]?.hasOwnProperty(key)) {
                     idx++;
-                    this.rows.push(new Proxy({}, {
+                    this.rows.push(new Proxy({
+                        [key]: cell.innerHTML
+                    }, {
                         set: setWithProxy(idx)
                     }));
                 }
                 else {
-                    const key = cell.dataset["headerName"];
-                    if (key)
-                        Object.assign(this.rows[idx], { [key]: cell.innerHTML });
+                    /** Иначе записываем свойство в объект */
+                    Object.assign(this.rows[idx], { [key]: cell.innerHTML });
                 }
+                /** Сохраняем индекс строки в ячейки таблицы */
                 cell.dataset["rowIndex"] = idx.toString();
             });
         }

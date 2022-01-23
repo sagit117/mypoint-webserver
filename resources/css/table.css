@@ -36,7 +36,7 @@
     overflow: hidden;
     font-size: .8rem;
     height: 2rem;
-    cursor: pointer;
+    /* cursor: pointer; */
     line-height: 1.5rem;
 }
 .table-cell:hover {

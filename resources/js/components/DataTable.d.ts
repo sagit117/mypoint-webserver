@@ -4,7 +4,7 @@ export default class DataTable extends DefaultHTMLComponent {
     protected rows: Array<ITarget>;
     constructor(rootDiv: string | null);
     /** Установить значение ячейки */
-    setCell(rowIndex: number, headerName: string, valueHTML: string): void;
+    protected setCell(rowIndex: number, headerName: string, valueHTML: string): void;
 }
 interface ITarget {
     [key: string]: string;

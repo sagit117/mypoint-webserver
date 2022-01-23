@@ -20,32 +20,45 @@ export default class DataTable extends DefaultHTMLComponent {
                 }
             }
             
+            /** Формирование массива данных */
             let idx = 0;
             this.cells.forEach(cell => {
+                const key = cell.dataset["headerName"];
+                if (!key) return;
+
+                /** Если массив пустой, добавляем объект */
                 if (!this.rows.length) {
-                    this.rows.push(new Proxy({} as ITarget, {
-                        set: setWithProxy(idx)
-                    }));
+                    this.rows.push(
+                        new Proxy({} as ITarget, {
+                            set: setWithProxy(idx)
+                        })
+                    );
                 }
 
-                if (this.rows[idx]?.hasOwnProperty(cell.dataset["headerName"] || "")) {
+                /** Если в объекте уже есть свойство, тогда добавляем новый объект */
+                if (this.rows[idx]?.hasOwnProperty(key)) {
                     idx++;
-                    this.rows.push(new Proxy({} as ITarget, {
-                        set: setWithProxy(idx)
-                    }));
-                } else {
-                    const key = cell.dataset["headerName"];
-
-                    if (key) Object.assign(this.rows[idx], { [key]: cell.innerHTML });
+                    
+                    this.rows.push(
+                        new Proxy({
+                            [key]: cell.innerHTML
+                        } as ITarget, {
+                            set: setWithProxy(idx)
+                        })
+                    );
+                } else { 
+                    /** Иначе записываем свойство в объект */
+                    Object.assign(this.rows[idx], { [key]: cell.innerHTML });
                 }
 
+                /** Сохраняем индекс строки в ячейки таблицы */
                 cell.dataset["rowIndex"] = idx.toString();
             })
         }
     }
 
     /** Установить значение ячейки */
-    public setCell(rowIndex: number, headerName: string, valueHTML: string) {
+    protected setCell(rowIndex: number, headerName: string, valueHTML: string) {
         this.cells?.forEach((cell) => {
             if (cell.dataset["rowIndex"] === rowIndex.toString() && cell.dataset["headerName"] === headerName) {
                 cell.innerHTML = valueHTML;
