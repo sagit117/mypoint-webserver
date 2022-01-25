@@ -8,9 +8,20 @@ import io.ktor.http.*
 import io.ktor.features.*
 import org.slf4j.event.*
 import io.ktor.auth.*
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.features.*
+import io.ktor.client.features.json.*
+import io.ktor.client.request.*
 import io.ktor.gson.*
 import io.ktor.http.content.*
 import io.ktor.sessions.*
+import io.ktor.util.*
+import org.w3c.dom.Attr
+import ru.mypoint.webserver.common.dto.CheckAccessDTO
+import ru.mypoint.webserver.common.dto.CreateDataBusClient
+import ru.mypoint.webserver.common.dto.GetAuth
+import ru.mypoint.webserver.common.dto.createDataBusClient
 import ru.mypoint.webserver.domains.users.UserSession
 
 fun main(args: Array<String>): Unit = io.ktor.server.jetty.EngineMain.main(args)
@@ -81,6 +92,27 @@ fun Application.module(_testing: Boolean = false) {
     }
 
 //    install(DoubleReceive)
+    val client = createDataBusClient {
+        logger = log
+        httpClient = HttpClient(CIO) {
+            defaultRequest { // this: HttpRequestBuilder ->
+                try {
+                    host = environment.config.propertyOrNull("databus.host")?.getString() ?: "127.0.0.1"
+                    port = environment.config.propertyOrNull("databus.port")?.getString()?.toInt() ?: 8080
+                } catch (error: Exception) {
+                    log.error(error)
+                    host = "127.0.0.1"
+                    port = 8080
+                }
+            }
+
+            install(JsonFeature) {
+                serializer = GsonSerializer {
+
+                }
+            }
+        }
+    }
 
     routing {
         static("/static") {
@@ -88,6 +120,46 @@ fun Application.module(_testing: Boolean = false) {
             resources("/image")
             resources("/js")
             resources("/pwa")
+        }
+
+        intercept(ApplicationCallPipeline.Features) {
+            if (!call.request.uri.startsWith("/static")) {
+                /** Очищаем маршрут от параметров */
+                val routeDropQueryString = if (call.request.queryString().isNotEmpty()) {
+                    call.request.uri.dropLast(call.request.queryString().length + 1)
+                } else {
+                    call.request.uri
+                }
+
+                val routeFragment = routeDropQueryString.split("/")
+                val valueParams = call.parameters.flattenEntries().map { pair -> pair.second }
+
+                val clearRoute = routeFragment.filter { v ->
+                    !valueParams.contains(v)
+                }.joinToString("/")
+
+                /** Проверяем доступ */
+                val token = GetAuth(call).token()
+
+                val result = client.checkAccess<String>(
+                    CheckAccessDTO(
+                        url = clearRoute,
+                        token = token,
+                        body = null
+                    ),
+                    call
+                )
+
+                if (result != null) {
+                    call.attributes.put(KeyAttributesForCall.keyAccessIsAllowed, true)
+                    call.attributes.put(KeyAttributesForCall.keyToken, token.toString())
+                    call.attributes.put(KeyAttributesForCall.keyDataBusClient, client)
+                } else {
+                    call.attributes.put(KeyAttributesForCall.keyAccessIsAllowed, false)
+                }
+
+                proceed()
+            }
         }
     }
 
@@ -98,5 +170,12 @@ fun Application.module(_testing: Boolean = false) {
 object ConfigApp {
     var title: String = ""
     var leftSideMenuFooterTitle: String = ""
+}
+
+/** Объект хранит ключи для передачи атрибутов в вызовах */
+object KeyAttributesForCall {
+    val keyAccessIsAllowed = AttributeKey<Boolean>("accessIsAllowed")
+    val keyToken = AttributeKey<String>("token")
+    val keyDataBusClient = AttributeKey<CreateDataBusClient>("dataBusClient")
 }
 
