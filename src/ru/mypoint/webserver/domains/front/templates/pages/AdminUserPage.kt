@@ -1,10 +1,7 @@
 package ru.mypoint.webserver.domains.front.templates.pages
 
 import io.ktor.html.*
-import kotlinx.html.FlowContent
-import kotlinx.html.InputType
-import kotlinx.html.div
-import kotlinx.html.form
+import kotlinx.html.*
 import ru.mypoint.webserver.domains.front.templates.components.inputTextBlock
 import ru.mypoint.webserver.domains.users.UserRepository
 
@@ -20,6 +17,8 @@ class AdminUserPage: Template<FlowContent> {
 
     override fun FlowContent.apply() {
         form {
+            classes = setOf("user-wrapper")
+
             insert(inputTextBlock() {
                 caption = "Email: "
                 inputId = "email"

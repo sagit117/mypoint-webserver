@@ -191,7 +191,7 @@ fun Application.adminModule() {
                             }
                         }
 
-                        styleUrl = listOf("/static/admin-users.css")
+                        styleUrl = listOf("/static/table-users.css")
                     }
                 } else {
                     call.respondRedirect("/admin/panel/login", false)
@@ -215,6 +215,7 @@ fun Application.adminModule() {
                     val gson = Gson()
                     val user = gson.fromJson(userJSON, UserRepository::class.java)
 
+                    /** Отрисовка */
                     call.respondHtmlTemplate(AdminPanelMainLayout(), HttpStatusCode.OK) {
                         page = adminUserPage {
                             userRepository = user
