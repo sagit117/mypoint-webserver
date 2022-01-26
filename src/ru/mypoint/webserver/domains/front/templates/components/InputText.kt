@@ -16,6 +16,7 @@ class InputText: Template<FlowContent> {
     var inputName: String = ""
     var extClass: String? = ""
     var inputValue: String = ""
+    var inputDisabled: Boolean = false
 
     override fun FlowContent.apply() {
         div {
@@ -31,6 +32,7 @@ class InputText: Template<FlowContent> {
                 classes = setOf("input_text")
                 name = inputName
                 value = inputValue
+                disabled = inputDisabled
             }
             small {
                 id = inputId + "_msg"

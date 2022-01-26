@@ -27,6 +27,8 @@ import ru.mypoint.webserver.domains.front.templates.components.dataTable
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelDefaultLayout
 import ru.mypoint.webserver.domains.front.templates.layouts.AdminPanelMainLayout
 import ru.mypoint.webserver.domains.front.templates.pages.*
+import ru.mypoint.webserver.domains.users.UserRepository
+import ru.mypoint.webserver.domains.users.dto.UserGetDTO
 import ru.mypoint.webserver.domains.users.dto.UsersGetListForAdminTableUsersDTO
 import kotlin.math.ceil
 
@@ -200,10 +202,22 @@ fun Application.adminModule() {
                 /** Страница редактирования пользователя */
                 if (call.attributes[KeyAttributesForCall.keyAccessIsAllowed]) {
                     val userId = call.parameters["id"].toString()
+                    val userJSON = call.attributes[KeyAttributesForCall.keyDataBusClient].post<String>(
+                        RequestToDataBus(
+                            dbUrl = DbUrls.UserGet.value,
+                            method = MethodsRequest.POST,
+                            authToken = call.attributes[KeyAttributesForCall.keyToken],
+                            body = UserGetDTO(email = null, id = userId)
+                        ),
+                        call
+                    )
+
+                    val gson = Gson()
+                    val user = gson.fromJson(userJSON, UserRepository::class.java)
 
                     call.respondHtmlTemplate(AdminPanelMainLayout(), HttpStatusCode.OK) {
                         page = adminUserPage {
-
+                            userRepository = user
                         }
 
                         styleUrl = listOf("/static/admin-users.css")

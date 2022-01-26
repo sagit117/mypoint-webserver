@@ -12,6 +12,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
 import io.ktor.util.*
+import ru.mypoint.webserver.KeyAttributesForCall
 import ru.mypoint.webserver.common.DbUrls
 import ru.mypoint.webserver.common.dto.*
 import ru.mypoint.webserver.common.randomCode
@@ -23,33 +24,12 @@ import ru.mypoint.webserver.domains.users.dto.*
 
 @Suppress("unused") // Referenced in application.conf
 fun Application.userModule() {
-    /** Настройки по умолчанию для запроса как клиент */
-    val client = createDataBusClient {
-        logger = log
-        httpClient = HttpClient(CIO) {
-            defaultRequest { // this: HttpRequestBuilder ->
-                try {
-                    host = environment.config.propertyOrNull("databus.host")?.getString() ?: "127.0.0.1"
-                    port = environment.config.propertyOrNull("databus.port")?.getString()?.toInt() ?: 8080
-                } catch (error: Exception) {
-                    log.error(error)
-                    host = "127.0.0.1"
-                    port = 8080
-                }
-            }
-
-            install(JsonFeature) {
-                serializer = GsonSerializer()
-            }
-        }
-    }
-
     routing {
         route("/v1/users") {
             post("/registry") {
                 val userRegistryDTO = call.receive<UserRegistryDTO>()
 
-                val result = client.post<Any>(
+                val result = call.attributes[KeyAttributesForCall.keyDataBusClient].post<Any>(
                     RequestToDataBus(
                         dbUrl = DbUrls.UsersAdd.value,
                         method = MethodsRequest.POST,
@@ -64,7 +44,7 @@ fun Application.userModule() {
 
                     val templateName = environment.config.propertyOrNull("notificationTemplateName.afterRegistry")?.getString() ?: ""
 
-                    client.sendNotification<String>(
+                    call.attributes[KeyAttributesForCall.keyDataBusClient].sendNotification<String>(
                         SendNotificationDTO(
                             TypeNotification.EMAIL,
                             setOf(userRegistryDTO.email),
@@ -88,7 +68,7 @@ fun Application.userModule() {
                         call.receive<UserLoginDTO>()
                     }
 
-                val result = client.login<UserReceiveLoginDTO>(
+                val result = call.attributes[KeyAttributesForCall.keyDataBusClient].login<UserReceiveLoginDTO>(
                     userLoginDTO,
                     call
                 )
@@ -96,7 +76,7 @@ fun Application.userModule() {
                 if (result != null) {
                     val templateName = environment.config.propertyOrNull("notificationTemplateName.afterLogin")?.getString() ?: ""
 
-                    client.sendNotification<String>(
+                    call.attributes[KeyAttributesForCall.keyDataBusClient].sendNotification<String>(
                         SendNotificationDTO(
                             TypeNotification.EMAIL,
                             setOf(userLoginDTO.email),
@@ -129,12 +109,12 @@ fun Application.userModule() {
 
                 val token = GetAuth(call).token()
 
-                val result = client.post<String>(
+                val result = call.attributes[KeyAttributesForCall.keyDataBusClient].post<String>(
                     RequestToDataBus(
-                        dbUrl = DbUrls.UsersGet.value,
+                        dbUrl = DbUrls.UserGet.value,
                         method = MethodsRequest.POST,
                         authToken = token,
-                        body = UserGetDTO(emailDTO.email)
+                        body = UserGetDTO(email = emailDTO.email, id = null)
                     ),
                     call
                 )
@@ -183,7 +163,7 @@ fun Application.userModule() {
                     return@get call.respond(HttpStatusCode.TooManyRequests, ResponseStatusDTO(ResponseStatus.TooManyRequests.value))
                 }
 
-                val result = client.sendNotification<String>(
+                val result = call.attributes[KeyAttributesForCall.keyDataBusClient].sendNotification<String>(
                     sendNotificationDTO,
                     call
                 )
@@ -219,13 +199,13 @@ fun Application.userModule() {
                         val token = GetAuth(call).token()
 
                         /** логин */
-                        val login = client.login<String>(
+                        val login = call.attributes[KeyAttributesForCall.keyDataBusClient].login<String>(
                             UserLoginDTO(emailDTO.email, updateData.oldPassword ?: ""),
                             call
                         )
 
                         if (login != null) {
-                            val result = client.post<String>(
+                            val result = call.attributes[KeyAttributesForCall.keyDataBusClient].post<String>(
                                 RequestToDataBus(
                                     dbUrl = DbUrls.UsersUpdatePassword.value,
                                     method = MethodsRequest.POST,
@@ -260,7 +240,7 @@ fun Application.userModule() {
                         val email = QueueResetPassword.getWithHash(hash)?.emailDTO?.email
                             ?: return@post call.respond(HttpStatusCode.BadRequest, mapOf("status" to "Bad Request"))
 
-                        val token = client.login<UserReceiveLoginDTO>(
+                        val token = call.attributes[KeyAttributesForCall.keyDataBusClient].login<UserReceiveLoginDTO>(
                             UserLoginDTO(techLogin, techPassword),
                             call
                         )?.token
@@ -268,7 +248,7 @@ fun Application.userModule() {
                         println("tech token: $token")
 
                         if (token != null) {
-                            val result = client.post<String>(
+                            val result = call.attributes[KeyAttributesForCall.keyDataBusClient].post<String>(
                                 RequestToDataBus(
                                     dbUrl = DbUrls.UsersUpdatePassword.value,
                                     method = MethodsRequest.POST,
@@ -306,7 +286,7 @@ fun Application.userModule() {
                     val updateData = call.receive<UserUpdateDataDTO>()
                     val token = GetAuth(call).token()
 
-                    val result = client.post<String>(
+                    val result = call.attributes[KeyAttributesForCall.keyDataBusClient].post<String>(
                         RequestToDataBus(
                             dbUrl = DbUrls.UserUpdateData.value,
                             method = MethodsRequest.POST,
